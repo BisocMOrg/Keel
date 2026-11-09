@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Exported symbols of libkeel.so.1 (ABI 1.0): tests/abi/symbols.txt with the
+# KEEL_1.0 version node. dh_makeshlibs -c4 fails the build on any difference;
+# tests/packaging/check_package_metadata.py keeps the two lists equal.
+libkeel.so.1 libkeel1 #MINVER#
+* Build-Depends-Package: libkeel-dev
+ KEEL_1.0@KEEL_1.0 1.0.0
+ keel_abi_version@KEEL_1.0 1.0.0
+ keel_brake@KEEL_1.0 1.0.0
+ keel_clear_fault@KEEL_1.0 1.0.0
+ keel_close@KEEL_1.0 1.0.0
+ keel_cycle@KEEL_1.0 1.0.0
+ keel_disarm@KEEL_1.0 1.0.0
+ keel_emergency_stop@KEEL_1.0 1.0.0
+ keel_fault_cause_name@KEEL_1.0 1.0.0
+ keel_get_capabilities@KEEL_1.0 1.0.0
+ keel_get_fault@KEEL_1.0 1.0.0
+ keel_get_rgb@KEEL_1.0 1.0.0
+ keel_get_snapshot@KEEL_1.0 1.0.0
+ keel_get_state@KEEL_1.0 1.0.0
+ keel_now_us@KEEL_1.0 1.0.0
+ keel_open@KEEL_1.0 1.0.0
+ keel_range_measure@KEEL_1.0 1.0.0
+ keel_range_poll@KEEL_1.0 1.0.0
+ keel_range_start@KEEL_1.0 1.0.0
+ keel_read_safety_inputs@KEEL_1.0 1.0.0
+ keel_request_arm@KEEL_1.0 1.0.0
+ keel_servo_end@KEEL_1.0 1.0.0
+ keel_servo_set_pulse@KEEL_1.0 1.0.0
+ keel_servo_start@KEEL_1.0 1.0.0
+ keel_set_button_leds@KEEL_1.0 1.0.0
+ keel_set_motors@KEEL_1.0 1.0.0
+ keel_set_rgb@KEEL_1.0 1.0.0
+ keel_set_rgb_all@KEEL_1.0 1.0.0
+ keel_set_rgb_frame@KEEL_1.0 1.0.0
+ keel_sim_get_state@KEEL_1.0 1.0.0
+ keel_sim_set@KEEL_1.0 1.0.0
+ keel_sleep_until@KEEL_1.0 1.0.0
+ keel_status_class@KEEL_1.0 1.0.0
+ keel_status_name@KEEL_1.0 1.0.0
+ keel_status_string@KEEL_1.0 1.0.0
+ keel_take_buttons@KEEL_1.0 1.0.0
+ keel_tick@KEEL_1.0 1.0.0
+ keel_version_string@KEEL_1.0 1.0.0

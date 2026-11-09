@@ -1,0 +1,15 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Self-contained programs and port.h users: links libkeel.a by its path,
+# because -lkeel would pick libkeel.so from the same directory (and the
+# shared library does not export the port API).
+prefix=@KEEL_PC_PREFIX@
+libdir=@KEEL_PC_LIBDIR@
+includedir=@KEEL_PC_INCLUDEDIR@
+
+Name: keel-static
+Description: @PROJECT_DESCRIPTION@ (static archive, with the port API)
+Version: @PROJECT_VERSION@
+Libs: ${libdir}/libkeel.a -pthread
+Cflags: -I${includedir} -DKEEL_STATIC

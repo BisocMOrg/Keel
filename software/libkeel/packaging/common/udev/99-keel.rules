@@ -1,0 +1,25 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Device access for libkeel on a Raspberry Pi 4 (BCM2711).
+#
+# Only the primary GPIO controller (fe200000.gpio, which carries every line
+# the baseboard uses) and the I2C1 adapter (RGB LED driver) are covered;
+# expansion GPIO, camera and display buses are left alone.
+#
+# Plain GROUP= rather than GROUP:= keeps the distribution's own model. Where
+# the distribution already has "gpio" and "i2c" groups (Raspberry Pi OS) the
+# nodes keep them; elsewhere (Ubuntu) they get the "keel" group from
+# keel-common's sysusers file. keel-setup adds the user to whichever groups
+# exist. The file sorts after 99-com.rules, so these assignments come last.
+#
+# /dev/keel/gpiochip names the primary controller whatever its number; the
+# library and keel-doctor try it after scanning /dev/gpiochip*.
+
+SUBSYSTEM=="gpio", KERNEL=="gpiochip*", KERNELS=="fe200000.gpio", SYMLINK+="keel/gpiochip", PROGRAM="/usr/bin/getent group gpio", GROUP="gpio", MODE="0660", GOTO="keel_gpio_end"
+SUBSYSTEM=="gpio", KERNEL=="gpiochip*", KERNELS=="fe200000.gpio", SYMLINK+="keel/gpiochip", GROUP="keel", MODE="0660"
+LABEL="keel_gpio_end"
+
+SUBSYSTEM=="i2c-dev", KERNEL=="i2c-1", PROGRAM="/usr/bin/getent group i2c", GROUP="i2c", MODE="0660", GOTO="keel_i2c_end"
+SUBSYSTEM=="i2c-dev", KERNEL=="i2c-1", GROUP="keel", MODE="0660"
+LABEL="keel_i2c_end"

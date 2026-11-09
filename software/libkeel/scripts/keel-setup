@@ -1,0 +1,278 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+"""Prepare a Raspberry Pi 4 for the Keel baseboard.
+
+Two changes, both idempotent:
+
+  1. Device access: with --user NAME, add NAME to the "keel" group (real-time
+     priority for the motor PWM worker) and to the "gpio", "i2c" and "video"
+     groups where the distribution has them. 99-keel.rules gives the GPIO and
+     I2C nodes to gpio and i2c, or to "keel" where those do not exist; video
+     owns the camera's /dev/media* and /dev/video* nodes and the frame-buffer
+     heap /dev/dma_heap/linux,cma.
+  2. Boot configuration: keep the baseboard's pins free of other kernel
+     functions inside one marked block of config.txt. SPI0 off (BCM8-11 drive
+     the motors), no HAT EEPROM probe (BCM0/1 are the safety MCU's
+     programming lines) and I2C1 on (RGB LED driver). --i2c-fast also sets
+     the bus to 400 kHz, which applies to every device on I2C1.
+
+The original config.txt is backed up next to it before it is replaced, and
+the replacement is atomic. Nothing is rebooted, no GPIO is driven and the MCU
+is never touched. Run it as root; --dry-run shows the plan as any user.
+"""
+
+import argparse
+import datetime
+import difflib
+import grp
+import json
+import os
+import pwd
+import re
+import subprocess
+import sys
+
+# Pi OS bookworm and later and current Ubuntu images mount the firmware
+# partition here; /boot/config.txt is the older location.
+CONFIG_CANDIDATES = ("/boot/firmware/config.txt", "/boot/config.txt")
+DEVICE_TREE_COMPATIBLE = "/proc/device-tree/compatible"
+BCM2711 = "brcm,bcm2711"
+
+BLOCK_BEGIN = "# BEGIN keel-setup (managed block: run keel-setup again to change it)"
+BLOCK_END = "# END keel-setup"
+ACCESS_GROUP = "keel"
+DISTRO_GROUPS = ("gpio", "i2c", "video")
+USER_NAME = re.compile(r"^[a-z_][a-z0-9_-]*$")
+# An active "dtparam=spi=on" anywhere in the file, keeping any trailing comment.
+SPI_ON = re.compile(r"(?m)^(\s*dtparam=spi=)on(\s*(?:#.*)?)$")
+
+
+class SetupError(Exception):
+    """A condition that stops keel-setup with a one-line explanation."""
+
+
+def managed_block(i2c_fast):
+    """Return the lines of the marked config.txt block for these options."""
+    lines = [
+        BLOCK_BEGIN,
+        "[all]",
+        "# BCM8-11 drive the motors: SPI0 must not claim them.",
+        "dtparam=spi=off",
+        "# BCM0/1 are the safety MCU's programming lines: no HAT EEPROM probe on them.",
+        "force_eeprom_read=0",
+        "# I2C1 reaches the RGB LED driver.",
+        "dtparam=i2c_arm=on",
+    ]
+    if i2c_fast:
+        lines += ["# 400 kHz on I2C1 (--i2c-fast).", "dtparam=i2c_arm_baudrate=400000"]
+    lines.append(BLOCK_END)
+    return lines
+
+
+def planned_config(original, i2c_fast):
+    """Return config.txt as keel-setup leaves it.
+
+    Active "dtparam=spi=on" lines outside the block become "off", so no
+    section can turn SPI0 back on. An existing managed block is replaced in
+    place, so sections the user added after it keep their order; otherwise
+    the block is appended.
+    """
+    lines = original.splitlines()
+    block = managed_block(i2c_fast)
+    if BLOCK_BEGIN not in lines:
+        outside = SPI_ON.sub(r"\1off\2", "\n".join(lines)).rstrip("\n")
+        return (outside + "\n\n" if outside else "") + "\n".join(block) + "\n"
+    begin = lines.index(BLOCK_BEGIN)
+    if BLOCK_END not in lines[begin:]:
+        # Guessing where the block ends could delete the user's own lines.
+        raise SetupError("config.txt has a keel-setup block without its end marker; "
+                         "repair or remove it by hand")
+    end = lines.index(BLOCK_END, begin)
+    before = SPI_ON.sub(r"\1off\2", "\n".join(lines[:begin]))
+    after = SPI_ON.sub(r"\1off\2", "\n".join(lines[end + 1:]))
+    parts = [part for part in (before, "\n".join(block), after) if part]
+    return "\n".join(parts) + "\n"
+
+
+def find_config(explicit):
+    if explicit:
+        return explicit
+    for candidate in CONFIG_CANDIDATES:
+        if os.path.isfile(candidate):
+            return candidate
+    raise SetupError("no config.txt found (looked in %s); pass --config PATH"
+                     % ", ".join(CONFIG_CANDIDATES))
+
+
+def check_target(compatible_path):
+    """Refuse anything but a BCM2711 board (Pi 4, Pi 400, CM4)."""
+    try:
+        with open(compatible_path, "rb") as handle:
+            compatible = handle.read().split(b"\0")
+    except OSError:
+        raise SetupError("cannot read %s: this is not a Raspberry Pi" % compatible_path)
+    if BCM2711.encode() not in compatible:
+        raise SetupError("this is not a Raspberry Pi 4 (BCM2711); the Keel baseboard needs one")
+
+
+def write_config(path, original, updated):
+    """Back up the current file, then replace it atomically. Returns the backup path."""
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    backup = "%s.keel-backup-%s" % (path, stamp)
+    temporary = "%s.keel-new-%s" % (path, stamp)
+    with open(backup, "x", encoding="utf-8") as handle:
+        handle.write(original)
+        handle.flush()
+        os.fsync(handle.fileno())
+    try:
+        with open(temporary, "x", encoding="utf-8") as handle:
+            handle.write(updated)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.chmod(temporary, os.stat(path).st_mode & 0o7777)
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.unlink(temporary)
+    # The firmware partition is FAT: make the rename itself durable before a
+    # reboot, where the filesystem allows syncing a directory.
+    try:
+        directory = os.open(os.path.dirname(os.path.abspath(path)), os.O_RDONLY)
+        try:
+            os.fsync(directory)
+        finally:
+            os.close(directory)
+    except OSError:
+        pass
+    return backup
+
+
+def group_plan(user, groups_of):
+    """Return (create_access_group, groups_to_join) for user.
+
+    groups_of(name) gives the member list of an existing group, or None when
+    the group does not exist.
+    """
+    create = groups_of(ACCESS_GROUP) is None
+    join = []
+    for name in (ACCESS_GROUP,) + DISTRO_GROUPS:
+        members = groups_of(name)
+        if name == ACCESS_GROUP and create:
+            members = []
+        if members is not None and user not in members:
+            join.append(name)
+    return create, join
+
+
+def system_groups_of(user):
+    """groups_of for group_plan on this system; a primary group counts as membership."""
+    primary = pwd.getpwnam(user).pw_gid
+
+    def groups_of(name):
+        try:
+            entry = grp.getgrnam(name)
+        except KeyError:
+            return None
+        return list(entry.gr_mem) + ([user] if entry.gr_gid == primary else [])
+
+    return groups_of
+
+
+def run(command):
+    result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                            universal_newlines=True)
+    if result.returncode != 0:
+        raise SetupError("%s failed: %s" % (" ".join(command), result.stdout.strip()))
+
+
+def parse_arguments(argv):
+    parser = argparse.ArgumentParser(
+        prog="keel-setup", description=__doc__.split("\n\n")[0],
+        epilog="Example: sudo keel-setup --user \"$USER\" (then log in again and reboot)")
+    parser.add_argument("--user", metavar="NAME",
+                        help="account that runs robot applications (added to keel, and to gpio, i2c "
+                             "and video where they exist)")
+    parser.add_argument("--i2c-fast", action="store_true",
+                        help="also set I2C1 to 400 kHz (affects every device on the bus)")
+    parser.add_argument("--no-boot-config", action="store_true",
+                        help="leave config.txt alone (only manage group membership)")
+    parser.add_argument("--config", metavar="PATH",
+                        help="config.txt to edit (default: %s)" % " or ".join(CONFIG_CANDIDATES))
+    parser.add_argument("--dry-run", action="store_true",
+                        help="show what would change and change nothing")
+    parser.add_argument("--json", action="store_true", help="print the summary as JSON")
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_arguments(sys.argv[1:] if argv is None else argv)
+    summary = {"dry_run": args.dry_run, "config": None, "config_changed": False,
+               "backup": None, "group_created": False, "groups_added": [],
+               "reboot_required": False, "relogin_required": False}
+    try:
+        if args.user is not None:
+            if not USER_NAME.match(args.user):
+                raise SetupError("invalid user name %r" % args.user)
+            try:
+                groups_of = system_groups_of(args.user)
+            except KeyError:
+                raise SetupError("no such user: %s" % args.user)
+        if not args.dry_run and os.geteuid() != 0:
+            raise SetupError("run keel-setup as root (sudo), or add --dry-run to preview")
+        if not args.no_boot_config:
+            check_target(DEVICE_TREE_COMPATIBLE)
+            path = find_config(args.config)
+            with open(path, encoding="utf-8") as handle:
+                original = handle.read()
+            updated = planned_config(original, args.i2c_fast)
+            summary["config"] = path
+            if updated != original:
+                summary["config_changed"] = summary["reboot_required"] = True
+                if args.dry_run and not args.json:
+                    sys.stdout.writelines(difflib.unified_diff(
+                        original.splitlines(True), updated.splitlines(True),
+                        fromfile=path, tofile=path + " (planned)"))
+                if not args.dry_run:
+                    summary["backup"] = write_config(path, original, updated)
+        if args.user is not None:
+            create, join = group_plan(args.user, groups_of)
+            summary["group_created"] = create
+            summary["groups_added"] = join
+            summary["relogin_required"] = bool(join)
+            if not args.dry_run:
+                if create:
+                    run(["groupadd", "--system", ACCESS_GROUP])
+                if join:
+                    run(["usermod", "--append", "--groups", ",".join(join), args.user])
+    except (SetupError, OSError) as error:
+        print("keel-setup: error: %s" % error, file=sys.stderr)
+        return 1
+
+    if args.json:
+        print(json.dumps(summary, sort_keys=True))
+        return 0
+    verb = "would" if args.dry_run else "did"
+    if summary["config"] is None:
+        print("keel-setup: boot configuration left alone (--no-boot-config)")
+    elif summary["config_changed"]:
+        print("keel-setup: %s update %s%s" % (
+            verb, summary["config"],
+            "" if args.dry_run else " (backup: %s)" % summary["backup"]))
+    else:
+        print("keel-setup: %s is already set up" % summary["config"])
+    if args.user is None:
+        print("keel-setup: no --user given; device access unchanged")
+    elif summary["groups_added"]:
+        print("keel-setup: %s add %s to: %s" % (verb, args.user, ", ".join(summary["groups_added"])))
+    else:
+        print("keel-setup: %s already has device access" % args.user)
+    if summary["reboot_required"]:
+        print("keel-setup: reboot for the boot configuration to take effect")
+    if summary["relogin_required"]:
+        print("keel-setup: %s must log in again for the new groups to apply" % args.user)
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

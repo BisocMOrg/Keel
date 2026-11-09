@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#111820"><title>Keel demonstrator</title></head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="./"><strong>Keel</strong></a>
+    <div class="connection"><span class="dot" id="connection-dot"></span><span id="connection-label">Not connected</span><span class="pill" id="backend-badge">LOCAL CONSOLE</span><button id="connect-open" class="button small">Connect</button></div>
+  </header>
+  <main>
+    <section class="heading-row"><h1>Robot controls</h1><button id="estop" class="estop" title="Emergency stop. Keyboard shortcut: Space"><span>■</span> EMERGENCY STOP <kbd>SPACE</kbd></button></section>
+    <div id="mode-banner" class="mode-banner" hidden></div>
+    <section class="workspace">
+      <div class="model-card">
+        <div class="card-heading"><div><h2>Keel R3</h2></div><span class="state-tag" id="robot-state">OFFLINE</span></div>
+        <div id="model-stage"><div class="model-loading" id="model-loading">Loading your robot<span></span></div><div id="model-tooltip" hidden></div></div>
+        <div class="model-toolbar"><div class="segmented" aria-label="Model view"><button data-view="hero" class="active">Three-quarter</button><button data-view="top">Top</button><button data-view="bottom">LED underside</button></div><button id="reset-view" class="text-button">Reset view ↗</button></div>
+        <div class="model-caption"><span>Drag to orbit · Scroll to zoom · Click a component</span><span id="model-detail">Actual assembly geometry</span></div>
+      </div>
+      <aside class="inspector">
+        <div class="inspector-heading"><span class="eyebrow">HARDWARE CONTROLS</span><button id="claim" class="button small primary">Take control</button></div>
+        <div class="tabs" role="tablist" aria-label="Robot controls"><button role="tab" aria-selected="true" data-tab="drive">Drive</button><button role="tab" aria-selected="false" data-tab="leds">Lighting</button><button role="tab" aria-selected="false" data-tab="sensors">Sensors</button></div>
+        <section class="tab-panel" id="panel-drive">
+          <div class="section-title"><h3>Motors</h3><span id="motor-permission" class="micro">Motors disarmed</span></div>
+          <p class="muted">Arm, then hold a direction. Release to stop.</p>
+          <div class="drive-row"><div class="dpad" aria-label="Hold-to-drive controls"><button data-drive="forward" aria-label="Hold to drive forward">↑<kbd>W</kbd></button><button data-drive="left" aria-label="Hold to pivot left">←<kbd>A</kbd></button><div class="dpad-center">●</div><button data-drive="right" aria-label="Hold to pivot right">→<kbd>D</kbd></button><button data-drive="backward" aria-label="Hold to drive backward">↓<kbd>S</kbd></button></div><div class="motor-readouts"><div><span>LEFT DUTY</span><strong id="left-duty">0<span>%</span></strong></div><div><span>RIGHT DUTY</span><strong id="right-duty">0<span>%</span></strong></div></div></div>
+          <label class="range-label" for="speed"><span>Drive power</span><strong id="speed-label">15%</strong></label><input id="speed" type="range" min="50" max="350" step="10" value="150"><div class="range-ends"><span>5%</span><span>35% demo limit</span></div>
+          <div class="button-row"><button id="arm" class="button primary">Arm motors</button><button id="disarm" class="button">Disarm</button></div>
+          <div class="safety-note"><span class="tiny-dot"></span><span>350 ms command timeout · 1.5 s controller lease</span></div>
+          <p class="micro model-disclaimer">Wheel animation shows commanded duty, not measured speed.</p>
+        </section>
+        <section class="tab-panel" id="panel-leds" hidden>
+          <div class="section-title"><h3>RGB LEDs</h3><button id="led-view" class="text-button">View underside ↗</button></div><p class="muted">Select a light on the model or choose one below.</p>
+          <div id="led-select" class="led-select"><button data-led="-1" class="active">All</button><button data-led="0">1</button><button data-led="1">2</button><button data-led="2">3</button><button data-led="3">4</button><button data-led="4">5</button><button data-led="5">6</button></div>
+          <div class="colour-row"><input type="color" id="led-color" value="#36d6bc" aria-label="LED colour"><div><span class="micro">SELECTED COLOUR</span><strong id="hex-color">#36D6BC</strong></div><button id="apply-color" class="button primary">Apply</button></div>
+          <div class="swatches"><button data-color="#ff405d" style="--swatch:#ff405d" aria-label="Red"></button><button data-color="#ffbc50" style="--swatch:#ffbc50" aria-label="Amber"></button><button data-color="#36d6bc" style="--swatch:#36d6bc" aria-label="Mint"></button><button data-color="#4d9fff" style="--swatch:#4d9fff" aria-label="Blue"></button><button data-color="#bf88ff" style="--swatch:#bf88ff" aria-label="Purple"></button><button data-color="#ffffff" style="--swatch:#ffffff" aria-label="White"></button><button id="led-off" aria-label="Turn selected LEDs off">Off</button></div>
+          <div class="divider"></div><h3>Button indicators</h3><div class="button-leds"><button data-button-led="1">A</button><button data-button-led="2">B</button><button data-button-led="4">X</button><button data-button-led="8">Y</button></div><p class="micro">Toggle the white indicator LEDs. Physical button presses appear in Sensors.</p>
+        </section>
+        <section class="tab-panel" id="panel-sensors" hidden>
+          <div class="section-title"><h3>Ultrasonic sensor</h3></div><p class="muted">HC-SR04 ultrasonic range and board button inputs.</p><div class="range-result"><span>DISTANCE</span><strong id="distance">—</strong><span>millimetres</span></div><button id="measure" class="button primary wide">Measure distance</button><div class="divider"></div><h3>Physical buttons</h3><div class="physical-buttons"><span data-physical="1">A</span><span data-physical="2">B</span><span data-physical="4">X</span><span data-physical="8">Y</span></div><p class="micro">Live input from the board. No simulated presses in hardware mode.</p>
+        </section>
+        <div id="fault-box" class="fault-box" hidden><strong>Safety fault latched</strong><p id="fault-message"></p><button id="clear-fault" class="button small">Clear fault</button></div>
+      </aside>
+    </section>
+    <section class="metrics" aria-label="Live telemetry">
+      <div><span class="metric-label">NETWORK ROUND TRIP</span><strong id="rtt">—<small>ms</small></strong><span class="metric-note">Browser ↔ Raspberry Pi</span></div>
+      <div><span class="metric-label" id="delay-label">ESTIMATED FRAME AGE</span><strong id="camera-delay">—<small>ms</small></strong><span class="metric-note" id="delay-note">Start the camera to measure</span></div>
+      <div><span class="metric-label">DELIVERED FRAME RATE</span><strong id="camera-fps">—<small>fps</small></strong><span class="metric-note">Frames decoded by this browser</span></div>
+      <div><span class="metric-label">CONTROL LOOP · MAX GAP</span><strong id="loop-gap">—<small>ms</small></strong><span class="metric-note" id="loop-note">Waiting for telemetry</span></div>
+    </section>
+    <section class="lower-grid">
+      <div class="camera-card"><div class="card-heading"><div><h2>Camera live view</h2></div><div class="camera-actions"><button id="photo" class="button small">Take photo</button><button id="camera-toggle" class="button small primary">Start stream</button></div></div><div class="camera-view"><canvas id="camera-canvas" width="640" height="480" aria-label="Live robot camera feed"></canvas><div id="camera-placeholder"><svg viewBox="0 0 48 48" aria-hidden="true"><rect x="7" y="14" width="34" height="25" rx="5"/><path d="m15 14 4-6h10l4 6"/><circle cx="24" cy="26" r="7"/></svg><strong>Camera stopped</strong><span>Start the stream to see the camera feed.</span></div><span id="stream-indicator" hidden><i></i> LIVE</span><span id="frame-counter"></span></div><div class="camera-footer"><span id="camera-format">640 × 480 · MJPEG · Latest frame only</span><button id="autofocus" class="text-button" disabled>Fixed-focus camera</button></div><div id="photo-result" hidden><span>Photo ready</span><button id="download-photo" class="text-button">Download JPEG ↓</button></div></div>
+      <div class="telemetry-card"><div class="card-heading"><div><h2>Connection & timing</h2></div><span class="live-label">LIVE</span></div><div class="chart-label"><span>Estimated frame age</span><strong id="chart-value">—</strong></div><svg id="delay-chart" viewBox="0 0 500 125" preserveAspectRatio="none" role="img" aria-label="Recent frame age history"><path d="M0 25h500M0 65h500M0 105h500" class="chart-grid"/><path id="chart-fill"/><polyline id="chart-line" points=""/></svg><div class="chart-scale"><span>Last 60 samples</span><span id="chart-scale">100 ms</span></div><dl class="telemetry-list"><div><dt>Camera throughput</dt><dd id="throughput">—</dd></div><div><dt>Frames skipped by viewer</dt><dd id="client-skips">0</dd></div><div><dt>Camera / encoder drops</dt><dd id="camera-drops">—</dd></div><div><dt>Clock-sync uncertainty</dt><dd id="sync-uncertainty">—</dd></div><div><dt>CPU temperature</dt><dd id="cpu-temperature">—</dd></div><div><dt>Server uptime</dt><dd id="server-uptime">—</dd></div></dl><p class="timing-note" id="timing-explainer">Frame age uses camera timestamps and a synchronized estimate of the Pi’s clock. It includes transfer and decoding up to browser draw, not monitor scanout. Network RTT is measured separately.</p></div>
+    </section>
+    <section class="activity"><span class="eyebrow">ACTIVITY</span><ol id="activity-log" aria-live="polite"><li>Ready when you are. Connect to your robot to begin.</li></ol></section>
+    <footer><span>KEEL R3 <b> / </b> JAVA + PYTHON DEMONSTRATOR</span></footer>
+  </main>
+  <dialog id="connect-dialog"><form id="connect-form"><span class="eyebrow">LOCAL CONNECTION</span><h2>Connect to your robot</h2><p>Enter the access token from the demonstrator server. Everything is served locally from the Pi.</p><label for="token">Access token</label><input id="token" type="password" required autocomplete="off" placeholder="Paste the server token"><p class="micro">Kept in this tab’s memory only.</p><p id="connect-error" role="alert"></p><div class="button-row"><button type="button" id="connect-cancel" class="button">Cancel</button><button class="button primary" type="submit">Connect</button></div></form></dialog>
+  <div id="toast" role="status" hidden></div>
+  <script type="module" src="/src/main.js"></script>
+</body></html>

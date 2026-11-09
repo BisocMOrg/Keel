@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# CMake package Keel. Targets:
+#   Keel::keel         shared library libkeel.so.1
+#   Keel::keel_static  static archive libkeel.a (defines KEEL_STATIC; also
+#                      provides the C porting interface of keel/port.h)
+#   Keel::keel_camera  shared library libkeel-camera.so.1, when installed
+#                      (KeelCameraTargets.cmake, package libkeel-camera-dev):
+#                      find_package(Keel COMPONENTS camera) requires it
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+find_dependency(Threads)
+
+include("${CMAKE_CURRENT_LIST_DIR}/KeelTargets.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/KeelCameraTargets.cmake" OPTIONAL)
+if(TARGET Keel::keel_camera)
+    set(Keel_camera_FOUND TRUE)
+else()
+    set(Keel_camera_FOUND FALSE)
+endif()
+check_required_components(Keel)

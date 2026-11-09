@@ -1,0 +1,14 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# The shared library. Static linking goes through keel-static.pc: with both
+# files in one libdir, "pkg-config --static keel" would still link the .so.
+prefix=@KEEL_PC_PREFIX@
+libdir=@KEEL_PC_LIBDIR@
+includedir=@KEEL_PC_INCLUDEDIR@
+
+Name: keel
+Description: @PROJECT_DESCRIPTION@
+Version: @PROJECT_VERSION@
+Libs: -L${libdir} -lkeel
+Cflags: -I${includedir}

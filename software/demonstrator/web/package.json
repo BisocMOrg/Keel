@@ -1,0 +1,9 @@
+{
+  "name": "keel-demonstrator-ui",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": { "dev": "vite --host 127.0.0.1", "build": "vite build", "test": "node --test tests/*.test.js" },
+  "dependencies": { "three": "0.187.0" },
+  "devDependencies": { "vite": "8.3.7" }
+}

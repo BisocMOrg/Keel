@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+python-keel (1.0.0) unstable; urgency=medium
+
+  * Initial release: the Python binding of libkeel 1.0 (distribution
+    keel-robot 1.0.0, import package keel).
+
+ -- BisocM <165297903+BisocM@users.noreply.github.com>  Sat, 07 Nov 2026 12:00:00 +0000

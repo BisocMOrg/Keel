@@ -1,0 +1,3 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+# Marker file (PEP 561): the keel package ships inline type information.

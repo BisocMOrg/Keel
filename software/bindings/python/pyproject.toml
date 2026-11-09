@@ -1,0 +1,116 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+[build-system]
+requires = ["flit_core >=3.12,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "keel-robot"
+dynamic = ["version"]                  # from keel/__init__.py __version__ (equal to keel.h, checked by keelgen)
+description = "Python binding of libkeel, the host library of the Keel robot baseboard, and of its camera library"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = []
+authors = [{ name = "BisocM" }]
+keywords = ["robot", "raspberry-pi", "motor-control", "safety", "libkeel", "camera"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: System :: Hardware",
+    "Typing :: Typed",
+]
+
+# Camera frames as numpy arrays (keel.camera.Frame.array); everything else needs no dependency.
+[project.optional-dependencies]
+numpy = ["numpy>=1.24"]
+
+[project.urls]
+Source = "https://github.com/BisocMOrg/Keel/tree/main/software/bindings/python"
+Changelog = "https://github.com/BisocMOrg/Keel/blob/main/software/bindings/CHANGELOG.md"
+Documentation = "https://github.com/BisocMOrg/Keel/blob/main/software/bindings/python/README.md"
+
+[tool.flit.module]
+name = "keel"
+
+[tool.flit.sdist]
+include = ["tests/", "examples/"]
+
+# PEP 735 dependency groups; every entry pins an exact version, changed only on purpose.
+[dependency-groups]
+test = ["pytest==9.2.0", "pytest-cov==7.1.0", "pycparser==3.12", "numpy==2.4.6"]
+lint = ["ruff==0.17.4", "mypy==2.4.1", "numpy==2.4.6"]
+docs = ["pdoc==16.0.0"]
+package = ["build==1.6.1", "twine==7.0.0"]
+
+[tool.pytest.ini_options]
+minversion = "9.0"
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]
+addopts = ["-ra", "--strict-markers", "--strict-config", "--import-mode=importlib"]
+xfail_strict = true
+filterwarnings = ["error"]
+markers = [
+    "portability: runs on every platform; checks that import works and loading fails clearly off Linux",
+    "hardware: runs on the robot only (KEEL_TEST_HARDWARE=1), never moves it",
+    "camera: a camera test (tests/camera, tests/internal/camera): it uses libkeel-camera, never libkeel.so",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["keel"]
+
+[tool.coverage.report]
+fail_under = 95
+show_missing = true
+skip_covered = true
+exclude_also = ["if TYPE_CHECKING:"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+src = ["src", "tests", "examples"]
+
+[tool.ruff.lint]
+select = [
+    "A",    # builtins shadowing
+    "B",    # bugbear
+    "BLE",  # blind except
+    "C4",   # comprehensions
+    "D",    # pydocstyle: every public module, class, function and method is documented
+    "E",    # pycodestyle errors
+    "F",    # pyflakes
+    "I",    # import order
+    "N",    # naming
+    "PIE",  # misc lints
+    "PT",   # pytest style
+    "RUF",  # ruff-specific
+    "SIM",  # simplifications
+    "UP",   # pyupgrade
+    "W",    # pycodestyle warnings
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.flake8-bugbear]
+# Enum members are immutable, so they are safe as argument defaults.
+extend-immutable-calls = ["keel._generated.OpenFlag", "keel.loop._generated.CycleFlag"]
+
+[tool.ruff.lint.per-file-ignores]
+# Test functions are named for what they check and fixtures for what they provide; the module docstrings
+# describe each suite.
+"tests/**" = ["D101", "D102", "D103", "D107", "D401"]
+
+[tool.mypy]
+strict = true
+python_version = "3.11"
+warn_unreachable = true
+files = ["src"]

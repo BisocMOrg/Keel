@@ -1,0 +1,1141 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(uuid "c6b4b309-d0df-59c3-8258-b94af1179a1c")
+	(paper "A4")
+	(title_block
+		(title "Keel R3 / Local probe ground returns")
+		(date "2026-11")
+		(rev "R3")
+		(company "BisocM")
+		(comment 1 "CERN-OHL-P-2.0")
+	)
+	(lib_symbols
+		(symbol "Keel:GND"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Keel:TestPoint"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(property "Reference" "TP"
+				(at 1.778 4.318 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "TestPoint"
+				(at 1.778 2.286 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Test point (probe pad)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "test point tp probe pad"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "TestPoint*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TestPoint_0_1"
+				(circle
+					(center 0 3.302)
+					(radius 0.762)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TestPoint_1_1"
+				(pin passive line
+					(at 0 0 90)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 104.14 85.09)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "1e3c6f02-a554-5dbe-8fba-25353fd96e29")
+	)
+	(junction
+		(at 104.14 97.79)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a6fb0153-b1e0-5ee5-b85c-4e4ca35c32d0")
+	)
+	(junction
+		(at 104.14 110.49)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b29544ad-c67d-5020-a3ad-f1cb19c3b81d")
+	)
+	(wire
+		(pts
+			(xy 104.14 72.39) (xy 121.92 72.39)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0074ec90-9924-5b4d-b0b7-0816cfe47977")
+	)
+	(wire
+		(pts
+			(xy 104.14 85.09) (xy 121.92 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "46106d70-399f-59dc-9728-7a485d3511ff")
+	)
+	(wire
+		(pts
+			(xy 104.14 97.79) (xy 121.92 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c6a9785-1e17-5f5d-b7f0-f54842b1c761")
+	)
+	(wire
+		(pts
+			(xy 104.14 110.49) (xy 121.92 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36732398-b573-5746-abcb-6c193b886d5b")
+	)
+	(wire
+		(pts
+			(xy 104.14 72.39) (xy 104.14 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ca7731f-85c8-53e7-979b-75dc4a2656d9")
+	)
+	(wire
+		(pts
+			(xy 104.14 85.09) (xy 104.14 97.79)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "190c5c5b-7854-5535-b00c-b1943c0cf56c")
+	)
+	(wire
+		(pts
+			(xy 104.14 97.79) (xy 104.14 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "80d89e60-15f1-544e-975e-847da301ade4")
+	)
+	(wire
+		(pts
+			(xy 104.14 110.49) (xy 104.14 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "26bf936c-bbd8-5bfc-ab47-0ab0480cde4d")
+	)
+	(rectangle
+		(start 53.34 54.61)
+		(end 243.84 128.27)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "00fd7bf8-f4c4-5733-bebf-1d871f862767")
+	)
+	(rectangle
+		(start 53.34 133.35)
+		(end 243.84 148.59)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "2d645847-cb76-5063-b066-d31739b7c67f")
+	)
+	(text "Row"
+		(exclude_from_sim no)
+		(at 57.15 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(italic yes)
+			)
+			(justify left)
+		)
+		(uuid "6eef19f4-cbf6-537a-a799-dccb41c769e2")
+	)
+	(text "Pos"
+		(exclude_from_sim no)
+		(at 85.09 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(italic yes)
+			)
+		)
+		(uuid "81fe367c-a424-5d8f-afdf-402278022eae")
+	)
+	(text "Net"
+		(exclude_from_sim no)
+		(at 104.14 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(italic yes)
+			)
+		)
+		(uuid "cfa6cdaa-054b-5559-b45d-da280c328403")
+	)
+	(text "Ref"
+		(exclude_from_sim no)
+		(at 127 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(italic yes)
+			)
+			(justify left)
+		)
+		(uuid "cf8eaaff-a440-5f6d-aeaa-100e7bcc62f2")
+	)
+	(text "Silkscreen"
+		(exclude_from_sim no)
+		(at 149.86 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(italic yes)
+			)
+			(justify left)
+		)
+		(uuid "68f65fc4-797c-5203-bc1e-04fcb9a4f212")
+	)
+	(text "Ground return for"
+		(exclude_from_sim no)
+		(at 177.8 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(italic yes)
+			)
+			(justify left)
+		)
+		(uuid "504b7ea1-f994-5c0e-a602-0d3718525fbb")
+	)
+	(text "MOTOR"
+		(exclude_from_sim no)
+		(at 57.15 72.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7f8d9e1b-3a27-5937-bfe6-e8a5a1d945b6")
+	)
+	(text "3"
+		(exclude_from_sim no)
+		(at 85.09 72.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "d82fe519-24ea-5e92-a0b1-a1f1665fc9a9")
+	)
+	(text "25 GND"
+		(exclude_from_sim no)
+		(at 149.86 72.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c7bb8120-530e-50cf-9742-69b9b8d12170")
+	)
+	(text "TP13, TP12, TP3"
+		(exclude_from_sim no)
+		(at 177.8 72.39 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ca0ac07b-98e6-5e82-acdd-5102c55f2660")
+	)
+	(text "SERVO"
+		(exclude_from_sim no)
+		(at 57.15 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0ea19743-c8dd-5df7-a17b-79e1a938ceb3")
+	)
+	(text "2"
+		(exclude_from_sim no)
+		(at 85.09 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c2d8d8b7-dd30-5ac7-8cb8-69b9ea225b5e")
+	)
+	(text "47 GND"
+		(exclude_from_sim no)
+		(at 149.86 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "81f9777b-f12f-53b1-84f3-0b892e846e97")
+	)
+	(text "TP45"
+		(exclude_from_sim no)
+		(at 177.8 85.09 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7849c684-6905-5c1a-a5a8-5fba8cba72fc")
+	)
+	(text "STATUS"
+		(exclude_from_sim no)
+		(at 57.15 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9eea76be-8670-5a0e-8c3f-b82f52d2aa4d")
+	)
+	(text "3"
+		(exclude_from_sim no)
+		(at 85.09 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "986b6b5f-52a4-5dc9-b960-5f816ca71467")
+	)
+	(text "26 GND"
+		(exclude_from_sim no)
+		(at 149.86 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8339bb5d-74e6-5462-a9d6-a0b625a7eb55")
+	)
+	(text "TP44, TP4, TP10, TP21, TP9, TP46"
+		(exclude_from_sim no)
+		(at 177.8 97.79 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4b0aed98-5423-5645-aa11-dfb3a5ec3148")
+	)
+	(text "I2C"
+		(exclude_from_sim no)
+		(at 57.15 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "624bb532-0f2a-526d-9fb4-89d0ed95ef72")
+	)
+	(text "3"
+		(exclude_from_sim no)
+		(at 85.09 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "ff174bc2-5989-5c45-9b21-19422b5d667f")
+	)
+	(text "24 GND"
+		(exclude_from_sim no)
+		(at 149.86 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "291a66a8-f79b-59f5-93e1-9791aadcb493")
+	)
+	(text "TP7, TP8, TP18, TP19, TP20, TP5"
+		(exclude_from_sim no)
+		(at 177.8 110.49 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "09287e3b-120c-5d2b-b792-f25d492d65ad")
+	)
+	(text "Row GND pads"
+		(exclude_from_sim no)
+		(at 54.61 55.88 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "5ad83a2a-d28e-5057-81b9-a57d750d0472")
+	)
+	(text "Notes"
+		(exclude_from_sim no)
+		(at 54.61 134.62 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "8273e1f1-c83f-56dd-bf00-55c1aa328c01")
+	)
+	(text "1. Bare 1.5 mm ENIG pads on the bottom side, without paste or a fitted part; they are not in the BOM.\n2. Each pad sits in its probe row on the 2.54 mm grid, beside the row signals, for a short return loop.\n3. Pos counts along the row from its silkscreen label (west to east in top view), as on sheet 10 (Signal and programming probe access).\n4. The POWER and SWD row GND pads (TP6, TP40) are drawn with their rows on sheet 10 (Signal and programming probe access)."
+		(exclude_from_sim no)
+		(at 55.88 138.43 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "719a9836-7609-5d61-b187-7f1c46c98cb0")
+	)
+	(symbol
+		(lib_id "Keel:TestPoint")
+		(at 121.92 72.39 270)
+		(unit 1)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "ec277aa8-300f-5f4d-b132-fc3906182385")
+		(property "Reference" "TP25"
+			(at 127 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Keel:TestPoint_Pad_D1.5mm"
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BARE PCB PAD - NO FITTED PART"
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "TP25"
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Bare probe pad; excluded from fitted BOM. Ordinary external ground vias only."
+			(at 121.92 72.39 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "007605d4-7cc1-5d45-a453-063378bcba1f")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/85c83bd8-58af-5b62-8d1b-bae00153f2da"
+					(reference "TP25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TestPoint")
+		(at 121.92 85.09 270)
+		(unit 1)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "fad3dbb7-f43c-5237-986a-b352c45b306d")
+		(property "Reference" "TP47"
+			(at 127 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Keel:TestPoint_Pad_D1.5mm"
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BARE PCB PAD - NO FITTED PART"
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "TP47"
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Bare probe pad; excluded from fitted BOM. Ordinary external ground vias only."
+			(at 121.92 85.09 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "348e2032-f56b-5e56-93f3-2d243251dfe5")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/85c83bd8-58af-5b62-8d1b-bae00153f2da"
+					(reference "TP47")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TestPoint")
+		(at 121.92 97.79 270)
+		(unit 1)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "b2418042-3711-5b74-95d3-f8cefe08d0de")
+		(property "Reference" "TP26"
+			(at 127 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Keel:TestPoint_Pad_D1.5mm"
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BARE PCB PAD - NO FITTED PART"
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "TP26"
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Bare probe pad; excluded from fitted BOM. Ordinary external ground vias only."
+			(at 121.92 97.79 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e5c13144-41c1-5977-b577-2cc10c2c0497")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/85c83bd8-58af-5b62-8d1b-bae00153f2da"
+					(reference "TP26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TestPoint")
+		(at 121.92 110.49 270)
+		(unit 1)
+		(in_bom no)
+		(on_board yes)
+		(dnp no)
+		(uuid "33f0d6e7-a44a-5e77-b9f1-6287eb847def")
+		(property "Reference" "TP24"
+			(at 127 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "GND"
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" "Keel:TestPoint_Pad_D1.5mm"
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "BARE PCB PAD - NO FITTED PART"
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" ""
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "TP24"
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Local ground probe beside TP5, spaced 2.5 mm centre to centre; no fitted component."
+			(at 121.92 110.49 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "47e35a29-eb44-5a95-b47f-06ad1ce8c44d")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/85c83bd8-58af-5b62-8d1b-bae00153f2da"
+					(reference "TP24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 104.14 118.11 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "78d8d585-1922-5be1-9336-4b3c3b6182fd")
+		(property "Reference" "#PWR1101"
+			(at 104.14 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 104.14 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 104.14 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 104.14 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 104.14 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 104.14 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3cb3df25-b905-5a91-9ff0-aa7181b8aa39")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/85c83bd8-58af-5b62-8d1b-bae00153f2da"
+					(reference "#PWR1101")
+					(unit 1)
+				)
+			)
+		)
+	)
+)

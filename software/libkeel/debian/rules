@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# libkeel packages, built with the CMake project's own install rules:
+#   dpkg-buildpackage -a arm64 -Pnocheck -b -us -uc   (cross, for the robot)
+#   dpkg-buildpackage -b -us -uc                       (native, runs the tests)
+# KEEL_PACKAGING=ON installs the keel-common files and keel-setup
+# (cmake/packaging.cmake); the debian/*.install files split debian/tmp.
+# The camera library is required (KEEL_CAMERA=ON) with libjpeg, and built
+# without libavformat (so the packages need no FFmpeg) and without the test
+# hooks, which only test builds carry.
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# The test programs are only built when they will run.
+ifneq (,$(filter nocheck,$(DEB_BUILD_OPTIONS) $(DEB_BUILD_PROFILES)))
+KEEL_BUILD_TESTS := OFF
+else
+KEEL_BUILD_TESTS := ON
+endif
+
+%:
+	dh $@ --buildsystem=cmake
+
+override_dh_auto_configure:
+	dh_auto_configure -- -DKEEL_PACKAGING=ON -DKEEL_BUILD_TESTS=$(KEEL_BUILD_TESTS) \
+		-DKEEL_CAMERA=ON -DKEEL_CAMERA_JPEG=ON -DKEEL_CAMERA_LIBAV=OFF -DKEEL_CAMERA_TEST_HOOKS=OFF
+
+# hygiene.tree checks the hygiene of a source checkout (CI job "hygiene"); in a
+# package build the tree also holds the build directory and debhelper's files.
+override_dh_auto_test:
+	dh_auto_test -- 'ARGS+=--exclude-regex hygiene.tree'
+
+# Fail the build when the exported symbols differ from debian/libkeel1.symbols
+# or debian/libkeel-camera1.symbols (which tests/packaging/check_package_metadata.py
+# keeps equal to symbols.txt and camera_symbols.txt).
+override_dh_makeshlibs:
+	dh_makeshlibs -- -c4

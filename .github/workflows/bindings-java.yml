@@ -1,0 +1,197 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# CI of the Java binding io.github.bisocmorg:keel (software/bindings/java). On a
+# libkeel-vX.Y.Z tag, libkeel.yml calls this workflow and publishes its artifacts with the release.
+#
+#   hygiene      licence headers, line endings, other parties' product names, the Python licence copy
+#   generate     the header-derived sources equal a fresh keelgen.py run against keel.h and camera.h,
+#                and no source that keelgen does not write carries its generator notice
+#   test         mvn verify on Temurin 25 (the baseline) and 27 (the newest feature release) against a
+#                sim-only libkeel and a libkeel-camera test build (its synthetic camera): compile with
+#                -Xlint:all -Werror, unit and integration tests, Javadoc doclint, the JaCoCo gate
+#   portability  Windows and macOS: the API initialises and loading fails clearly
+#   package      the jar, sources jar, javadoc jar and pom, and the Javadoc HTML
+name: bindings-java
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "software/bindings/**"
+      - "software/libkeel/include/**"
+      - "software/libkeel/src/**"
+      - "software/libkeel/cmake/**"
+      - "software/libkeel/CMakeLists.txt"
+      - "software/libkeel/CMakePresets.json"
+      - "software/libkeel/tests/abi/**"
+      - "software/libkeel/tests/docs/**"
+      - "software/libkeel/tests/hygiene/**"
+      - "software/libkeel/tests/bindings/**"
+      - ".github/workflows/bindings-java.yml"
+  pull_request:
+    paths:
+      - "software/bindings/**"
+      - "software/libkeel/include/**"
+      - "software/libkeel/src/**"
+      - "software/libkeel/cmake/**"
+      - "software/libkeel/CMakeLists.txt"
+      - "software/libkeel/CMakePresets.json"
+      - "software/libkeel/tests/abi/**"
+      - "software/libkeel/tests/docs/**"
+      - "software/libkeel/tests/hygiene/**"
+      - "software/libkeel/tests/bindings/**"
+      - ".github/workflows/bindings-java.yml"
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bindings-java-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: SPDX and copyright lines, LF line endings
+        run: sh software/libkeel/tests/hygiene/check_tree.sh software/bindings
+      - name: No other party's product names in the bindings or their workflows
+        run: |
+          # Assembled at run time, so this file never contains the names itself.
+          names="$(printf 'tri%s' lobot)|$(printf 'swift%s' bot)|$(printf 'pimo%s' roni)|$(printf 'neo%s' pixel)|$(printf 'qwi%s' ic)"
+          if grep -rIEil -- "$names" software/bindings .github/workflows/bindings-*.yml; then
+            echo "::error::the files above use other parties' product names"
+            exit 1
+          fi
+          if find software/bindings .github/workflows/bindings-*.yml | grep -Ei -- "$names"; then
+            echo "::error::the file names above use other parties' product names"
+            exit 1
+          fi
+      - name: The Python package's licence is the repository's
+        run: cmp LICENSE software/bindings/python/LICENSE
+
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the C parser
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-pycparser
+      - name: The generated Java sources equal a fresh run against keel.h and camera.h
+        run: python3 software/bindings/tools/keelgen.py --check --lang java
+
+  test:
+    name: test (Temurin ${{ matrix.java }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        java: ["25", "27"]
+    env:
+      KEEL_LIBRARY: ${{ github.workspace }}/software/libkeel/build/sim-only/libkeel.so.1
+      KEEL_CAMERA_LIBRARY: ${{ github.workspace }}/software/libkeel/build/sim-only/libkeel-camera.so.1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java }}
+          cache: maven
+      - name: Install the C parser (the ABI test runs keelgen.py --check)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-pycparser
+      - name: Build libkeel without the keel_r3 backend, and a libkeel-camera test build
+        working-directory: software/libkeel
+        run: |
+          sudo apt-get install -y --no-install-recommends libcamera-dev libjpeg-dev
+          cmake --preset sim-only -DKEEL_BUILD_TESTS=OFF -DKEEL_TOOLS=OFF -DKEEL_CAMERA=ON
+          cmake --build --preset sim-only --target keel keel_camera --parallel
+      - name: mvn verify
+        working-directory: software/bindings/java
+        run: mvn -B -ntp verify
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: failure()
+        with:
+          name: keel-java-test-reports-${{ matrix.java }}
+          path: |
+            software/bindings/java/target/surefire-reports
+            software/bindings/java/target/failsafe-reports
+          retention-days: 14
+
+  portability:
+    name: portability (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+      - name: The API initialises and Keel.load() and Camera.load() name Linux
+        working-directory: software/bindings/java
+        run: mvn -B -ntp test -Dgroups=portability -Djacoco.skip=true
+
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
+        with:
+          distribution: temurin
+          java-version: "25"
+          cache: maven
+      - name: Build the jar, the sources and javadoc jars
+        working-directory: software/bindings/java
+        run: mvn -B -ntp package -DskipTests
+      - name: Collect the release files
+        working-directory: software/bindings/java
+        run: |
+          sources=(target/keel-*-sources.jar)
+          version=${sources[0]#target/keel-}
+          version=${version%-sources.jar}
+          dist="$GITHUB_WORKSPACE/dist"
+          mkdir -p "$dist"
+          cp "target/keel-$version.jar" "target/keel-$version-sources.jar" "target/keel-$version-javadoc.jar" "$dist/"
+          cp pom.xml "$dist/keel-$version.pom"
+          ls -l "$dist"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: keel-java-dist
+          path: dist/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: keel-java-api-html
+          path: software/bindings/java/target/reports/apidocs
+          if-no-files-found: error
+          retention-days: 14

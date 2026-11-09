@@ -1,0 +1,89 @@
+{
+  "version": 3,
+  "vendor": {
+    "keel": {
+      "license": "SPDX-License-Identifier: MIT",
+      "copyright": "Copyright (c) 2026 BisocM"
+    }
+  },
+  "cmakeMinimumRequired": { "major": 3, "minor": 21, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "cacheVariables": { "KEEL_WERROR": "ON", "KEEL_CAMERA_TEST_HOOKS": "ON" }
+    },
+    {
+      "name": "dev",
+      "displayName": "Development (Debug, -Werror)",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+    },
+    {
+      "name": "asan-ubsan",
+      "displayName": "AddressSanitizer and UndefinedBehaviorSanitizer",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "KEEL_SANITIZE": "address,undefined" }
+    },
+    {
+      "name": "tsan",
+      "displayName": "ThreadSanitizer",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "KEEL_TSAN": "ON" }
+    },
+    {
+      "name": "release",
+      "displayName": "Release (hardened)",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "cross-arm64",
+      "displayName": "Cross build for linux-arm64 (tests built, run on the robot)",
+      "inherits": "base",
+      "toolchainFile": "${sourceDir}/cmake/toolchains/aarch64-linux-gnu.cmake",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+    },
+    {
+      "name": "sim-only",
+      "displayName": "Simulator only (no keel_r3 backend)",
+      "inherits": "base",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "RelWithDebInfo", "KEEL_BACKEND_KEEL_R3": "OFF" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "dev", "configurePreset": "dev" },
+    { "name": "asan-ubsan", "configurePreset": "asan-ubsan" },
+    { "name": "tsan", "configurePreset": "tsan" },
+    { "name": "release", "configurePreset": "release" },
+    { "name": "cross-arm64", "configurePreset": "cross-arm64" },
+    { "name": "sim-only", "configurePreset": "sim-only" }
+  ],
+  "testPresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "output": { "outputOnFailure": true },
+      "execution": { "noTestsAction": "error", "timeout": 120 }
+    },
+    { "name": "dev", "inherits": "base", "configurePreset": "dev" },
+    {
+      "name": "asan-ubsan",
+      "inherits": "base",
+      "configurePreset": "asan-ubsan",
+      "environment": {
+        "ASAN_OPTIONS": "detect_leaks=1:abort_on_error=1:strict_string_checks=1",
+        "UBSAN_OPTIONS": "print_stacktrace=1:halt_on_error=1"
+      }
+    },
+    {
+      "name": "tsan",
+      "inherits": "base",
+      "configurePreset": "tsan",
+      "environment": { "TSAN_OPTIONS": "halt_on_error=1:second_deadlock_stack=1" }
+    },
+    { "name": "release", "inherits": "base", "configurePreset": "release" },
+    { "name": "sim-only", "inherits": "base", "configurePreset": "sim-only" }
+  ]
+}

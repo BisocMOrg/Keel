@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# python3-keel, built from pyproject.toml (flit_core) by pybuild:
+#   dpkg-buildpackage -b -us -uc
+# The package is architecture-independent: one build serves amd64 and the
+# arm64 robot.
+
+export PYBUILD_NAME = keel
+
+%:
+	dh $@ --buildsystem=pybuild
+
+# The test suite needs a libkeel build (KEEL_LIBRARY) and the libkeel source
+# tree; it runs in the CI test jobs (.github/workflows/bindings-python.yml).
+override_dh_auto_test:
+
+# The examples stay plain .py files, so they run straight from the documentation directory.
+override_dh_compress:
+	dh_compress -X.py

@@ -1,0 +1,172 @@
+# Keel: KiCad 10 hardware, STM32 safety-MCU firmware, the C/CMake host
+# library (software/libkeel) and its Python and Java bindings.
+
+# ---------------------------------------------------------------- builds ----
+build*/
+_build/
+cmake-build-*/
+out/
+CMakeCache.txt
+CMakeFiles/
+CMakeUserPresets.json
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+_deps/
+install_manifest.txt
+compile_commands.json
+
+# C / C++ objects and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.pdb
+*.out
+*.d
+*.su
+*.gcno
+*.gcda
+*.gcov
+*.profraw
+*.profdata
+
+# ------------------------------------------------------ STM32 firmware ----
+# Intermediate outputs. The committed release image is re-included at the end.
+*.elf
+*.axf
+*.map
+*.lst
+*.lss
+*.srec
+*.hex
+*.bin
+# firmware/safety-mcu/programming/build_openocd.sh builds OpenOCD in
+# build-openocd/ by default, and the firmware build and tests write to
+# firmware/safety-mcu/build/: both match build*/ above.
+
+# --------------------------------------------------------------- KiCad ----
+*-backups/
+*.lck
+fp-info-cache
+_autosave-*
+\#auto_saved_files\#
+*.kicad_prl
+*.bak
+*.bck
+*-bak
+*.kicad_pcb-bak
+*.kicad_sch-bak
+*.sch-bak
+*-save.kicad_pcb
+*-save.pro
+*.000
+*.tmp
+.history/
+
+# -------------------------------------------------------------- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+.eggs/
+dist/
+wheels/
+*.whl
+.ipynb_checkpoints/
+
+# ------------------------------------------------------ Debian packages ----
+# dpkg-buildpackage in software/libkeel and software/bindings/python: the CMake
+# build directory obj-<triplet>/, pybuild's working tree, debhelper's files and
+# package trees in debian/, and the packages written next to the source tree.
+/software/libkeel/obj-*/
+/software/bindings/python/.pybuild/
+**/debian/files
+**/debian/*.substvars
+**/debian/*.debhelper
+**/debian/*.debhelper.log
+**/debian/debhelper-build-stamp
+**/debian/.debhelper/
+**/debian/tmp/
+/software/libkeel/debian/libkeel1/
+/software/libkeel/debian/libkeel-dev/
+/software/libkeel/debian/keel-common/
+/software/libkeel/debian/keel-tools/
+/software/libkeel/debian/libkeel-camera1/
+/software/libkeel/debian/libkeel-camera-dev/
+/software/libkeel/debian/keel-camera/
+/software/bindings/python/debian/python3-keel/
+*.deb
+*.ddeb
+*.changes
+*.buildinfo
+
+# ---------------------------------------------------------------- Java ----
+*.class
+*.jar
+target/
+hs_err_pid*.log
+replay_pid*.log
+
+# ------------------------------------------------------------ IDE / OS ----
+**/.vscode/*
+!**/.vscode/extensions.json
+.idea/
+*.iml
+.cache/
+.clangd/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# --------------------------------------------------- local logs / env ----
+*.log
+logs/
+.env
+.env.*
+
+# ------------------------------------------- published files: keep all ----
+# The production outputs and the firmware release image are committed.
+# Nothing above may hide them.
+!/hardware/fabrication/**
+!/hardware/assembly/**
+!/hardware/schematic/**
+!/hardware/3d/**
+!/hardware/renders/**
+!/firmware/safety-mcu/release/safety_controller.hex
+# libkeel sources that the build patterns above would hide: the linker
+# version scripts and the packaged config directories (*.d).
+!/software/libkeel/cmake/keel.map
+!/software/libkeel/cmake/keel-camera.map
+!/software/libkeel/packaging/common/*.d/
+
+# OS and editor junk stays ignored everywhere, including the folders above.
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+desktop.ini

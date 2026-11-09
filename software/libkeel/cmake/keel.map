@@ -1,0 +1,48 @@
+/* SPDX-License-Identifier: MIT */
+/* Copyright (c) 2026 BisocM */
+/* GNU ld version script for libkeel.so.1. The global list is explicit, never
+ * a keel_* wildcard, so the porting interface (keel_port_*) and the internal
+ * keel__* symbols stay local. It must equal tests/abi/symbols.txt; the abi
+ * test check_exports.sh compares both with the built library. */
+KEEL_1.0 {
+    global:
+        keel_abi_version;
+        keel_version_string;
+        keel_status_name;
+        keel_status_string;
+        keel_status_class;
+        keel_fault_cause_name;
+        keel_open;
+        keel_close;
+        keel_get_capabilities;
+        keel_now_us;
+        keel_sleep_until;
+        keel_tick;
+        keel_cycle;
+        keel_request_arm;
+        keel_disarm;
+        keel_emergency_stop;
+        keel_clear_fault;
+        keel_get_state;
+        keel_get_snapshot;
+        keel_get_fault;
+        keel_read_safety_inputs;
+        keel_set_motors;
+        keel_brake;
+        keel_servo_start;
+        keel_servo_set_pulse;
+        keel_servo_end;
+        keel_range_start;
+        keel_range_poll;
+        keel_range_measure;
+        keel_set_rgb;
+        keel_set_rgb_all;
+        keel_set_rgb_frame;
+        keel_get_rgb;
+        keel_set_button_leds;
+        keel_take_buttons;
+        keel_sim_set;
+        keel_sim_get_state;
+    local:
+        *;
+};

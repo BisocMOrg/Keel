@@ -1,0 +1,24 @@
+# Default: text files are stored with LF and checked out with LF.
+* text=auto eol=lf
+
+# Binary files: no line-ending conversion, no text diff or merge.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.xlsx binary
+*.step binary
+*.stp binary
+*.wrl binary
+*.bin binary
+*.hex binary
+*.elf binary
+*.3mf binary
+
+# The hardware and firmware trees are published byte-exact: many of their text
+# files use CRLF (KiCad sheets and footprints, CSVs, the release HEX, whose
+# bytes SHA256SUMS.txt covers). Never convert their line endings.
+hardware/** -text
+firmware/safety-mcu/** -text

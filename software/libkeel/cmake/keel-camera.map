@@ -1,0 +1,37 @@
+/* SPDX-License-Identifier: MIT */
+/* Copyright (c) 2026 BisocM */
+/* GNU ld version script for libkeel-camera.so.1. The global list is
+ * explicit, so the internal cam_* functions and every C++ symbol (libcamera
+ * glue, inlined standard-library code) stay local. It must equal
+ * tests/abi/camera_symbols.txt; the abi test check_exports.sh compares both
+ * with the built library. */
+KEEL_CAMERA_1.0 {
+    global:
+        keel_camera_abi_version;
+        keel_camera_version_string;
+        keel_camera_convert_i420;
+        keel_camera_list_open;
+        keel_camera_list_count;
+        keel_camera_list_get;
+        keel_camera_list_get_mode;
+        keel_camera_list_close;
+        keel_camera_open;
+        keel_camera_close;
+        keel_camera_get_info;
+        keel_camera_get_stream;
+        keel_camera_set_encoder;
+        keel_camera_start;
+        keel_camera_stop;
+        keel_camera_read_frame;
+        keel_camera_read_encoded;
+        keel_camera_trigger_autofocus;
+        keel_camera_get_stats;
+        keel_camera_last_error;
+        keel_camera_output_start;
+        keel_camera_output_stop;
+        keel_camera_get_output_stats;
+        keel_camera_capture_still;
+        keel_camera_capture_still_file;
+    local:
+        *;
+};

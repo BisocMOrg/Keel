@@ -1,0 +1,390 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# libkeel CI: the 1.0 gate of software/libkeel/docs/spec.md section 23.2, and
+# the release of the robot's packages on a libkeel-vX.Y.Z tag.
+#
+#   hygiene      licence headers, line endings, other parties' product names, shellcheck
+#   gcc          dev, release and sim-only presets: gcc with -Werror and the full test suite,
+#                with the camera library built against Ubuntu 24.04's libcamera
+#   gcc-robot-os the dev preset in an Ubuntu 26.10 container (the robot's OS: newer gcc and
+#                glibc, its libcamera 0.7, and the camera library's libavformat outputs)
+#   sanitizers   asan-ubsan and tsan presets with the full test suite, the camera's included
+#   cross-arm64  the robot's build: aarch64 ELF, SONAME, exports, glibc floor
+#   abi          struct layouts on every target, constants, exports, the ctypes binding
+#   consumers    C, C++, the README example, Python ctypes and the staged install
+#   docs         documentation coverage, the generated tables, Doxygen with warnings as errors
+#   debs-amd64   native packages built with the test suite, installed (the board packages
+#                first, without the camera stack, then the camera packages), consumed from /usr
+#   debs-arm64   packages for the robot, cross-built in an Ubuntu 26.10 container so that
+#                libkeel-camera1 links the robot's libcamera 0.7; checked and archived
+#   bindings-python, bindings-java
+#                on a libkeel-v* tag: the binding workflows, whose packages are released with libkeel
+#   release      on a libkeel-v* tag: the arm64 packages, install.sh, the binding packages and one SHA256SUMS
+name: libkeel
+
+on:
+  push:
+    branches: [main]
+    tags: ["libkeel-v*"]
+    paths:
+      - "software/libkeel/**"
+      - ".github/workflows/libkeel.yml"
+  pull_request:
+    paths:
+      - "software/libkeel/**"
+      - ".github/workflows/libkeel.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: libkeel-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+    working-directory: software/libkeel
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: SPDX and copyright lines, LF line endings
+        run: sh tests/hygiene/check_tree.sh
+      - name: No other party's product names in the tree or in this workflow
+        working-directory: .
+        run: |
+          # Assembled at run time, so this file never contains the names itself.
+          names="$(printf 'tri%s' lobot)|$(printf 'swift%s' bot)|$(printf 'pimo%s' roni)|$(printf 'neo%s' pixel)|$(printf 'qwi%s' ic)"
+          if grep -rIEil -- "$names" software/libkeel .github/workflows/libkeel.yml; then
+            echo "::error::the files above use other parties' product names"
+            exit 1
+          fi
+          if find software/libkeel .github/workflows/libkeel.yml | grep -Ei -- "$names"; then
+            echo "::error::the file names above use other parties' product names"
+            exit 1
+          fi
+      - name: shellcheck
+        run: shellcheck install.sh debian/keel-common.postinst tests/*/*.sh
+
+  gcc:
+    name: gcc -Werror (${{ matrix.preset }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [dev, release, sim-only]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install libcamera and libjpeg (the camera library)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcamera-dev libjpeg-dev
+      - run: cmake --preset ${{ matrix.preset }} -DKEEL_CAMERA=ON
+      - run: cmake --build --preset ${{ matrix.preset }} --parallel
+      - run: ctest --preset ${{ matrix.preset }} --parallel 4
+
+  gcc-robot-os:
+    name: gcc -Werror (dev, Ubuntu 26.10 as on the robot)
+    runs-on: ubuntu-24.04
+    container: ubuntu:26.10
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the robot OS toolchain, libcamera 0.7 and FFmpeg's libavformat
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends build-essential cmake g++ pkgconf python3 curl ca-certificates file \
+            libcamera-dev libjpeg-dev libavformat-dev libavcodec-dev libavutil-dev
+      - run: cmake --preset dev -DKEEL_CAMERA=ON -DKEEL_CAMERA_LIBAV=ON
+      - run: cmake --build --preset dev --parallel
+      - run: ctest --preset dev --parallel 4
+
+  sanitizers:
+    name: sanitizers (${{ matrix.preset }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        preset: [asan-ubsan, tsan]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The runner kernel's 32-bit mmap randomisation breaks the sanitizers'
+      # fixed shadow-memory layout.
+      - name: Reduce address-space randomisation for the sanitizers
+        run: sudo sysctl vm.mmap_rnd_bits=28
+      - name: Install libcamera and libjpeg (the camera library)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcamera-dev libjpeg-dev
+      - run: cmake --preset ${{ matrix.preset }} -DKEEL_CAMERA=ON
+      - run: cmake --build --preset ${{ matrix.preset }} --parallel
+      - run: ctest --preset ${{ matrix.preset }} --parallel 4
+
+  cross-arm64:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the aarch64 cross toolchain
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
+      - run: cmake --preset cross-arm64
+      - run: cmake --build --preset cross-arm64 --parallel
+      # No emulator: the arm64 tests are built here and run on the robot.
+      - name: The robot's library (aarch64, SONAME, exports, glibc floor)
+        run: |
+          lib=build/cross-arm64/libkeel.so.1.0.0
+          file "$lib" | tee /dev/stderr | grep -q 'ARM aarch64'
+          readelf -d "$lib" | grep -q 'SONAME.*\[libkeel.so.1\]'
+          NM=aarch64-linux-gnu-nm sh tests/abi/check_exports.sh "$lib" build/cross-arm64/libkeel.a \
+            tests/abi/symbols.txt cmake/keel.map
+          newest=$(readelf -V --wide "$lib" | grep -o 'GLIBC_[0-9.]*' | sed 's/GLIBC_//' | sort -uV | tail -1)
+          echo "newest glibc symbol version: $newest (floor 2.34)"
+          [ "$(printf '%s\n2.34\n' "$newest" | sort -V | tail -1)" = 2.34 ]
+
+  abi:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # i386 and aarch64 ILP32 are freestanding compiles: gcc's own -m32 and
+      # the aarch64 cross compiler suffice. aarch64 LP64 is a hosted compile
+      # and needs the arm64 C library headers. gcc-multilib conflicts with the
+      # cross compiler on Ubuntu 24.04, so it is not installed.
+      - name: Install the aarch64 layout target, the C parser, libcamera and libjpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-aarch64-linux-gnu libc6-dev-arm64-cross python3-pycparser \
+            libcamera-dev libjpeg-dev
+      - run: cmake --preset release -DKEEL_CAMERA=ON
+      - run: cmake --build --preset release --parallel
+      - name: Headers in C and C++, layouts on every target, constants, documentation
+        run: sh tests/abi/check_headers.sh --require-cross --require-parser
+      - name: Exported symbols, the ctypes binding against the simulator, packaging metadata
+        run: ctest --preset release --label-regex 'abi|packaging'
+
+  consumers:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install libcamera and libjpeg (the camera library)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcamera-dev libjpeg-dev
+      - run: cmake --preset release -DKEEL_CAMERA=ON
+      - run: cmake --build --preset release --parallel
+      - name: C, C++, the README example, Python ctypes and the staged install
+        run: ctest --preset release --label-regex consumers
+
+  docs:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install Doxygen
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends doxygen
+      - name: Every declaration of keel.h, port.h and camera.h documented
+        run: python3 tests/docs/check_header_docs.py
+      - name: The documents' tables equal the test table and keel.h
+        run: |
+          sh tests/docs/check_arbitration_doc.sh docs/spec.md docs/safety.md
+          python3 tests/docs/check_doc_tables.py
+      - name: Doxygen with warnings as errors
+        run: mkdir -p build && doxygen Doxyfile
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: libkeel-api-html
+          path: software/libkeel/build/docs/html
+          retention-days: 14
+
+  debs-amd64:
+    name: debs (amd64, tested and installed)
+    runs-on: ubuntu-24.04
+    container: ubuntu:24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the build dependencies
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            build-essential debhelper cmake g++ pkgconf python3 curl ca-certificates file libcamera-dev libjpeg-dev
+      - name: Build the packages (dh_auto_test runs the test suite)
+        run: dpkg-buildpackage -b -us -uc
+      - name: Check the packages
+        run: sh tests/packaging/check_debs.sh .. amd64
+      - name: Install the board packages alone (runs the keel-common postinst)
+        run: |
+          (cd .. && DEBIAN_FRONTEND=noninteractive apt-get install -y ./libkeel1_*_amd64.deb \
+            ./libkeel-dev_*_amd64.deb ./keel-common_*_all.deb ./keel-tools_*_amd64.deb)
+          getent group keel
+          keel-setup --help >/dev/null
+          keel-doctor --help >/dev/null
+          if dpkg -s libkeel-camera1 >/dev/null 2>&1; then
+            echo "::error::the board packages pulled in libkeel-camera1"
+            exit 1
+          fi
+      - name: Consume the board packages (pkg-config, find_package, ctypes by SONAME)
+        run: sh tests/consumers/check_consumers.sh system . "$RUNNER_TEMP/consumers-board"
+      - name: Install the camera packages
+        run: |
+          (cd .. && DEBIAN_FRONTEND=noninteractive apt-get install -y ./libkeel-camera1_*_amd64.deb \
+            ./libkeel-camera-dev_*_amd64.deb ./keel-camera_*_amd64.deb)
+          keel-camera --version
+          keel-camera list
+      - name: Consume the installed packages, the camera library's included
+        run: sh tests/consumers/check_consumers.sh system . "$RUNNER_TEMP/consumers"
+
+  debs-arm64:
+    name: debs (arm64, for the robot)
+    runs-on: ubuntu-24.04
+    # The robot's Ubuntu release: libkeel-camera1 must link (and depend on) its
+    # libcamera 0.7, not Ubuntu 24.04's 0.2.
+    container: ubuntu:26.10
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # dpkg-shlibdeps derives the dependencies from the arm64 libraries
+      # (libc6, libcamera0.7, libjpeg8), so the cross build needs real
+      # multiarch; the Ubuntu archive serves arm64 for this release.
+      - name: Enable arm64 packages
+        run: |
+          dpkg --add-architecture arm64
+          apt-get update
+      - name: Install the cross toolchain and the build dependencies
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            build-essential crossbuild-essential-arm64 libc6-dev:arm64 debhelper cmake file \
+            pkgconf:arm64 libcamera-dev:arm64 libjpeg-dev:arm64
+      - name: Build the packages for the robot
+        env:
+          DEB_BUILD_OPTIONS: nocheck
+        run: dpkg-buildpackage -a arm64 -Pnocheck -b -us -uc
+      - name: Check the packages
+        run: sh tests/packaging/check_debs.sh .. arm64
+      - name: Collect the release files
+        run: |
+          dist="$GITHUB_WORKSPACE/dist"
+          mkdir -p "$dist"
+          cp ../libkeel1_*_arm64.deb ../libkeel-dev_*_arm64.deb ../keel-common_*_all.deb ../keel-tools_*_arm64.deb \
+            ../libkeel-camera1_*_arm64.deb ../libkeel-camera-dev_*_arm64.deb ../keel-camera_*_arm64.deb \
+            install.sh "$dist/"
+          (cd "$dist" && sha256sum -- * >SHA256SUMS && cat SHA256SUMS)
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: libkeel-arm64
+          path: dist/
+          if-no-files-found: error
+
+  # The bindings are released together with libkeel and share its version (software/bindings/README.md), so a
+  # release tag also runs both binding workflows; their packages join the release below.
+  bindings-python:
+    if: startsWith(github.ref, 'refs/tags/libkeel-v')
+    uses: ./.github/workflows/bindings-python.yml
+
+  bindings-java:
+    if: startsWith(github.ref, 'refs/tags/libkeel-v')
+    uses: ./.github/workflows/bindings-java.yml
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/libkeel-v')
+    needs: [hygiene, gcc, gcc-robot-os, sanitizers, cross-arm64, abi, consumers, docs, debs-amd64, debs-arm64,
+            bindings-python, bindings-java]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: libkeel-arm64
+          path: dist
+      - name: The robot packages arrived intact
+        working-directory: dist
+        run: sha256sum --check --strict SHA256SUMS && rm SHA256SUMS
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: keel-python-dist
+          path: dist
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: keel-python-deb
+          path: dist
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: keel-java-dist
+          path: dist
+      - name: The tag, every package and dated CHANGELOG.md entries agree
+        run: |
+          version=${GITHUB_REF_NAME#libkeel-v}
+          for file in "libkeel1_${version}_arm64.deb" "libkeel-dev_${version}_arm64.deb" \
+              "keel-common_${version}_all.deb" "keel-tools_${version}_arm64.deb" \
+              "libkeel-camera1_${version}_arm64.deb" "libkeel-camera-dev_${version}_arm64.deb" \
+              "keel-camera_${version}_arm64.deb" install.sh \
+              "python3-keel_${version}_all.deb" "keel_robot-${version}-py3-none-any.whl" \
+              "keel_robot-${version}.tar.gz" "keel-${version}.jar" "keel-${version}-sources.jar" \
+              "keel-${version}-javadoc.jar" "keel-${version}.pom"; do
+            if [ ! -f "$GITHUB_WORKSPACE/dist/$file" ]; then
+              echo "::error::the release lacks $file"
+              exit 1
+            fi
+          done
+          heading="^## \[${version//./\\.}\] - [0-9]{4}-[0-9]{2}-[0-9]{2}$"
+          grep -Eq "$heading" CHANGELOG.md
+          grep -Eq "$heading" ../bindings/CHANGELOG.md
+      - name: SHA256SUMS over every release file
+        working-directory: dist
+        run: sha256sum -- * >SHA256SUMS && cat SHA256SUMS
+      - name: Release notes from both changelogs
+        run: |
+          heading="## [${GITHUB_REF_NAME#libkeel-v}]"
+          section() {
+            awk -v heading="$heading" 'index($0, heading) == 1 { on = 1; next } /^## \[/ { on = 0 } on' "$1"
+          }
+          {
+            section CHANGELOG.md
+            printf '\n## Bindings\n'
+            section ../bindings/CHANGELOG.md
+          } >"$RUNNER_TEMP/notes.md"
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --latest \
+            --title "libkeel ${GITHUB_REF_NAME#libkeel-v}" --notes-file "$RUNNER_TEMP/notes.md" \
+            "$GITHUB_WORKSPACE"/dist/*

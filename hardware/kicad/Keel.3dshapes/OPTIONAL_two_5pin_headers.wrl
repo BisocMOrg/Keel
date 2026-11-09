@@ -1,0 +1,14 @@
+#VRML V2.0 utf8
+# APPROXIMATE VISUALIZATION ONLY. Millimetres converted to KiCad legacy VRML units (2.54 mm/unit).
+Transform { translation 0.0000000 -1.0000000 0.4921260 children [ Shape { appearance Appearance { material Material { diffuseColor 0.12 0.12 0.13 } } geometry Box { size 5.0000000 0.9448819 0.9842520 } } ] }
+Transform { translation -2.0000000 -1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation -1.0000000 -1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 0.0000000 -1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 1.0000000 -1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 2.0000000 -1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 0.0000000 1.0000000 0.4921260 children [ Shape { appearance Appearance { material Material { diffuseColor 0.12 0.12 0.13 } } geometry Box { size 5.0000000 0.9448819 0.9842520 } } ] }
+Transform { translation -2.0000000 1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation -1.0000000 1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 0.0000000 1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 1.0000000 1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }
+Transform { translation 2.0000000 1.0000000 0.7874016 children [ Shape { appearance Appearance { material Material { diffuseColor 0.82 0.65 0.25 } } geometry Box { size 0.2519685 0.2519685 3.9370079 } } ] }

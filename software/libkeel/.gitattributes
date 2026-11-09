@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+* text=auto eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.in text eol=lf
+# The production MCU policy copies are hash-guarded byte for byte
+# (tests/sim/check_mcu_hash.cmake): never let git rewrite them.
+src/backend/sim/mcu/safety_core.c -text
+src/backend/sim/mcu/safety_core.h -text

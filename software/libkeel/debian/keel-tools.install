@@ -1,0 +1,8 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# keel-setup and the board tools; keel-camera is in its own package.
+usr/bin/keel-demo
+usr/bin/keel-doctor
+usr/bin/keel-live
+usr/bin/keel-setup

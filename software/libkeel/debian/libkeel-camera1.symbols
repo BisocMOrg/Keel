@@ -1,0 +1,34 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Exported symbols of libkeel-camera.so.1 (camera ABI 1.0): tests/abi/camera_symbols.txt
+# with the KEEL_CAMERA_1.0 version node. dh_makeshlibs -c4 fails the build on any
+# difference; tests/packaging/check_package_metadata.py keeps the two lists equal.
+libkeel-camera.so.1 libkeel-camera1 #MINVER#
+* Build-Depends-Package: libkeel-dev
+ KEEL_CAMERA_1.0@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_abi_version@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_capture_still@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_capture_still_file@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_close@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_convert_i420@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_get_info@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_get_output_stats@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_get_stats@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_get_stream@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_last_error@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_list_close@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_list_count@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_list_get@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_list_get_mode@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_list_open@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_open@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_output_start@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_output_stop@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_read_encoded@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_read_frame@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_set_encoder@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_start@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_stop@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_trigger_autofocus@KEEL_CAMERA_1.0 1.0.0
+ keel_camera_version_string@KEEL_CAMERA_1.0 1.0.0

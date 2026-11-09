@@ -1,0 +1,289 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Python binding CI (software/bindings/python). libkeel.yml
+# calls this workflow on a libkeel-vX.Y.Z tag and publishes its artifacts with
+# the release.
+#
+#   hygiene      licence headers, line endings, other parties' product names, the LICENSE copy
+#   generate     keelgen.py --check: the generated files equal a fresh run over keel.h and camera.h
+#   lint         ruff, ruff format, mypy --strict and the pdoc API reference
+#   test         the suite against a simulator-only libkeel and a libkeel-camera test build (its synthetic
+#                camera) on Python 3.11-3.14 and 3.14t; coverage gate
+#   portability  import works and loading fails clearly on Windows and macOS
+#   package      sdist and wheel, twine check, the suite and the examples against the installed wheel
+#   deb          python3-keel built in the robot OS family's container, installed with libkeel, examples run
+name: bindings-python
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "software/bindings/**"
+      - "software/libkeel/include/**"
+      - "software/libkeel/src/**"
+      - "software/libkeel/cmake/**"
+      - "software/libkeel/CMakeLists.txt"
+      - "software/libkeel/CMakePresets.json"
+      - "software/libkeel/tests/abi/**"
+      - "software/libkeel/tests/docs/**"
+      - "software/libkeel/tests/hygiene/**"
+      - "software/libkeel/tests/bindings/**"
+      - ".github/workflows/bindings-python.yml"
+  pull_request:
+    paths:
+      - "software/bindings/**"
+      - "software/libkeel/include/**"
+      - "software/libkeel/src/**"
+      - "software/libkeel/cmake/**"
+      - "software/libkeel/CMakeLists.txt"
+      - "software/libkeel/CMakePresets.json"
+      - "software/libkeel/tests/abi/**"
+      - "software/libkeel/tests/docs/**"
+      - "software/libkeel/tests/hygiene/**"
+      - "software/libkeel/tests/bindings/**"
+      - ".github/workflows/bindings-python.yml"
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bindings-python-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+    working-directory: software/bindings/python
+
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: SPDX and copyright lines, LF line endings
+        working-directory: .
+        run: sh software/libkeel/tests/hygiene/check_tree.sh software/bindings
+      - name: No other party's product names in the tree or in the binding workflows
+        working-directory: .
+        run: |
+          # Assembled at run time, so this file never contains the names itself.
+          names="$(printf 'tri%s' lobot)|$(printf 'swift%s' bot)|$(printf 'pimo%s' roni)|$(printf 'neo%s' pixel)|$(printf 'qwi%s' ic)"
+          mapfile -t workflows < <(find .github/workflows -name 'bindings-*.yml')
+          if grep -rIEil -- "$names" software/bindings "${workflows[@]}"; then
+            echo "::error::the files above use other parties' product names"
+            exit 1
+          fi
+          if find software/bindings "${workflows[@]}" | grep -Ei -- "$names"; then
+            echo "::error::the file names above use other parties' product names"
+            exit 1
+          fi
+      - name: The Python LICENSE is a byte-identical copy of the repository's
+        working-directory: .
+        run: cmp LICENSE software/bindings/python/LICENSE
+
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install the C parser
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-pycparser
+      - name: The generated files equal a fresh run over keel.h and camera.h
+        working-directory: .
+        run: python3 software/bindings/tools/keelgen.py --check --lang python
+
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      # Dependency groups (pip install --group) need pip 25.1 or later.
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install --group lint --group docs
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: mypy --strict src
+      - name: API reference
+        env:
+          PYTHONPATH: src
+        run: pdoc -o build/docs/python keel
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: keel-python-api-html
+          path: software/bindings/python/build/docs/python
+          retention-days: 14
+          if-no-files-found: error
+
+  test:
+    name: test (Python ${{ matrix.python }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14", "3.14t"]
+    env:
+      KEEL_LIBRARY: ${{ github.workspace }}/software/libkeel/build/sim-only/libkeel.so.1
+      KEEL_CAMERA_LIBRARY: ${{ github.workspace }}/software/libkeel/build/sim-only/libkeel-camera.so.1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build a simulator-only libkeel and a libkeel-camera test build
+        working-directory: software/libkeel
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcamera-dev libjpeg-dev
+          cmake --preset sim-only -DKEEL_BUILD_TESTS=OFF -DKEEL_TOOLS=OFF -DKEEL_CAMERA=ON
+          cmake --build --preset sim-only --target keel keel_camera --parallel
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: ${{ matrix.python }}
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install --group test
+      - name: pytest
+        if: matrix.python != '3.14'
+        run: python -W error -m pytest
+      - name: pytest with the coverage gate
+        if: matrix.python == '3.14'
+        run: python -W error -m pytest --cov --cov-report=term-missing
+
+  portability:
+    name: portability (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install . --group test
+      - name: import keel works and keel.load() raises LibraryError naming Linux
+        run: python -W error -m pytest -m portability
+
+  package:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      KEEL_LIBRARY: ${{ github.workspace }}/software/libkeel/build/sim-only/libkeel.so.1
+      KEEL_CAMERA_LIBRARY: ${{ github.workspace }}/software/libkeel/build/sim-only/libkeel-camera.so.1
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.14"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install --group package
+      - name: Build the sdist and the wheel (reproducible from the commit time)
+        run: |
+          SOURCE_DATE_EPOCH=$(git log -1 --format=%ct)
+          export SOURCE_DATE_EPOCH
+          python -m build
+          ls -l dist
+      - run: twine check --strict dist/*
+      - name: Build a simulator-only libkeel and a libkeel-camera test build
+        working-directory: software/libkeel
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libcamera-dev libjpeg-dev
+          cmake --preset sim-only -DKEEL_BUILD_TESTS=OFF -DKEEL_TOOLS=OFF -DKEEL_CAMERA=ON
+          cmake --build --preset sim-only --target keel keel_camera --parallel
+      - name: The suite and the examples against the installed wheel
+        run: |
+          python -m venv "$RUNNER_TEMP/venv"
+          venv="$RUNNER_TEMP/venv/bin"
+          "$venv/python" -m pip install --upgrade pip
+          "$venv/python" -m pip install dist/keel_robot-*-py3-none-any.whl
+          "$venv/python" -m pip install --group test
+          # The suite comes from the source tree, the package from the wheel: src is kept off the path.
+          "$venv/python" -c 'import keel, sys; sys.exit("site-packages" not in keel.__file__)'
+          "$venv/python" -W error -m pytest -o pythonpath=tests
+          # The examples come from the sdist, so its contents are checked as well.
+          mkdir "$RUNNER_TEMP/sdist"
+          tar -xzf dist/keel_robot-*.tar.gz -C "$RUNNER_TEMP/sdist" --strip-components=1
+          for example in buttons drive leds ranging safety; do
+            arguments=()
+            if [ "$example" = buttons ]; then arguments=(--duration 300); fi
+            "$venv/python" -W error "$RUNNER_TEMP/sdist/examples/$example.py" --simulator "${arguments[@]}"
+          done
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: keel-python-dist
+          path: software/bindings/python/dist/
+          if-no-files-found: error
+
+  deb:
+    runs-on: ubuntu-24.04
+    container: ubuntu:26.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The Build-Depends of debian/control are the single source: apt installs them, and
+      # dpkg-checkbuilddeps then fails by name on any that is missing.
+      - name: Install the build dependencies
+        working-directory: .
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends dpkg-dev ca-certificates
+          DEBIAN_FRONTEND=noninteractive apt-get build-dep -y ./software/bindings/python
+          DEBIAN_FRONTEND=noninteractive apt-get build-dep -y -P nocheck ./software/libkeel
+      - run: dpkg-checkbuilddeps
+      - name: Build python3-keel
+        run: dpkg-buildpackage -b -us -uc
+      - name: Build the libkeel packages
+        working-directory: software/libkeel
+        env:
+          DEB_BUILD_OPTIONS: nocheck
+        run: dpkg-buildpackage -Pnocheck -b -us -uc
+      - name: Install the packages
+        working-directory: software
+        run: |
+          DEBIAN_FRONTEND=noninteractive apt-get install -y ./libkeel1_*.deb ./keel-common_*_all.deb \
+            ./bindings/python3-keel_*_all.deb
+          dpkg -L python3-keel | grep -q '/usr/share/doc/python3-keel/examples/drive.py'
+      - name: The examples with the system Python and the installed libkeel.so.1
+        run: |
+          for example in buttons drive leds ranging safety; do
+            arguments=()
+            if [ "$example" = buttons ]; then arguments=(--duration 300); fi
+            /usr/bin/python3 -W error "/usr/share/doc/python3-keel/examples/$example.py" --simulator "${arguments[@]}"
+          done
+      - name: Collect the package
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/dist-deb"
+          cp ../python3-keel_*_all.deb "$GITHUB_WORKSPACE/dist-deb/"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: keel-python-deb
+          path: dist-deb/
+          if-no-files-found: error

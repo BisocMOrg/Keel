@@ -1,0 +1,120 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+Source: libkeel
+Section: libs
+Priority: optional
+Maintainer: BisocM <165297903+BisocM@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-sequence-installsysusers,
+               cmake (>= 3.21),
+               libcamera-dev,
+               libjpeg-dev,
+               pkgconf,
+               curl <!nocheck>,
+               g++ <!nocheck>,
+               python3:native <!nocheck>
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/BisocMOrg/Keel
+Vcs-Browser: https://github.com/BisocMOrg/Keel/tree/main/software/libkeel
+Vcs-Git: https://github.com/BisocMOrg/Keel.git
+
+Package: libkeel1
+Architecture: any
+Multi-Arch: same
+Depends: keel-common (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Keel robot baseboard library
+ libkeel drives the Keel robot baseboard on a Raspberry Pi 4: two motors
+ behind a hardware enable gate, the safety MCU's heartbeat and arming
+ handshake, six RGB LEDs, four buttons with indicator LEDs and the
+ ultrasonic ranging connector. A built-in simulator runs the same safety
+ state machine against the production MCU policy.
+ .
+ This package contains the shared library libkeel.so.1 (ABI 1.0), which C
+ programs and the Python and Java bindings load.
+
+Package: libkeel-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libkeel1 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Keel robot baseboard library (development files)
+ libkeel drives the Keel robot baseboard on a Raspberry Pi 4 and offers a
+ simulator of the board and its safety MCU.
+ .
+ This package contains the headers keel/keel.h and keel/port.h, the static
+ library, the CMake package Keel (Keel::keel, Keel::keel_static) and the
+ pkg-config files keel.pc and keel-static.pc. The camera library's
+ development files are in libkeel-camera-dev.
+
+Package: libkeel-camera1
+Architecture: any
+Multi-Arch: same
+Depends: libcamera-ipa,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Keel robot camera library
+ libkeel-camera drives the camera of a Keel robot: Camera Module 2 and
+ Camera Module 3 (and other cameras libcamera supports) on a Raspberry
+ Pi 4, through libcamera and the Pi's hardware H.264 and JPEG encoders.
+ Programs read raw frames or encoded chunks, take stills, record files
+ and stream over TCP and UDP. It does not need libkeel1.
+ .
+ This package contains the shared library libkeel-camera.so.1 (ABI 1.0),
+ which C programs and the Python and Java bindings load.
+
+Package: libkeel-camera-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Depends: libkeel-camera1 (= ${binary:Version}),
+         libkeel-dev (= ${binary:Version}),
+         ${misc:Depends}
+Description: Keel robot camera library (development files)
+ libkeel-camera drives the camera of a Keel robot through libcamera and the
+ Raspberry Pi's hardware encoders.
+ .
+ This package contains the header keel/camera.h, the link
+ libkeel-camera.so, the CMake target Keel::keel_camera
+ (find_package(Keel COMPONENTS camera)) and the pkg-config file
+ keel-camera.pc.
+
+Package: keel-common
+Architecture: all
+Multi-Arch: foreign
+Depends: kmod,
+         ${misc:Depends}
+Description: Keel robot baseboard system integration
+ Device access and scheduling for libkeel: a udev rule that gives the
+ Raspberry Pi 4 GPIO chip and I2C1 to the distribution's gpio and i2c
+ groups (or to the keel group where those do not exist), the keel system
+ group, a modules-load entry for i2c-dev and a real-time priority limit of
+ 40 for the keel group. It never edits the boot configuration and never
+ adds users to groups; keel-setup does that on request.
+
+Package: keel-tools
+Section: utils
+Architecture: any
+Depends: libkeel1 (= ${binary:Version}),
+         python3,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Keel robot baseboard tools
+ Tools for the Keel robot baseboard: keel-setup prepares a Raspberry Pi 4
+ (group membership, SPI0 off and I2C1 on in a marked, backed-up block of
+ config.txt), keel-doctor checks device access, the GPIO lines, the
+ real-time limits and I2C, and keel-live and keel-demo exercise the board.
+
+Package: keel-camera
+Section: video
+Architecture: any
+Depends: libkeel-camera1 (= ${binary:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Keel robot camera tool
+ keel-camera lists the cameras of a Keel robot, takes stills, records,
+ streams over TCP and UDP and writes raw frames to standard output, through
+ libkeel-camera.

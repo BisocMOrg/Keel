@@ -1,0 +1,286 @@
+(footprint "LED_Inolux_IN-P55TATRGB_PLCC6_5.0x5.5mm_P1.8mm"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "5.0x5.0mm PLCC-6 RGB LED, Inolux, https://www.inolux-corp.com/datasheet/SMDLED/RGB%20Top%20View/IN-P55TATRGB.pdf")
+	(tags "LED RGB")
+	(property "Reference" "REF**"
+		(at 6 -3.5 0)
+		(layer "F.SilkS")
+		(uuid "e681f44d-bf64-4237-b3f3-9b317bff5f2e")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "LED_Inolux_IN-P55TATRGB_PLCC6_5.0x5.5mm_P1.8mm"
+		(at 0 4 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "4a258ff8-2d48-417f-a373-0c09066bd482")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5e24b88f-7009-4819-aafa-631c63aba0e7")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b69889f3-666f-4704-ae00-b4efab42adf3")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center -3.65 -1.65)
+		(end -3.5 -1.65)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "a753297e-5921-4ef7-a750-9156c6ba18d9")
+	)
+	(fp_line
+		(start -3.7 -2.75)
+		(end -3.7 2.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "3a6fb099-d3b2-402e-a7d0-a375296ca3bb")
+	)
+	(fp_line
+		(start -3.7 2.75)
+		(end 3.7 2.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "75ba889d-e318-473b-a486-4cfb0ef786ce")
+	)
+	(fp_line
+		(start 3.7 -2.75)
+		(end -3.7 -2.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "7ef82a00-1839-4224-9a91-200af143edd4")
+	)
+	(fp_line
+		(start 3.7 2.75)
+		(end 3.7 -2.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(layer "F.CrtYd")
+		(uuid "ce5f47b0-5121-41a3-93cf-4a961c818080")
+	)
+	(fp_line
+		(start -3.6 -2.3)
+		(end -3.6 2.75)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "6d7066e9-ef0d-4e2d-a3d1-de65651bc960")
+	)
+	(fp_line
+		(start -3.15 -2.75)
+		(end -3.6 -2.3)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "6dad7551-03d9-410a-8448-4739d523be9c")
+	)
+	(fp_line
+		(start -2.75 -2.5)
+		(end 2.75 -2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "bef481b0-ec00-4b3f-9816-c61e92479c50")
+	)
+	(fp_line
+		(start -2.75 -1.5)
+		(end -1.75 -2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "14e23d39-03c5-4b5b-b4fb-87d1b65b4f97")
+	)
+	(fp_line
+		(start -2.75 2.5)
+		(end -2.75 -2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "9e138b39-e011-42a8-9fbc-f24b4ebc2843")
+	)
+	(fp_line
+		(start 2.75 -2.5)
+		(end 2.75 2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "92d1f552-9d48-46b5-8c99-e116a0cb151f")
+	)
+	(fp_line
+		(start 2.75 2.5)
+		(end -2.75 2.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "72ad4582-a8ce-4fbb-9d79-4fb986cee651")
+	)
+	(fp_line
+		(start 3.6 -2.75)
+		(end -3.15 -2.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "152cee0e-8625-4fa6-8495-26518dc7fd1e")
+	)
+	(fp_line
+		(start 3.6 2.75)
+		(end -3.6 2.75)
+		(stroke
+			(width 0.12)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "ac1c5334-dc1f-41ae-9ced-134374a1f2f5")
+	)
+	(fp_line
+		(start 3.6 2.75)
+		(end 3.6 -2.75)
+		(stroke
+			(width 0.12)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "a28a3541-f912-4f8d-8760-2e273314f9e0")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 0 -2)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "f90b84c6-ade7-4360-bc8a-4314d0bd63c6")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(uuid "d8511f7e-bc0f-4153-a2e6-7c6352ab9fd6")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" smd roundrect
+		(at -2.2 -1.8)
+		(size 2 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "8e339085-5852-44e3-8301-d1f3652b865a")
+	)
+	(pad "2" smd roundrect
+		(at -2.2 0)
+		(size 2 1)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "75dd5131-f338-41b9-8d59-4be5e82da7f8")
+	)
+	(pad "3" smd roundrect
+		(at -2.2 1.8)
+		(size 2 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "4910288f-1445-488a-8c8d-02da98f029ed")
+	)
+	(pad "4" smd roundrect
+		(at 2.2 1.8)
+		(size 2 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "88995350-3207-4d20-8f2f-03982e877824")
+	)
+	(pad "5" smd roundrect
+		(at 2.2 0)
+		(size 2 1)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "683e4247-9029-48e2-ae33-3a084f1fdb67")
+	)
+	(pad "6" smd roundrect
+		(at 2.2 -1.8)
+		(size 2 1.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.25)
+		(uuid "25abb7f8-17ac-4257-9963-572eb8401d8d")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/Keel.3dshapes/APPROX_Inolux_IN_P55TATRGB_body.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

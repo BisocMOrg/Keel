@@ -1,0 +1,35 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Example unit for a robot application that uses libkeel. Copy it to
+# /etc/systemd/system/, replace USER and ExecStart, then:
+#   sudo systemctl daemon-reload && sudo systemctl enable --now keel-app
+#
+# USER must be the account given to "keel-setup --user USER": systemd gives
+# the service that user's supplementary groups (gpio and i2c or keel), so the
+# device nodes are accessible without root. The camera's nodes belong to the
+# video group, which the service always gets.
+
+[Unit]
+Description=Robot application on the Keel baseboard
+After=systemd-udevd.service systemd-modules-load.service
+
+[Service]
+Type=simple
+User=USER
+ExecStart=/usr/local/bin/my-robot-app
+# /dev/media*, /dev/video* and /dev/dma_heap/linux,cma (libkeel-camera).
+SupplementaryGroups=video
+# pam_limits does not apply to services: grant the PWM worker's SCHED_FIFO
+# priority here (KEEL_RT_PRIORITY), or it runs best effort.
+LimitRTPRIO=40
+# SIGTERM is the application's cue to disarm and call keel_close() (and
+# keel_camera_close(), which finishes recordings); if it hangs anyway, the
+# safety MCU removes motor power when the heartbeat stops.
+KillSignal=SIGTERM
+TimeoutStopSec=5
+# Never restart automatically: a restart could re-arm without an operator.
+Restart=no
+
+[Install]
+WantedBy=multi-user.target

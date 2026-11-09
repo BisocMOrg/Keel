@@ -1,0 +1,9 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Installed by cmake/packaging.cmake. dh_installsysusers finds the sysusers
+# file in the package and adds the postinst call that creates the group.
+etc/security/limits.d/90-keel-rtprio.conf
+usr/lib/modules-load.d/keel.conf
+usr/lib/sysusers.d/keel.conf
+usr/lib/udev/rules.d/99-keel.rules

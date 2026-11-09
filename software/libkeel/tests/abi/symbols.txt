@@ -1,0 +1,46 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Functions exported by libkeel.so.1 (ABI 1.0), one per line, in header order.
+# check_constants.py compares this list with the declarations in keel.h; the
+# packaging gate compares it with `nm -D --defined-only libkeel.so.1` and the
+# version script (KEEL_1.0) lists exactly these names. Append-only within 1.x.
+# The keel_port_* functions of port.h are deliberately absent: they live in
+# libkeel.a and source builds only.
+keel_abi_version
+keel_version_string
+keel_status_name
+keel_status_string
+keel_status_class
+keel_fault_cause_name
+keel_open
+keel_close
+keel_get_capabilities
+keel_now_us
+keel_sleep_until
+keel_tick
+keel_cycle
+keel_request_arm
+keel_disarm
+keel_emergency_stop
+keel_clear_fault
+keel_get_state
+keel_get_snapshot
+keel_get_fault
+keel_read_safety_inputs
+keel_set_motors
+keel_brake
+keel_servo_start
+keel_servo_set_pulse
+keel_servo_end
+keel_range_start
+keel_range_poll
+keel_range_measure
+keel_set_rgb
+keel_set_rgb_all
+keel_set_rgb_frame
+keel_get_rgb
+keel_set_button_leds
+keel_take_buttons
+keel_sim_set
+keel_sim_get_state

@@ -1,0 +1,153 @@
+(footprint "TI_DYA0002A_TPD1E05U06_SOD523"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "TI manufacturer copper and paste geometry; no holes. The common mask opening fits the compatible package versions.")
+	(property "Reference" "REF**"
+		(at 0 -1.45 0)
+		(layer "F.SilkS")
+		(uuid "13118cb2-bee1-46d9-b5fc-1198ea8e7538")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "TI_DYA0002A_TPD1E05U06_SOD523"
+		(at 0 1.45 0)
+		(layer "F.Fab")
+		(uuid "14c4e3ab-9375-4037-ac8d-3ea8748fea84")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0987147b-03c9-4dc2-8c2e-c245ab1cd0f6")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "6f277a1f-5f14-4198-b56b-62f461c811b2")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center -1.49 -0.3)
+		(end -1.34 -0.3)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "fb631754-8e0f-44ee-b0f7-2e106bf1f556")
+	)
+	(fp_rect
+		(start -1.35 -0.75)
+		(end 1.35 0.75)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "7f1a3db8-fad0-49fb-a519-709626232887")
+	)
+	(fp_line
+		(start -0.6 -0.2)
+		(end -0.4 -0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "3285135f-8a80-448a-9ba2-43c004b852f8")
+	)
+	(fp_line
+		(start -0.6 0.4)
+		(end -0.6 -0.2)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "f799a454-81a2-4687-a1af-9f856aa0ca64")
+	)
+	(fp_line
+		(start -0.4 -0.4)
+		(end 0.6 -0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "81e78b05-735d-4080-a448-f5d166b02762")
+	)
+	(fp_line
+		(start 0.6 -0.4)
+		(end 0.6 0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "76f03330-453a-4039-9569-297421f9c85f")
+	)
+	(fp_line
+		(start 0.6 0.4)
+		(end -0.6 0.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "ac623edd-ff82-4f27-988c-9ed3df0fbfc9")
+	)
+	(pad "1" smd roundrect
+		(at -0.74 0)
+		(size 0.67 0.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.125)
+		(solder_mask_margin 0.05)
+		(uuid "1e8aeda9-8866-491c-9883-23662cce9a18")
+	)
+	(pad "2" smd roundrect
+		(at 0.74 0)
+		(size 0.67 0.4)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(roundrect_rratio 0.125)
+		(solder_mask_margin 0.05)
+		(uuid "8b095dff-0660-46f4-bc05-061f0a7e1a71")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/Keel.3dshapes/TI_DYA0002A_KiCad_SOD523.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

@@ -1,0 +1,206 @@
+(footprint "Nexperia_SOT457_SC74_1.5x2.9mm_P0.95mm"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "Nexperia SOT45703-03-2023 Figure2 reflow pattern;0.8x0.55 copper,0.7x0.45 paste,2.4mm row span. 74LVC1G11GV pin map verified.")
+	(tags "manufacturer land pattern ordinary reflow")
+	(property "Reference" "REF**"
+		(at 0 -2.55 0)
+		(layer "F.SilkS")
+		(uuid "dffb9200-a25b-4edb-ad3a-ae36c3f68808")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Value" "Nexperia_SOT457_SC74_1.5x2.9mm_P0.95mm"
+		(at 0 2.55 0)
+		(layer "F.Fab")
+		(uuid "6645cb5c-aede-4e4a-99a3-40e17f7385a7")
+		(effects
+			(font
+				(size 0.8 0.8)
+				(thickness 0.12)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0bb441b1-eb50-4ad0-a088-30bbbc96d061")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "ecfecb41-a478-4708-9f86-dc0297a8a6d3")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr smd)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.55 -1.6)
+		(end 0.55 -1.6)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "c174a5d5-1b20-4b44-8728-9a46385b1fd8")
+	)
+	(fp_line
+		(start -0.55 1.6)
+		(end 0.55 1.6)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "978a5317-c516-4da3-9d44-95b35c773cf6")
+	)
+	(fp_circle
+		(center -2 -1.4)
+		(end -1.85 -1.4)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.SilkS")
+		(uuid "76fd17e2-5983-48c8-8ba8-72eb125bcd98")
+	)
+	(fp_rect
+		(start -1.9 -1.9)
+		(end 1.9 1.9)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "b35ab640-6b41-401c-99f8-18f34744e3ab")
+	)
+	(fp_line
+		(start -0.75 -1.15)
+		(end -0.45 -1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "57e9b4ef-600a-4b37-a21f-104c95c054aa")
+	)
+	(fp_line
+		(start -0.75 1.45)
+		(end -0.75 -1.15)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "d4a71e8d-7da0-4345-818a-a0dc61f99b86")
+	)
+	(fp_line
+		(start -0.45 -1.45)
+		(end 0.75 -1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "0d4074c0-4f83-42c5-ab1b-987a33f70fa1")
+	)
+	(fp_line
+		(start 0.75 -1.45)
+		(end 0.75 1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "acead7ad-eea5-4cb4-b72f-ec7b5db3c98b")
+	)
+	(fp_line
+		(start 0.75 1.45)
+		(end -0.75 1.45)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(layer "F.Fab")
+		(uuid "b029fe89-bac6-4ff1-8eb9-98dbf94166ae")
+	)
+	(pad "1" smd rect
+		(at -1.2 -0.95)
+		(size 0.8 0.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.05)
+		(solder_paste_margin -0.05)
+		(uuid "5527f2ed-5f6f-4996-b15a-cab9b1bdfcec")
+	)
+	(pad "2" smd rect
+		(at -1.2 0)
+		(size 0.8 0.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.05)
+		(solder_paste_margin -0.05)
+		(uuid "c880f93e-b2ce-4c17-9f54-82f87a3155f0")
+	)
+	(pad "3" smd rect
+		(at -1.2 0.95)
+		(size 0.8 0.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.05)
+		(solder_paste_margin -0.05)
+		(uuid "e2f193c9-08f8-404d-81a6-802faec2c426")
+	)
+	(pad "4" smd rect
+		(at 1.2 0.95)
+		(size 0.8 0.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.05)
+		(solder_paste_margin -0.05)
+		(uuid "a00d6f81-b6cc-4f48-83e7-841205e9197a")
+	)
+	(pad "5" smd rect
+		(at 1.2 0)
+		(size 0.8 0.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.05)
+		(solder_paste_margin -0.05)
+		(uuid "c042e054-e730-4d72-9e34-b1b74f2621e2")
+	)
+	(pad "6" smd rect
+		(at 1.2 -0.95)
+		(size 0.8 0.55)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(solder_mask_margin 0.05)
+		(solder_paste_margin -0.05)
+		(uuid "aa53dd9f-8c71-41bb-b300-41b7f1e50913")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/Keel.3dshapes/Nexperia_SOT457_KiCad_TSOT23_6.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

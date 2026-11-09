@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+Source: python-keel
+Section: python
+Priority: optional
+Maintainer: BisocM <165297903+BisocM@users.noreply.github.com>
+Build-Depends: debhelper-compat (= 13),
+               dh-sequence-python3,
+               pybuild-plugin-pyproject,
+               python3-all,
+               flit (>= 3.12)
+Standards-Version: 4.6.2
+Rules-Requires-Root: no
+Homepage: https://github.com/BisocMOrg/Keel
+Vcs-Browser: https://github.com/BisocMOrg/Keel/tree/main/software/bindings/python
+Vcs-Git: https://github.com/BisocMOrg/Keel.git
+
+Package: python3-keel
+Architecture: all
+Depends: ${python3:Depends},
+         ${misc:Depends},
+         libkeel1 (>= 1.0.0)
+Recommends: libkeel-camera1 (>= 1.0.0)
+Suggests: python3-numpy
+Description: Keel robot baseboard library (Python binding)
+ libkeel drives the Keel robot baseboard on a Raspberry Pi 4: two motors
+ behind a hardware enable gate, the safety MCU's heartbeat and arming
+ handshake, six RGB LEDs, four buttons with indicator LEDs and the
+ ultrasonic ranging connector. A built-in simulator runs the same safety
+ state machine against the production MCU policy.
+ .
+ This package contains the Python module keel, which loads the system's
+ libkeel.so.1 through ctypes and offers the whole API, a control-loop
+ helper and typed exceptions, and the module keel.camera, which drives
+ the Raspberry Pi camera through libkeel-camera.so.1 (libkeel-camera1,
+ needed only for camera use; python3-numpy gives frames as arrays). The
+ examples are in /usr/share/doc/python3-keel/examples.

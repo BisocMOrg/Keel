@@ -1,0 +1,144 @@
+(footprint "MountingHole_2.7mm_NPTH"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(descr "M2.5 standoff hole, 2.7 mm unplated drill (ISO 273 fine); courtyard Ø9 (component exclusion) both faces; inner copper pull-back Ø3.5 (M2.5 thread + 0.5)")
+	(tags "mounting hole NPTH")
+	(property "Reference" "H**"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "2192e246-1a3f-4cbe-815d-8e80932f43c0")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Value" "MountingHole_2.7mm_NPTH"
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "98558ef3-172b-413d-8f5a-78236520d992")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "86470676-b8f0-4d09-ade6-61cc793350db")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 0 0)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b4d0b742-b173-404e-ba0c-11c19999a397")
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+	)
+	(attr board_only exclude_from_pos_files exclude_from_bom)
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_circle
+		(center 0 0)
+		(end 4.5 0)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "B.CrtYd")
+		(uuid "cf49d52e-ac4e-424e-a40a-f689e5708411")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 4.5 0)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "7be2715b-7e72-4e0d-94bd-cfe40ece6e4b")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 3 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "B.Fab")
+		(uuid "e81fbd83-f775-4d7e-a74d-80c57d88b32b")
+	)
+	(fp_circle
+		(center 0 0)
+		(end 3 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill no)
+		(layer "F.Fab")
+		(uuid "f860d498-a0f7-49a9-b905-3e8ff3f7091e")
+	)
+	(pad "" np_thru_hole circle
+		(at 0 0)
+		(size 2.7 2.7)
+		(drill 2.7)
+		(layers "*.Cu" "*.Mask")
+		(uuid "a1b13cc8-eb5e-4206-896a-8f80dcb30fa7")
+	)
+	(zone
+		(layers "In1.Cu" "In2.Cu" "In3.Cu" "In4.Cu")
+		(uuid "42c6778e-9100-4590-bbfe-ebedf2122ea8")
+		(name "inner-layer screw pull-back")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 1.75 0) (xy 1.723413 0.303884) (xy 1.644462 0.598535) (xy 1.515544 0.874999) (xy 1.340577 1.124878)
+				(xy 1.124878 1.340577) (xy 0.875 1.515544) (xy 0.598535 1.644462) (xy 0.303884 1.723413) (xy 0 1.75)
+				(xy -0.303884 1.723413) (xy -0.598535 1.644462) (xy -0.874999 1.515544) (xy -1.124878 1.340577)
+				(xy -1.340577 1.124878) (xy -1.515544 0.874999) (xy -1.644462 0.598535) (xy -1.723413 0.303884)
+				(xy -1.75 0) (xy -1.723413 -0.303884) (xy -1.644462 -0.598535) (xy -1.515544 -0.875) (xy -1.340577 -1.124878)
+				(xy -1.124878 -1.340577) (xy -0.875 -1.515544) (xy -0.598535 -1.644462) (xy -0.303884 -1.723413)
+				(xy 0 -1.75) (xy 0.303884 -1.723413) (xy 0.598535 -1.644462) (xy 0.875 -1.515544) (xy 1.124878 -1.340577)
+				(xy 1.340577 -1.124878) (xy 1.515544 -0.875) (xy 1.644462 -0.598535) (xy 1.723413 -0.303884)
+			)
+		)
+	)
+	(embedded_fonts no)
+)

@@ -1,0 +1,5 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# The suite-wide simulator and motion guard, found by extension autodetection.
+io.github.bisocmorg.keel.support.SafetyGuardExtension

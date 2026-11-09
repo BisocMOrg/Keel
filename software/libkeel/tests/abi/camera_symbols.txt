@@ -1,0 +1,33 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Functions exported by libkeel-camera.so.1 (camera ABI 1.0), one per line,
+# in header order. check_camera_constants.py compares this list with the
+# declarations in camera.h; check_exports.sh compares it with
+# `nm -D --defined-only libkeel-camera.so.1` and with the version script
+# cmake/keel-camera.map (KEEL_CAMERA_1.0). Append-only within 1.x.
+keel_camera_abi_version
+keel_camera_version_string
+keel_camera_convert_i420
+keel_camera_list_open
+keel_camera_list_count
+keel_camera_list_get
+keel_camera_list_get_mode
+keel_camera_list_close
+keel_camera_open
+keel_camera_close
+keel_camera_get_info
+keel_camera_get_stream
+keel_camera_set_encoder
+keel_camera_start
+keel_camera_stop
+keel_camera_read_frame
+keel_camera_read_encoded
+keel_camera_trigger_autofocus
+keel_camera_get_stats
+keel_camera_last_error
+keel_camera_output_start
+keel_camera_output_stop
+keel_camera_get_output_stats
+keel_camera_capture_still
+keel_camera_capture_still_file

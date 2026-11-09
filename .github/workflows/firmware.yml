@@ -1,0 +1,93 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+#
+# Safety-MCU firmware CI (firmware/safety-mcu):
+#   the release checksum, the shell syntax and the offline tests of the programming tools;
+#   a rebuild from source with the pinned Arm GNU Toolchain 14.3.Rel1, compared byte for byte with the release image;
+#   the policy unit tests, the built-image boot and main-loop cases and the startup regressions (Unicorn).
+name: firmware
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "firmware/safety-mcu/**"
+      - ".github/workflows/firmware.yml"
+  pull_request:
+    paths:
+      - "firmware/safety-mcu/**"
+      - ".github/workflows/firmware.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firmware-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+    working-directory: firmware/safety-mcu
+
+env:
+  ARM_GNU_URL: https://developer.arm.com/-/media/Files/downloads/gnu/14.3.rel1/binrel/arm-gnu-toolchain-14.3.rel1-x86_64-arm-none-eabi.tar.xz
+  ARM_GNU_SHA256: 8f6903f8ceb084d9227b9ef991490413014d991874a1e34074443c2a72b14dbd
+
+jobs:
+  firmware:
+    name: rebuild, release-image comparison and tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Tcl for the option-byte tests
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends python3-tk python3-venv
+      - name: Arm GNU Toolchain 14.3.Rel1 (pinned by SHA-256)
+        working-directory: ${{ runner.temp }}
+        run: |
+          curl -fsSL --retry 3 -o arm-gnu.tar.xz "$ARM_GNU_URL"
+          echo "$ARM_GNU_SHA256  arm-gnu.tar.xz" | sha256sum -c -
+          mkdir arm-gnu
+          tar -xJf arm-gnu.tar.xz -C arm-gnu --strip-components=1
+          echo "ARM_GNU_BIN=$RUNNER_TEMP/arm-gnu/bin" >>"$GITHUB_ENV"
+      - name: Python environment (pinned build and test requirements)
+        run: |
+          python3 -m venv "$RUNNER_TEMP/venv"
+          "$RUNNER_TEMP/venv/bin/python" -m pip install --disable-pip-version-check \
+            -r tools/requirements.txt -r tests/requirements.txt
+          echo "$RUNNER_TEMP/venv/bin" >>"$GITHUB_PATH"
+      - name: Release checksum
+        working-directory: firmware/safety-mcu/release
+        run: sha256sum -c SHA256SUMS.txt
+      - name: Shell syntax of the programming scripts
+        run: bash -n programming/flash_safety_mcu.sh && bash -n programming/build_openocd.sh
+      - name: Offline programming tests (HEX check, option-byte procedures)
+        run: python tests/programming/test_programming.py
+      - name: Build from source
+        run: python tools/build_firmware.py
+      - name: The rebuilt image equals the release image
+        run: |
+          cmp release/safety_controller.hex build/safety_controller.hex
+          "$ARM_GNU_BIN/arm-none-eabi-objcopy" -I ihex -O binary release/safety_controller.hex "$RUNNER_TEMP/release.bin"
+          cmp "$RUNNER_TEMP/release.bin" build/safety_controller.bin
+      - name: Policy unit tests (Cortex-M0+ build under Unicorn)
+        run: python tests/unit/run_unit_tests.py
+      - name: Built-image boot and main-loop cases
+        run: python tests/emulator/test_firmware_boot.py
+      - name: Startup regressions
+        run: python tests/emulator/test_startup.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: firmware-test-results
+          path: |
+            firmware/safety-mcu/build/*.json
+            firmware/safety-mcu/build/*.log
+          if-no-files-found: ignore
+          retention-days: 14

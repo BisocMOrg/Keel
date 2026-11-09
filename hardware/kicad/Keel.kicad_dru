@@ -1,0 +1,155 @@
+(version 1)
+# Custom DRC rules for the Keel R3 robot baseboard (KiCad 10).
+# Verified to parse with kicad-cli 10.0.
+# NOTE: KiCad 10 track_angle takes a bare number in degrees (no "deg" suffix; a suffix makes
+# the WHOLE file fail to load silently). track_angle = interior angle at a track joint
+# (180 straight, 135 = 45-degree bend, 90 = right-angle corner, 45 = acute).
+# Later rules override earlier ones for the same constraint.
+# Do NOT use A.Parent.Reference in conditions: on tracks it raises an evaluation error that silently
+# disables other track checks (verified); use A.memberOfFootprint('C*') instead.
+# Part lists used below (from the board, every U* footprint measured):
+#   fine-pitch (pitch <= 0.65 mm, different-net pad gap <= 0.25 mm): U1 U2 U6 U7 U10 U12 U13 U17-U26 U29
+#   pitch <= 0.5 mm (+U13): U2 U10 U13 U17-U26            (0.15 mm signal escapes)
+#   0.95/1.27 mm parts (U3 U4 U8 U9 U11 U14 U15 U16 U27 U28 U30, Q1): 0.20 mm rules; U3/U4/U15/U16/U30/Q1 are power parts
+#   (U8 is an SOT457 0.95 mm buffer, not fine-pitch)
+
+# ---------- fabrication floor (standard 6-layer fab capability, black mask, 1 oz) ----------
+(rule "fab_min_track"      (condition "A.Type == 'Track'") (constraint track_width (min 0.15mm)))
+(rule "fab_via_geometry"   (condition "A.Type == 'Via'")
+  (constraint via_diameter (min 0.5mm)) (constraint hole_size (min 0.2mm)) (constraint annular_width (min 0.15mm)))
+(rule "fab_hole_to_hole"   (constraint hole_to_hole (min 0.30mm)))
+(rule "fab_pth_to_hole"    (condition "A.isPlated() && A.Type == 'Pad' && B.Type != 'Via'") (constraint hole_to_hole (min 0.45mm)))
+(rule "fab_inner_hole_clr" (layer inner) (constraint hole_clearance (min 0.25mm)))
+(rule "fab_edge"           (constraint edge_clearance (min 0.5mm)))
+(rule "fab_silk_clearance" (layer "F.Silkscreen") (constraint silk_clearance (min 0.15mm)))
+(rule "fab_silk_clearance_b" (layer "B.Silkscreen") (constraint silk_clearance (min 0.15mm)))
+(rule "fab_text"           (layer "?.Silkscreen") (constraint text_height (min 0.8mm)) (constraint text_thickness (min 0.15mm)))
+
+# ---------- general clearance: 0.20 mm target, 0.15 only inside fine-pitch IC courtyards ----------
+(rule "clr_default" (condition "A.Type != 'Zone' && B.Type != 'Zone'") (constraint clearance (min 0.20mm)))
+(rule "clr_zone" (condition "A.Type == 'Zone' || B.Type == 'Zone'") (constraint clearance (min 0.25mm)))
+
+# ---------- netclass widths (opt = the design width; the .kicad_pro class widths match) ----------
+(rule "clr_logic_signals"
+  (condition "A.Type != 'Zone' && B.Type != 'Zone' && (A.NetClass == 'Default' || A.NetClass == 'SAFETY' || A.NetClass == 'I2C' || A.NetClass == 'LED' || A.NetClass == 'MOTOR_CTRL' || A.NetClass == 'GND') && (B.NetClass == 'Default' || B.NetClass == 'SAFETY' || B.NetClass == 'I2C' || B.NetClass == 'LED' || B.NetClass == 'MOTOR_CTRL' || B.NetClass == 'GND')")
+  (constraint clearance (min 0.15mm)))
+# the netclass clearances (EXT_IO / ANALOG / PWR_MAIN 0.25 mm) are implicit rules, and KiCad lets ANY
+# matching custom clearance rule (clr_default above) override them - proved on a rule-test board (an EXT_IO track
+# 0.20 mm from a Default track passed).  This rule restores them; the aggressor rules below (MOTOR_OUT 0.30, ANALOG vs
+# noisy 0.50, PWR_IN/PWR_MOTOR 0.25) and the fine-pitch courtyard allowance (0.15, last) still override it.
+(rule "clr_class_025"
+  (condition "A.Type != 'Zone' && B.Type != 'Zone' && (A.NetClass == 'EXT_IO' || A.NetClass == 'ANALOG' || A.NetClass == 'PWR_MAIN')")
+  (constraint clearance (min 0.25mm)))
+(rule "w_signal"     (condition "A.Type == 'Track' && A.NetClass == 'Default'") (constraint track_width (min 0.15mm) (opt 0.20mm)))
+(rule "w_analog"     (condition "A.Type == 'Track' && A.NetClass == 'ANALOG'")  (constraint track_width (min 0.20mm) (opt 0.25mm)))
+(rule "w_pwr_logic"  (condition "A.Type == 'Track' && A.NetClass == 'PWR_LOGIC'") (constraint track_width (min 0.30mm) (opt 0.40mm)))
+(rule "w_pwr_branch" (condition "A.Type == 'Track' && A.NetClass == 'PWR_BRANCH'") (constraint track_width (min 0.50mm) (opt 0.60mm)))
+# MOTOR_OUT = OUT_MOT_* and MOTOR_ISEN_A/B, which carry the bridge current to the B-side shunts R35/R36
+(rule "w_motor_out"  (condition "A.Type == 'Track' && A.NetClass == 'MOTOR_OUT'") (constraint track_width (min 0.60mm) (opt 0.80mm)))
+(rule "w_vm"         (condition "A.Type == 'Track' && A.NetClass == 'PWR_MOTOR'") (constraint track_width (min 1.00mm) (opt 1.50mm)))
+# SYS_5V: 0.8 mm outer / 0.6 mm inner (design target); the 0.5 mm outer floor is the branch minimum (1.0 A design current)
+(rule "w_sys"        (condition "A.Type == 'Track' && A.NetClass == 'PWR_MAIN'") (constraint track_width (min 0.50mm) (opt 0.80mm)))
+(rule "w_sys_inner"  (layer inner) (condition "A.Type == 'Track' && A.NetClass == 'PWR_MAIN'") (constraint track_width (min 0.60mm) (opt 0.60mm)))
+(rule "w_pwr_branch_inner" (layer inner) (condition "A.Type == 'Track' && A.NetClass == 'PWR_BRANCH'") (constraint track_width (min 0.60mm) (opt 0.60mm)))
+(rule "w_pi5v"       (condition "A.Type == 'Track' && A.NetClass == 'PWR_IN'") (constraint track_width (min 1.80mm) (opt 2.00mm)))
+(rule "w_gnd"        (condition "A.Type == 'Track' && A.NetClass == 'GND'") (constraint track_width (min 0.40mm) (opt 0.50mm)))
+# pad-entry necks: power tracks may neck to 0.25 mm only within 1.0 mm of a pad of their own net (PWR_NECK <net> *;
+# the areas are every SMD pad of the net grown by 1.0 mm on its layer, and every PTH pad of the net grown by 1.0 mm on
+# F/In2/In3/B); the whole track must lie inside one area of its own net.
+# Net list = every member of PWR_IN, PWR_MAIN, PWR_MOTOR, MOTOR_OUT, PWR_BRANCH, PWR_LOGIC (plus MOTOR_ISEN_A/B).
+# GND straps inside the fine-pitch / power IC courtyards
+(rule "w_neck_power_ics"
+  (condition "A.Type == 'Track' && ((A.NetName == 'PI_5V' && A.enclosedByArea('PWR_NECK PI_5V *')) || (A.NetName == 'SYS_5V' && A.enclosedByArea('PWR_NECK SYS_5V *')) || (A.NetName == 'VM_MOTOR' && A.enclosedByArea('PWR_NECK VM_MOTOR *')) || (A.NetName == 'OUT_MOT_LP' && A.enclosedByArea('PWR_NECK OUT_MOT_LP *')) || (A.NetName == 'OUT_MOT_LN' && A.enclosedByArea('PWR_NECK OUT_MOT_LN *')) || (A.NetName == 'OUT_MOT_RP' && A.enclosedByArea('PWR_NECK OUT_MOT_RP *')) || (A.NetName == 'OUT_MOT_RN' && A.enclosedByArea('PWR_NECK OUT_MOT_RN *')) || (A.NetName == 'MOTOR_ISEN_A' && A.enclosedByArea('PWR_NECK MOTOR_ISEN_A *')) || (A.NetName == 'MOTOR_ISEN_B' && A.enclosedByArea('PWR_NECK MOTOR_ISEN_B *')) || (A.NetName == 'SERVO_5V' && A.enclosedByArea('PWR_NECK SERVO_5V *')) || (A.NetName == 'EXP_3V3' && A.enclosedByArea('PWR_NECK EXP_3V3 *')) || (A.NetName == 'SERVO_CAP_RETURN' && A.enclosedByArea('PWR_NECK SERVO_CAP_RETURN *')) || (A.NetName == 'SENSOR_CAP_RETURN' && A.enclosedByArea('PWR_NECK SENSOR_CAP_RETURN *')) || (A.NetName == 'SENSOR_5V' && A.enclosedByArea('PWR_NECK SENSOR_5V *')) || (A.NetName == 'SAFE_3V3' && A.enclosedByArea('PWR_NECK SAFE_3V3 *')) || (A.NetName == 'PI_3V3' && A.enclosedByArea('PWR_NECK PI_3V3 *')))")
+  (constraint track_width (min 0.25mm)))
+# GND pad-entry necks: fine-pitch parts + the power parts U2 U3 U4 U15 U16 U30 Q1 (U8 is not fine-pitch)
+(rule "w_neck_gnd_ics"
+  (condition "A.Type == 'Track' && A.NetClass == 'GND' && (A.intersectsCourtyard('U1') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U3') || A.intersectsCourtyard('U4') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U12') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U15') || A.intersectsCourtyard('U16') || A.intersectsCourtyard('U17') || A.intersectsCourtyard('U18') || A.intersectsCourtyard('U19') || A.intersectsCourtyard('U20') || A.intersectsCourtyard('U21') || A.intersectsCourtyard('U22') || A.intersectsCourtyard('U23') || A.intersectsCourtyard('U24') || A.intersectsCourtyard('U25') || A.intersectsCourtyard('U26') || A.intersectsCourtyard('U29') || A.intersectsCourtyard('U30') || A.intersectsCourtyard('Q1'))")
+  (constraint track_width (min 0.25mm)))
+# signal escapes at 0.15 mm inside the pitch <= 0.5 mm parts and U13 (U8 is 0.95 mm pitch and not included)
+(rule "w_neck_signal_fine"
+  (condition "A.Type == 'Track' && (A.NetClass == 'Default' || A.NetClass == 'ANALOG' || A.NetClass == 'SAFETY' || A.NetClass == 'I2C' || A.NetClass == 'EXT_IO' || A.NetClass == 'LED') && (A.intersectsCourtyard('U2') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U17') || A.intersectsCourtyard('U18') || A.intersectsCourtyard('U19') || A.intersectsCourtyard('U20') || A.intersectsCourtyard('U21') || A.intersectsCourtyard('U22') || A.intersectsCourtyard('U23') || A.intersectsCourtyard('U24') || A.intersectsCourtyard('U25') || A.intersectsCourtyard('U26'))")
+  (constraint track_width (min 0.15mm)))
+
+# ---------- aggressor / victim separation ----------
+# ESD-array taps (U17-U26 TPD4E05U06, 0.5 mm pitch): a power rail's stub into a TVS channel pad
+# carries no load current, so it may neck to 0.15 mm inside the array courtyard
+(rule "w_neck_esd_stub"
+  (condition "A.Type == 'Track' && (A.NetClass == 'PWR_LOGIC' || A.NetClass == 'PWR_BRANCH' || A.NetClass == 'PWR_MAIN') && (A.intersectsCourtyard('U17') || A.intersectsCourtyard('U18') || A.intersectsCourtyard('U19') || A.intersectsCourtyard('U20') || A.intersectsCourtyard('U21') || A.intersectsCourtyard('U22') || A.intersectsCourtyard('U23') || A.intersectsCourtyard('U24') || A.intersectsCourtyard('U25') || A.intersectsCourtyard('U26'))")
+  (constraint track_width (min 0.15mm)))
+
+(rule "clr_motor_out" (condition "A.NetClass == 'MOTOR_OUT' && B.NetClass != 'MOTOR_OUT' && B.Type != 'Zone'") (constraint clearance (min 0.30mm)))
+# ANALOG (MAIN_UVLO/OVLO/DVDT/ILM at U2, SERVO_ILIM U15, SENSOR_ILIM U30, R_EXT U3, I2C_OVP_REF/MODE U10, PI_5V_SENSE)
+(rule "clr_analog_vs_noisy"
+  (condition "A.NetClass == 'ANALOG' && (B.NetClass == 'MOTOR_OUT' || B.NetClass == 'MOTOR_CTRL' || B.NetClass == 'LED')")
+  (constraint clearance (min 0.50mm)))
+# No ANALOG-vs-motor escape rule at U1: the DRV8411 has no ANALOG pin (MOTOR_ISEN_A/B are MOTOR_OUT).
+(rule "clr_power_high" (condition "(A.NetClass == 'PWR_IN' || A.NetClass == 'PWR_MOTOR') && B.NetClass != A.NetClass && B.Type != 'Zone'") (constraint clearance (min 0.25mm)))
+
+# ---------- vias not in SMD pads (no via-in-pad process in this build) ----------
+(rule "no_via_in_smd_pad" (condition "A.Type == 'Via' && B.Type == 'Pad' && B.Pad_Type == 'SMD'") (constraint physical_clearance (min 0.10mm)))
+
+# spec 0.25 mm; 0.005 mm tolerance for nm round-off (a 0.25 mm gap measures 0.249999); overrides no_via_in_smd_pad
+(rule "via_smd_pad_gap"
+  (condition "A.Type == 'Via' && B.Type == 'Pad' && B.Pad_Type == 'SMD'")
+  (constraint physical_clearance (min 0.245mm)))
+
+# ---------- clean geometry (these are DRC aids) ----------
+(rule "segment_length" (condition "A.Type == 'Track'") (constraint track_segment_length (min 0.10mm)))
+(rule "no_right_angles_signals"
+  (condition "A.Type == 'Track' && A.NetClass != 'GND' && A.NetClass != 'PWR_MAIN' && A.NetClass != 'PWR_IN' && A.NetClass != 'PWR_MOTOR' && A.NetClass != 'PWR_LOGIC' && A.NetClass != 'PWR_BRANCH'")
+  (severity warning)
+  (constraint track_angle (min 134)))
+
+# ---------- thermal reliefs for passives on pours (solder-joint balance, tombstoning) ----------
+(rule "relief_small_smd"
+  (condition "A.Type == 'Pad' && A.Pad_Type == 'SMD' && (A.memberOfFootprint('C*') || A.memberOfFootprint('R*') || A.memberOfFootprint('D*') || A.memberOfFootprint('TP*'))")
+  (constraint zone_connection thermal_reliefs) (constraint thermal_relief_gap (min 0.25mm)) (constraint thermal_spoke_width (min 0.30mm)) (constraint min_resolved_spokes 2))
+# power parts join their pours solid (U1 DRV8411, U2 eFuse, U4 EXP_3V3 LDO, D5 VM feed, D6 VM clamp, D7 PI_5V TVS,
+# C8 SYS_5V output cap, C7 PI_5V input cap)
+(rule "solid_power_pads"
+  (condition "A.Type == 'Pad' && (A.memberOfFootprint('U1') || A.memberOfFootprint('U2') || A.memberOfFootprint('U4') || A.memberOfFootprint('D5') || A.memberOfFootprint('D6') || A.memberOfFootprint('D7') || (A.memberOfFootprint('C8') && A.NetName == 'SYS_5V') || (A.memberOfFootprint('C7') && A.NetName == 'PI_5V'))")
+  (constraint zone_connection solid))
+
+# fine-pitch allowance last so it overrides class/aggressor clearances inside IC courtyards (fine-pitch list, see top)
+(rule "clr_fine_pitch"
+  (condition "A.intersectsCourtyard('U1') || A.intersectsCourtyard('U2') || A.intersectsCourtyard('U6') || A.intersectsCourtyard('U7') || A.intersectsCourtyard('U10') || A.intersectsCourtyard('U12') || A.intersectsCourtyard('U13') || A.intersectsCourtyard('U29') || A.intersectsCourtyard('U17') || A.intersectsCourtyard('U18') || A.intersectsCourtyard('U19') || A.intersectsCourtyard('U20') || A.intersectsCourtyard('U21') || A.intersectsCourtyard('U22') || A.intersectsCourtyard('U23') || A.intersectsCourtyard('U24') || A.intersectsCourtyard('U25') || A.intersectsCourtyard('U26')")
+  (constraint clearance (min 0.15mm)))
+
+# C5 is the 0201 VM decoupler at U1's VM/GND pins 12/13 (0402 rejected): its own pads sit 0.18 mm
+# apart (VM/GND, <= 11 V), and its GND pad is strapped to U1 GND and kept off the pour (equal copper, no tombstoning)
+(rule "c5_0201_internal"
+  (condition "A.memberOfFootprint('C5') && B.memberOfFootprint('C5')")
+  (constraint clearance (min 0.15mm)))
+(rule "c5_0201_strapped"
+  (condition "A.Type == 'Pad' && A.memberOfFootprint('C5')")
+  (constraint zone_connection none))
+# PI1 (Pi header, THT): its GND pins bond to the solid In1/In4 planes, the In2/In3 fills and the F pour; they take no
+# B.Cu pour connection (starved-thermal fix; B carries the LED buses and SYS_5V branches)
+(rule "pi1_no_b_pour"
+  (layer "B.Cu")
+  (condition "A.Type == 'Pad' && A.memberOfFootprint('PI1') && A.NetName == 'GND'")
+  (constraint zone_connection none))
+
+# ---------- routing keep-outs (named rule areas on the board) ----------
+# Signal copper >= 1.0 mm from the board edge and every internal cutout/slot, except inside connector courtyards
+# (and the courtyards of parts whose own signal pad is < 1.2 mm from the edge) - the named, restriction-free rule areas
+# 'SIG edge band' carry exactly that geometry.  Power, GND and the hand-laid MOTOR_OUT pairs keep the 0.5 mm fab_edge.
+(rule "sig_edge_band_1mm"
+  (condition "(A.Type == 'Track' || A.Type == 'Via') && (A.NetClass == 'Default' || A.NetClass == 'SAFETY' || A.NetClass == 'I2C' || A.NetClass == 'LED' || A.NetClass == 'MOTOR_CTRL' || A.NetClass == 'EXT_IO' || A.NetClass == 'ANALOG') && A.intersectsArea('SIG edge band')")
+  (constraint disallow track via))
+# The Pi RF keep-out is the only permitted plane void and no signal may run within 1 mm of its edge:
+# no track and no via of any net except GND (GND vias may fence the void) inside the 'SIG antenna ring' areas.
+(rule "sig_antenna_ring_1mm"
+  (condition "(A.Type == 'Track' || A.Type == 'Via') && A.NetName != 'GND' && A.intersectsArea('SIG antenna ring')")
+  (constraint disallow track via))
+# J4 (DNP I2C/INT header, THT): its GND pin bonds to the solid In1/In4 planes and the outer pours; on the routing layers
+# In3 (EXP chain) and In2 (the three J1-feed lanes run between the J4 and J5 pins at x 104.3) its pads take no fill
+# connection, so a thermal relief cannot be starved by the corridor
+(rule "j4_no_in3_fill"
+  (layer "In3.Cu")
+  (condition "A.Type == 'Pad' && A.memberOfFootprint('J4')")
+  (constraint zone_connection none))
+(rule "j4_no_in2_fill"
+  (layer "In2.Cu")
+  (condition "A.Type == 'Pad' && A.memberOfFootprint('J4')")
+  (constraint zone_connection none))

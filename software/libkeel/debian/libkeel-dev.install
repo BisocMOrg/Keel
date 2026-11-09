@@ -1,0 +1,11 @@
+# SPDX-License-Identifier: MIT
+# Copyright (c) 2026 BisocM
+usr/include/keel/keel.h
+usr/include/keel/port.h
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Keel/KeelConfig.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Keel/KeelConfigVersion.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/cmake/Keel/KeelTargets*.cmake
+usr/lib/${DEB_HOST_MULTIARCH}/libkeel.a
+usr/lib/${DEB_HOST_MULTIARCH}/libkeel.so
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/keel.pc
+usr/lib/${DEB_HOST_MULTIARCH}/pkgconfig/keel-static.pc

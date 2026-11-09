@@ -1,0 +1,6580 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(uuid "173053de-179f-5543-9dbe-415ffce0d8e6")
+	(paper "A4")
+	(title_block
+		(title "Keel R3 / Connector-local ESD")
+		(date "2026-11")
+		(rev "R3")
+		(company "BisocM")
+		(comment 1 "CERN-OHL-P-2.0")
+	)
+	(lib_symbols
+		(symbol "Keel:EXP_3V3"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "EXP_3V3"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "EXP_3V3_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "EXP_3V3_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(hide yes)
+					(name "EXP_3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Keel:GND"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -6.35 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "GND"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"GND\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "GND_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 -1.27) (xy 1.27 -1.27) (xy 0 -2.54) (xy -1.27 -1.27) (xy 0 -1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "GND_1_1"
+				(pin power_in line
+					(at 0 0 270)
+					(length 0)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Keel:SENSOR_5V"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "SENSOR_5V"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"SENSOR_5V\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SENSOR_5V_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SENSOR_5V_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(hide yes)
+					(name "SENSOR_5V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Keel:SERVO_5V"
+			(power)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#PWR"
+				(at 0 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "SERVO_5V"
+				(at 0 3.556 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Power symbol creates a global label with name \"SERVO_5V\""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "global power"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SERVO_5V_0_1"
+				(polyline
+					(pts
+						(xy -0.762 1.27) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0.762 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "SERVO_5V_1_1"
+				(pin power_in line
+					(at 0 0 90)
+					(length 0)
+					(hide yes)
+					(name "SERVO_5V"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Keel:TPD1E05U06"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "D"
+				(at 3.556 1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "TPD1E05U06"
+				(at 3.556 -1.27 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "1-channel unidirectional ESD protection diode (IO to GND)"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "ESD TVS protection"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TPD1E05U06_0_1"
+				(rectangle
+					(start -2.54 2.54)
+					(end 2.54 -2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.016 -1.016) (xy 1.016 -1.016) (xy 0 1.016) (xy -1.016 -1.016)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.524 1.524) (xy -1.016 1.016) (xy 1.016 1.016) (xy 1.524 0.508)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0 1.016)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -1.016) (xy 0 -2.54)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "TPD1E05U06_1_1"
+				(pin passive line
+					(at 0 5.08 270)
+					(length 2.54)
+					(name "IO1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "Keel:TPD4E05U06"
+			(pin_names
+				(offset 0.508)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -8.89 6.604 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "TPD4E05U06"
+				(at 3.302 -7.874 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "4-channel ESD protection array (IO to GND), flow-through package; NC pins unused"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "ESD TVS protection array"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "TPD4E05U06_0_1"
+				(rectangle
+					(start -8.89 5.08)
+					(end 8.89 -6.35)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "TPD4E05U06_1_1"
+				(pin passive line
+					(at -12.7 2.54 0)
+					(length 3.81)
+					(name "IO1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -12.7 0 0)
+					(length 3.81)
+					(name "IO2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -12.7 -2.54 0)
+					(length 3.81)
+					(name "IO3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -12.7 -5.08 0)
+					(length 3.81)
+					(name "IO4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 2.54 180)
+					(length 3.81)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 0 180)
+					(length 3.81)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -2.54 180)
+					(length 3.81)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -5.08 180)
+					(length 3.81)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -2.54 -10.16 90)
+					(length 3.81)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 -10.16 90)
+					(length 3.81)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(junction
+		(at 53.34 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "a557246c-92fc-5faf-bd22-ad1a4589e7a5")
+	)
+	(junction
+		(at 53.34 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6b998fe9-fcb6-5217-a50a-510bc9495a35")
+	)
+	(junction
+		(at 53.34 140.97)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "c4365630-2f00-5ffc-976f-f6505f24eb17")
+	)
+	(junction
+		(at 104.14 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "08de0bd4-b273-5dbe-b828-9fd54f42986e")
+	)
+	(junction
+		(at 104.14 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "881b5d5b-cdbb-5a68-a885-48a57bc373da")
+	)
+	(junction
+		(at 154.94 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "6ecc52f4-85c7-5426-8846-aecc31d3ba49")
+	)
+	(junction
+		(at 154.94 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b99375d1-8c21-5c80-aad0-3e05646de063")
+	)
+	(junction
+		(at 205.74 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "9fd64404-5758-514e-834f-b9150a708d40")
+	)
+	(junction
+		(at 256.54 44.45)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8982c0ab-6f00-504c-aac2-ec3c3e6d2d80")
+	)
+	(junction
+		(at 256.54 92.71)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "147491f1-241c-5db9-b7c9-04ef16746f10")
+	)
+	(no_connect
+		(at 66.04 29.21)
+		(uuid "abbd515f-263a-5ff0-aa25-33b0f30a5158")
+	)
+	(no_connect
+		(at 66.04 31.75)
+		(uuid "05e84c81-d594-5eb6-bdd5-92dc26a2c370")
+	)
+	(no_connect
+		(at 66.04 34.29)
+		(uuid "2b2bf7f2-fd64-5b01-82b6-d5995d946965")
+	)
+	(no_connect
+		(at 66.04 36.83)
+		(uuid "80b5732e-c50a-5c37-8fc5-8a6ac446b6f4")
+	)
+	(no_connect
+		(at 116.84 29.21)
+		(uuid "3415be29-f39a-53e1-92b2-3e54c48d1f2e")
+	)
+	(no_connect
+		(at 116.84 31.75)
+		(uuid "de987c5b-f66b-53c7-b242-a83e6e4fa576")
+	)
+	(no_connect
+		(at 116.84 34.29)
+		(uuid "0721beb8-61d2-52bb-9649-2c9273716198")
+	)
+	(no_connect
+		(at 116.84 36.83)
+		(uuid "3ca00002-e480-56ca-bb33-573805d4339e")
+	)
+	(no_connect
+		(at 167.64 29.21)
+		(uuid "e61c689b-dc99-55a4-ad5f-7877e5bc99ad")
+	)
+	(no_connect
+		(at 167.64 31.75)
+		(uuid "ce19a223-af0a-5cec-839d-8b9b369ae70f")
+	)
+	(no_connect
+		(at 167.64 34.29)
+		(uuid "2a98d52e-9e9f-5c8b-8fba-7c7c62b63690")
+	)
+	(no_connect
+		(at 167.64 36.83)
+		(uuid "d54fa079-f8a0-57b8-8697-3c3779b40e34")
+	)
+	(no_connect
+		(at 218.44 29.21)
+		(uuid "9868b366-b56a-5b37-9158-23cde1ca787b")
+	)
+	(no_connect
+		(at 218.44 31.75)
+		(uuid "6b7738cb-6d7a-52bd-88d9-054681a7d03a")
+	)
+	(no_connect
+		(at 218.44 34.29)
+		(uuid "f3201a94-2c9a-5b09-850c-62269ca83d71")
+	)
+	(no_connect
+		(at 218.44 36.83)
+		(uuid "b6c91514-1b34-5ffd-a3c1-e95034abe4d0")
+	)
+	(no_connect
+		(at 269.24 29.21)
+		(uuid "5ff2153f-ba59-5a9f-b34e-c6bdf2df6265")
+	)
+	(no_connect
+		(at 269.24 31.75)
+		(uuid "fa3c7761-c103-57cd-8ed7-fd9ba9c85b1c")
+	)
+	(no_connect
+		(at 269.24 34.29)
+		(uuid "77635827-2f64-5d13-83b2-79af27f98720")
+	)
+	(no_connect
+		(at 269.24 36.83)
+		(uuid "fbdd6fdb-2f34-5516-8379-a0779be26376")
+	)
+	(no_connect
+		(at 66.04 77.47)
+		(uuid "9072cbce-fc44-57f0-a061-f05bc80a171f")
+	)
+	(no_connect
+		(at 66.04 80.01)
+		(uuid "83d0edc2-4f46-523a-9294-63125f134622")
+	)
+	(no_connect
+		(at 66.04 82.55)
+		(uuid "1e1a57d3-4c35-5bc6-b9d3-ba791890ef09")
+	)
+	(no_connect
+		(at 66.04 85.09)
+		(uuid "03d76d45-bfb3-5f1c-877c-1bf4e57940bd")
+	)
+	(no_connect
+		(at 91.44 85.09)
+		(uuid "2ba82ff7-377a-5a14-8877-6667a060b294")
+	)
+	(no_connect
+		(at 116.84 77.47)
+		(uuid "b0e4b2e2-5fc2-5dd8-bae2-9e3b75896e86")
+	)
+	(no_connect
+		(at 116.84 80.01)
+		(uuid "ba73f03f-b16b-58a6-9021-5533fdbb1a5a")
+	)
+	(no_connect
+		(at 116.84 82.55)
+		(uuid "bfae2f9e-8c10-5e5b-87d0-18228e0d2c39")
+	)
+	(no_connect
+		(at 116.84 85.09)
+		(uuid "79e5e09b-ca90-5c30-9c99-560088bd73d3")
+	)
+	(no_connect
+		(at 142.24 85.09)
+		(uuid "fb2ecd50-587f-5e27-9ced-a1e31b965c0c")
+	)
+	(no_connect
+		(at 167.64 77.47)
+		(uuid "1c7b92ba-8546-57e2-8a6f-2d7421894c55")
+	)
+	(no_connect
+		(at 167.64 80.01)
+		(uuid "bf8c9844-27bb-5e1f-ab83-9b6213d191f3")
+	)
+	(no_connect
+		(at 167.64 82.55)
+		(uuid "b46b8456-fa3b-565b-a0e0-0aab7a4ffe5e")
+	)
+	(no_connect
+		(at 167.64 85.09)
+		(uuid "304c451b-cf25-59d3-9dca-ef1c6bc83fb1")
+	)
+	(no_connect
+		(at 243.84 85.09)
+		(uuid "a542600b-ae17-5f9a-bfde-8e230de86d27")
+	)
+	(no_connect
+		(at 269.24 77.47)
+		(uuid "07973237-c426-5f32-9cf2-3cd75e86ad8e")
+	)
+	(no_connect
+		(at 269.24 80.01)
+		(uuid "7bd4bee9-27e6-557e-b576-9e999f9cf137")
+	)
+	(no_connect
+		(at 269.24 82.55)
+		(uuid "f939f887-159d-5725-9390-b026dc738d53")
+	)
+	(no_connect
+		(at 269.24 85.09)
+		(uuid "67da159e-52f6-5bfe-927b-30f737dff487")
+	)
+	(no_connect
+		(at 40.64 130.81)
+		(uuid "10cc28ec-1cac-584a-b312-016e7fe2eb1f")
+	)
+	(no_connect
+		(at 40.64 133.35)
+		(uuid "78113098-3fb3-51fc-bfa9-a436d64c65f7")
+	)
+	(no_connect
+		(at 66.04 125.73)
+		(uuid "dc5a9713-fc40-51b2-bf94-9aae233416f0")
+	)
+	(no_connect
+		(at 66.04 128.27)
+		(uuid "a691f95f-ac56-58f4-bab0-58a3f9bad79f")
+	)
+	(no_connect
+		(at 66.04 130.81)
+		(uuid "91e68b1f-e316-5836-b6c8-f8de033024c3")
+	)
+	(no_connect
+		(at 66.04 133.35)
+		(uuid "dc8c4a72-679f-53bf-8212-4d8379e55459")
+	)
+	(wire
+		(pts
+			(xy 40.64 29.21) (xy 35.56 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf30743e-8772-594e-902d-8bf1c73d60dd")
+	)
+	(wire
+		(pts
+			(xy 40.64 31.75) (xy 35.56 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9df814dc-ad66-5596-a1e8-932824e2c091")
+	)
+	(wire
+		(pts
+			(xy 40.64 34.29) (xy 35.56 34.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "34e75276-fd73-508b-aa19-c870b67f6dcc")
+	)
+	(wire
+		(pts
+			(xy 40.64 36.83) (xy 35.56 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7ceb3e0-6164-5d6a-b712-69bf326d614d")
+	)
+	(wire
+		(pts
+			(xy 50.8 41.91) (xy 50.8 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aacf56b9-d6fa-527a-b4b3-9a8e34ae3b14")
+	)
+	(wire
+		(pts
+			(xy 50.8 44.45) (xy 53.34 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e46a7be5-40c1-5248-b51e-5c8afa4daf79")
+	)
+	(wire
+		(pts
+			(xy 53.34 44.45) (xy 55.88 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "33a89ee8-dd1b-5f03-854b-123b02b1a3c1")
+	)
+	(wire
+		(pts
+			(xy 55.88 44.45) (xy 55.88 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52befd33-829a-5ce3-8ebb-09e55ba5d28d")
+	)
+	(wire
+		(pts
+			(xy 91.44 29.21) (xy 86.36 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b8460c9c-f4df-59ee-9410-25ba6dd0926e")
+	)
+	(wire
+		(pts
+			(xy 91.44 31.75) (xy 86.36 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8ad69856-8440-5a94-97e1-739705165fbd")
+	)
+	(wire
+		(pts
+			(xy 91.44 34.29) (xy 86.36 34.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0303ec8-015b-50e8-8443-f008957b26ba")
+	)
+	(wire
+		(pts
+			(xy 91.44 36.83) (xy 86.36 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8b4ada7a-969d-5196-b70b-0c1325e6971d")
+	)
+	(wire
+		(pts
+			(xy 101.6 41.91) (xy 101.6 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5b81fbf3-2c5a-5e76-9c5d-602bfaf054d8")
+	)
+	(wire
+		(pts
+			(xy 101.6 44.45) (xy 104.14 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b15c7e1-7433-5ac0-941c-d710aefb8cee")
+	)
+	(wire
+		(pts
+			(xy 104.14 44.45) (xy 106.68 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b291a1f7-eb29-5d73-9507-48a1b613e88a")
+	)
+	(wire
+		(pts
+			(xy 106.68 44.45) (xy 106.68 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bf5abdb7-a0d2-5f44-9081-cedbdd2be28a")
+	)
+	(wire
+		(pts
+			(xy 142.24 29.21) (xy 137.16 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94f1440d-1706-5887-81c6-0e4944162286")
+	)
+	(wire
+		(pts
+			(xy 142.24 31.75) (xy 137.16 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3ca2ad6-fdeb-52d8-b023-374ccf4c0770")
+	)
+	(wire
+		(pts
+			(xy 142.24 34.29) (xy 137.16 34.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "59526d94-80df-5e83-9163-184448def018")
+	)
+	(wire
+		(pts
+			(xy 142.24 36.83) (xy 137.16 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c4f7e0e5-dfe8-5b64-851f-4d68d31c3df4")
+	)
+	(wire
+		(pts
+			(xy 152.4 41.91) (xy 152.4 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac35fed1-875f-5227-86a0-3fadfe43b22d")
+	)
+	(wire
+		(pts
+			(xy 152.4 44.45) (xy 154.94 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c52c4db-9e40-5b59-9bee-11f37feb6587")
+	)
+	(wire
+		(pts
+			(xy 154.94 44.45) (xy 157.48 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7bd67231-03b0-5890-9a7a-904bbf3759dd")
+	)
+	(wire
+		(pts
+			(xy 157.48 44.45) (xy 157.48 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d0bf63e-05c7-5175-a941-5a7bcceeef15")
+	)
+	(wire
+		(pts
+			(xy 193.04 29.21) (xy 187.96 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a75bb3ed-2908-56c4-8ef8-215e8d88cc90")
+	)
+	(wire
+		(pts
+			(xy 193.04 31.75) (xy 187.96 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a99fba99-c8d2-52d0-914b-b8751a4f399a")
+	)
+	(wire
+		(pts
+			(xy 193.04 34.29) (xy 187.96 34.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9890feb9-51cf-59d8-bb56-f7fd6a6b3e89")
+	)
+	(wire
+		(pts
+			(xy 193.04 36.83) (xy 187.96 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ef924cf7-8b63-5091-94b2-dd016d8cb89f")
+	)
+	(wire
+		(pts
+			(xy 203.2 41.91) (xy 203.2 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "942a9059-1d65-5052-b41f-6153275e4147")
+	)
+	(wire
+		(pts
+			(xy 203.2 44.45) (xy 205.74 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cf88b22f-ffe1-5418-87e6-ff5c8434eb15")
+	)
+	(wire
+		(pts
+			(xy 205.74 44.45) (xy 208.28 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1723c290-1af0-5b07-9717-4f776437ac19")
+	)
+	(wire
+		(pts
+			(xy 208.28 44.45) (xy 208.28 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84922492-464c-5177-ad50-2de40896a47e")
+	)
+	(wire
+		(pts
+			(xy 243.84 29.21) (xy 238.76 29.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a63041eb-4f31-5a7e-8578-c0804d9d3f1f")
+	)
+	(wire
+		(pts
+			(xy 243.84 31.75) (xy 238.76 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8c6c36a-ba4c-51cf-8ba2-df126a07b31f")
+	)
+	(wire
+		(pts
+			(xy 243.84 34.29) (xy 238.76 34.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "df1f05d1-7634-5865-8b73-50042a45c133")
+	)
+	(wire
+		(pts
+			(xy 243.84 36.83) (xy 238.76 36.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "680d91f3-0afd-5f61-9291-cf0f73420350")
+	)
+	(wire
+		(pts
+			(xy 254 41.91) (xy 254 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f53cccf0-e230-5d8f-8ede-394e858acc9b")
+	)
+	(wire
+		(pts
+			(xy 254 44.45) (xy 256.54 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e68e0402-129c-581a-af4e-72a24b357f32")
+	)
+	(wire
+		(pts
+			(xy 256.54 44.45) (xy 259.08 44.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "69fccef7-89c0-517b-9a5b-2998d711eac5")
+	)
+	(wire
+		(pts
+			(xy 259.08 44.45) (xy 259.08 41.91)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1e04336-4d2f-5fcf-a9fd-32f3ad1a86ff")
+	)
+	(wire
+		(pts
+			(xy 40.64 77.47) (xy 35.56 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1f3ce4c6-949b-5df0-ade8-4734c3b70e53")
+	)
+	(wire
+		(pts
+			(xy 40.64 80.01) (xy 35.56 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "820b6ba6-4825-52c9-b4bc-793085988942")
+	)
+	(wire
+		(pts
+			(xy 40.64 82.55) (xy 35.56 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "55aaad36-09de-5b94-9db2-afeaf81211c0")
+	)
+	(wire
+		(pts
+			(xy 40.64 85.09) (xy 35.56 85.09)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3955fcf-a24c-5b72-bc2f-d41e0e13f45a")
+	)
+	(wire
+		(pts
+			(xy 50.8 90.17) (xy 50.8 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a0fa9e4-e362-5cfd-b2a2-c4880b283d73")
+	)
+	(wire
+		(pts
+			(xy 50.8 92.71) (xy 53.34 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7039b69b-a379-5f48-8086-77cd9dff1acd")
+	)
+	(wire
+		(pts
+			(xy 53.34 92.71) (xy 55.88 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7764f0a8-9250-5f0c-8699-48d271b15fd3")
+	)
+	(wire
+		(pts
+			(xy 55.88 92.71) (xy 55.88 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dee44ec4-857b-509e-af1d-88e439fd3da0")
+	)
+	(wire
+		(pts
+			(xy 91.44 77.47) (xy 86.36 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fa2cdc13-56e8-52a6-b89b-5294bb4f6dd6")
+	)
+	(wire
+		(pts
+			(xy 91.44 80.01) (xy 86.36 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "99fe8bd0-926f-53b2-b93f-cc3c116551f2")
+	)
+	(wire
+		(pts
+			(xy 91.44 82.55) (xy 86.36 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c0570f28-f3ab-535e-8482-828a14ffd848")
+	)
+	(wire
+		(pts
+			(xy 101.6 90.17) (xy 101.6 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "64752231-0425-5f2c-93f0-2e2233098ca2")
+	)
+	(wire
+		(pts
+			(xy 101.6 92.71) (xy 104.14 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8134b968-11e3-53e3-8b98-44094f7deb97")
+	)
+	(wire
+		(pts
+			(xy 104.14 92.71) (xy 106.68 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "56e57e59-4eef-5036-bf1a-97e661edbb19")
+	)
+	(wire
+		(pts
+			(xy 106.68 92.71) (xy 106.68 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "051377e6-151a-5fd7-ae4d-e830ecbc3f30")
+	)
+	(wire
+		(pts
+			(xy 142.24 77.47) (xy 137.16 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7cf14c0-51e2-588c-bbb1-a5c6f4cb1e06")
+	)
+	(wire
+		(pts
+			(xy 142.24 80.01) (xy 137.16 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47379f50-1033-59cb-87e2-8dbc23f6ba06")
+	)
+	(wire
+		(pts
+			(xy 142.24 82.55) (xy 137.16 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b5a64b40-5434-599e-8675-3b1bd026f58f")
+	)
+	(wire
+		(pts
+			(xy 152.4 90.17) (xy 152.4 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "69016f2b-9325-57ac-b052-944f26a51a1f")
+	)
+	(wire
+		(pts
+			(xy 152.4 92.71) (xy 154.94 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "24860a2f-c6e7-539c-b636-8b13b9b756b8")
+	)
+	(wire
+		(pts
+			(xy 154.94 92.71) (xy 157.48 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5e32f73f-b3f6-5fad-b2dd-604baecb9a98")
+	)
+	(wire
+		(pts
+			(xy 157.48 92.71) (xy 157.48 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "011d98fa-b3d0-5538-9fe8-20bae3d62a36")
+	)
+	(wire
+		(pts
+			(xy 243.84 77.47) (xy 238.76 77.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "114c5497-309b-528d-9167-12efc65d2268")
+	)
+	(wire
+		(pts
+			(xy 243.84 80.01) (xy 238.76 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dfa54d04-f3c2-51f0-aa49-af1e1d28b0ae")
+	)
+	(wire
+		(pts
+			(xy 243.84 82.55) (xy 238.76 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7dd5355f-d3cb-5e85-85cc-f83c058c7e5b")
+	)
+	(wire
+		(pts
+			(xy 254 90.17) (xy 254 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a484161-f6e4-5f37-9021-da4eb13030c7")
+	)
+	(wire
+		(pts
+			(xy 254 92.71) (xy 256.54 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0322c91c-8e8e-5de9-894b-bde6a79ab676")
+	)
+	(wire
+		(pts
+			(xy 256.54 92.71) (xy 259.08 92.71)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bfbcba98-1520-51d7-9f92-5c20c63205f7")
+	)
+	(wire
+		(pts
+			(xy 259.08 92.71) (xy 259.08 90.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f046e8ad-d11f-5ea3-a3b6-4981ce30d679")
+	)
+	(wire
+		(pts
+			(xy 40.64 125.73) (xy 35.56 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8fb3bb6-98b6-5593-a833-c79a75763e7c")
+	)
+	(wire
+		(pts
+			(xy 40.64 128.27) (xy 35.56 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "49508492-45d3-53e7-a7e4-7cba09231e30")
+	)
+	(wire
+		(pts
+			(xy 50.8 138.43) (xy 50.8 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "980532d7-54f8-5375-a188-b734c8427024")
+	)
+	(wire
+		(pts
+			(xy 50.8 140.97) (xy 53.34 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "de32bfa0-6466-5ff9-a1dd-65b35d45aa1f")
+	)
+	(wire
+		(pts
+			(xy 53.34 140.97) (xy 55.88 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dacf0f7f-7224-5986-b7f4-b12ce55249ac")
+	)
+	(wire
+		(pts
+			(xy 55.88 140.97) (xy 55.88 138.43)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78416a74-b10d-5148-a9c9-454105d82dc4")
+	)
+	(wire
+		(pts
+			(xy 104.14 128.27) (xy 104.14 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7a2e1be0-1774-5b35-a2d6-9ab36e473c7f")
+	)
+	(wire
+		(pts
+			(xy 104.14 125.73) (xy 99.06 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b53eb3a7-c528-5ce3-b7ac-b0f14cf9aa56")
+	)
+	(wire
+		(pts
+			(xy 104.14 138.43) (xy 104.14 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37d7b433-4af9-5a89-9346-00df41adaefd")
+	)
+	(wire
+		(pts
+			(xy 154.94 128.27) (xy 154.94 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f94f4280-c966-5f1f-98ed-6638872affa8")
+	)
+	(wire
+		(pts
+			(xy 154.94 125.73) (xy 149.86 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "62c78224-fa72-5c1a-b04a-173573cfedcf")
+	)
+	(wire
+		(pts
+			(xy 154.94 138.43) (xy 154.94 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e656a6e-df1e-5a51-a277-c6ef3a220aa1")
+	)
+	(wire
+		(pts
+			(xy 205.74 128.27) (xy 205.74 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "51d5639a-ef19-5811-ac57-40f50a14c20a")
+	)
+	(wire
+		(pts
+			(xy 205.74 125.73) (xy 200.66 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f55e5046-a722-580b-9571-eeb2d6a78015")
+	)
+	(wire
+		(pts
+			(xy 205.74 138.43) (xy 205.74 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3048837-2fc2-559c-81d8-bde372299ebe")
+	)
+	(wire
+		(pts
+			(xy 256.54 128.27) (xy 256.54 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "565444ba-e2f7-540a-8b83-8b82c22ddc64")
+	)
+	(wire
+		(pts
+			(xy 256.54 125.73) (xy 251.46 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "529d61f0-cf77-597c-aa8d-e3db35028180")
+	)
+	(wire
+		(pts
+			(xy 256.54 138.43) (xy 256.54 140.97)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c873f12-ad2e-5a69-bdef-c43595bed030")
+	)
+	(rectangle
+		(start 15.24 15.24)
+		(end 281.94 58.42)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "357e85dd-d210-56d1-bfdd-ac023a98e598")
+	)
+	(rectangle
+		(start 15.24 63.5)
+		(end 180.34 106.68)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "7ec52beb-5e78-5e91-9501-42810a25027f")
+	)
+	(rectangle
+		(start 218.44 63.5)
+		(end 281.94 106.68)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "fedb0660-31ee-54bd-8eac-e95b7e7030a0")
+	)
+	(rectangle
+		(start 15.24 111.76)
+		(end 78.74 154.94)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "dcb18e49-a690-5524-9e71-8cc1879039a4")
+	)
+	(rectangle
+		(start 83.82 111.76)
+		(end 281.94 154.94)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "3d3efb62-ffe4-5ca9-adf4-5a037365bba9")
+	)
+	(rectangle
+		(start 15.24 166.37)
+		(end 172.72 186.69)
+		(stroke
+			(width 0.1524)
+			(type dash)
+			(color 132 132 132 1)
+		)
+		(fill
+			(type none)
+		)
+		(uuid "5d18650e-a645-5925-8e96-65c48fdcdb2d")
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 35.56 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "6f16a9f4-7a79-558a-80b7-347502251266")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 35.56 34.29 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "663564ff-b27e-5833-b171-a47f689992d2")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_INT_INPUT"
+		(shape input)
+		(at 35.56 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "bd5a34af-7cc8-58ae-bf49-7d5d3c0870f3")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 86.36 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "36b67be1-321a-5278-be0a-cd57129ab252")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 86.36 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 86.36 34.29 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "4054b3a9-99b2-50bc-8ec2-cd5cbc78b5e7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 86.36 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_INT_INPUT"
+		(shape input)
+		(at 86.36 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "10b3e193-d9a3-50df-9ee2-7dadb9b1acdd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 86.36 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 137.16 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2d80306c-c5fa-5a33-971a-75fa79eb6e16")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 137.16 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 137.16 34.29 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "df881e2a-9579-5a5d-9cec-9a5e8414a132")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 137.16 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_INT_INPUT"
+		(shape input)
+		(at 137.16 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b73aa933-31e0-5ca5-83a0-cc4d0d5d042c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 137.16 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 187.96 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "36681f50-1604-5bca-a958-6a0092bfa091")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 187.96 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 187.96 34.29 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "89c82f18-c3e9-5335-b815-0fe254b9f0f4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 187.96 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_INT_INPUT"
+		(shape input)
+		(at 187.96 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "fdbf3c24-4568-51f2-9568-c5dfd5ed8442")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 187.96 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 238.76 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "8b2aae02-727a-5632-ba24-36a16008ee57")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 238.76 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 238.76 34.29 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "789249f3-f33e-5b13-a07c-29a0cab7aca1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 238.76 34.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_INT_INPUT"
+		(shape input)
+		(at 238.76 36.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "28995de8-7547-55d4-b137-52145ace21c4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 238.76 36.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 35.56 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "e24bc0e1-13aa-5948-8895-0990e775e31a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 35.56 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "da167157-38cb-5811-b069-c2ca45a9de5f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_INT_INPUT"
+		(shape input)
+		(at 35.56 85.09 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "104d91e4-9216-5284-8d6a-25fef216d707")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 85.09 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 86.36 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b0d85bf6-2d3f-5f84-82d3-f4cac1aa8d75")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 86.36 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 86.36 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "d38a0f19-d3f5-5b6f-887b-4cedd2c5fe7f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 86.36 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SDA"
+		(shape bidirectional)
+		(at 137.16 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "093fbb74-18ad-57e7-9665-0cea99a1df59")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 137.16 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "EXP_I2C_SCL"
+		(shape bidirectional)
+		(at 137.16 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "37003459-e7bc-566b-afcf-af21503ae27a")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 137.16 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "TRIG_EXT"
+		(shape input)
+		(at 238.76 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "54278f75-0c6c-5585-a3d9-9a9b76413b40")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 238.76 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "ECHO_INPUT"
+		(shape input)
+		(at 238.76 82.55 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "983dde35-16b1-5d17-8eef-4caebeb555d9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 238.76 82.55 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SERVO_EXT"
+		(shape input)
+		(at 35.56 128.27 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9bc4b2b4-8e7a-5d23-9166-9ee249ca608c")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 35.56 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SW_A_EXT"
+		(shape passive)
+		(at 99.06 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "f7532950-539a-5699-9201-5fdd0b2cfe20")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 99.06 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SW_B_EXT"
+		(shape passive)
+		(at 149.86 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "b1f08814-2fc1-518f-8e26-a22d7ade6219")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 149.86 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SW_X_EXT"
+		(shape passive)
+		(at 200.66 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "13acb1d6-f01d-57db-9b32-030b4c981c15")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 200.66 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "SW_Y_EXT"
+		(shape passive)
+		(at 251.46 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "c980eaf5-59a2-5bf3-9dae-3aba2f3596cd")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 251.46 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(text "Protects JP1"
+		(exclude_from_sim no)
+		(at 53.34 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "2b70b9fd-736f-5484-a97c-da5fb9e6693f")
+	)
+	(text "Protects JP2"
+		(exclude_from_sim no)
+		(at 104.14 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "0f8eca3a-ab5a-58be-b7cc-e42b9643ba6d")
+	)
+	(text "Protects JP3"
+		(exclude_from_sim no)
+		(at 154.94 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "801fc49a-731f-584d-b34a-24878d85b74a")
+	)
+	(text "Protects JP4"
+		(exclude_from_sim no)
+		(at 205.74 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "e0efb8ca-d1b1-533a-9350-8bd1c5152eb9")
+	)
+	(text "Protects JP5"
+		(exclude_from_sim no)
+		(at 256.54 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "88f9ac5c-78fd-5260-a9ba-c852705a29a0")
+	)
+	(text "Expansion header clamps (U17-U21)"
+		(exclude_from_sim no)
+		(at 16.51 16.51 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "85336874-6c84-5bf0-9aab-877402cbeed3")
+	)
+	(text "Protects J4"
+		(exclude_from_sim no)
+		(at 53.34 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "048e3411-2c92-5ed2-8196-8417a7320db4")
+	)
+	(text "Protects X1"
+		(exclude_from_sim no)
+		(at 104.14 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "5fa42429-a5d5-5b19-870d-e70ae3c027c8")
+	)
+	(text "Protects X3"
+		(exclude_from_sim no)
+		(at 154.94 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "4edc2f07-e566-5ddd-9a04-8944726bde58")
+	)
+	(text "J4 and I2C socket clamps (U25, U22, U23)"
+		(exclude_from_sim no)
+		(at 16.51 64.77 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "c5c0e644-2941-53a9-8b5e-e0e90a5bf0ee")
+	)
+	(text "Protects J1"
+		(exclude_from_sim no)
+		(at 256.54 99.06 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "78878f10-cc83-5d87-b9fa-ac4aef1f64c9")
+	)
+	(text "Ultrasonic sensor socket clamp (U24)"
+		(exclude_from_sim no)
+		(at 219.71 64.77 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "8846f6e6-c58e-5c67-8ad6-95a85139881c")
+	)
+	(text "Protects J5"
+		(exclude_from_sim no)
+		(at 53.34 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "604ae8b3-ac91-5e9b-8c19-48d9c6c89f02")
+	)
+	(text "Servo header clamp (U26)"
+		(exclude_from_sim no)
+		(at 16.51 113.03 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "1d8dd2d7-6c3e-59ce-bc68-94032cfc1d80")
+	)
+	(text "Protects SW1"
+		(exclude_from_sim no)
+		(at 104.14 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "0f00424c-2454-53e8-84bc-411ecad5a6f2")
+	)
+	(text "Protects SW2"
+		(exclude_from_sim no)
+		(at 154.94 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "7b04dce3-d918-5832-9231-0d6105dc3879")
+	)
+	(text "Protects SW3"
+		(exclude_from_sim no)
+		(at 205.74 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "23e762d8-26a4-52b9-a49c-33229eccbf5e")
+	)
+	(text "Protects SW4"
+		(exclude_from_sim no)
+		(at 256.54 147.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify top)
+		)
+		(uuid "b8c9348e-2df2-5412-9ea6-a9e5489dab5a")
+	)
+	(text "Push-button clamps (D8-D11)"
+		(exclude_from_sim no)
+		(at 85.09 113.03 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "75730e09-ee59-50e4-8478-a474a58e62ba")
+	)
+	(text "Notes"
+		(exclude_from_sim no)
+		(at 16.51 167.64 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(bold yes)
+			)
+			(justify left top)
+		)
+		(uuid "9a3ee98e-e129-5903-8d9f-506bf1da59b0")
+	)
+	(text "1. Each clamp sits beside the connector or switch it protects, with a short, direct return to GND.\n2. IO1 of each array clamps the connector supply pin (EXP_3V3, SENSOR_5V or SERVO_5V).\n3. The clamps absorb ESD transients only. Sustained faults are handled downstream by the series resistors,\n   current-limited supplies and the over-voltage protector on sheet 2 (Protected power domains),\n   sheet 4 (Independent safety supervisor), sheet 7 (Protected external signals) and sheet 8 (Buttons and indicators).\n4. TPD4E05U06 pins 6, 7, 9 and 10 are NC flow-through pads; spare IO channels are left open."
+		(exclude_from_sim no)
+		(at 17.78 171.45 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "dd395e2f-77c5-5489-877e-39758d98a69b")
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 53.34 31.75 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1bd64693-cd86-5b14-9710-6ebdaf917bbc")
+		(property "Reference" "U17"
+			(at 44.45 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 57.15 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U17"
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 53.34 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b4cbce98-c4aa-588b-9b98-0f4275e2ec50")
+		)
+		(pin "2"
+			(uuid "871f8c1d-910c-5bb5-8e49-93e8c73233ef")
+		)
+		(pin "4"
+			(uuid "f0f700c5-c1f9-5d01-a35f-69eabd33ad4e")
+		)
+		(pin "5"
+			(uuid "ee0d4ba0-5f9f-502d-b2bf-d16b7634bcbe")
+		)
+		(pin "6"
+			(uuid "0faafac5-b3b8-5154-9f93-30053043a026")
+		)
+		(pin "7"
+			(uuid "414d01cc-eca9-50fa-bb4b-3f3c94079575")
+		)
+		(pin "9"
+			(uuid "b41597a2-49a7-5e1f-b229-180268aedf6e")
+		)
+		(pin "10"
+			(uuid "2aec5fb8-5ca1-5a01-8971-682609faad28")
+		)
+		(pin "3"
+			(uuid "ba60665e-2d6a-5e3a-bf41-34fc1ffec76d")
+		)
+		(pin "8"
+			(uuid "2113d3b5-b2d2-5430-afa9-8e3ef8fce453")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 104.14 31.75 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "eecb2857-32ab-5689-8171-473deba4f4a7")
+		(property "Reference" "U18"
+			(at 95.25 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 107.95 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U18"
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 104.14 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aef481a5-fa2d-55e7-b6d9-eb8a20a661f5")
+		)
+		(pin "2"
+			(uuid "9252761b-f604-5367-8b3a-7ae9c5764bb4")
+		)
+		(pin "4"
+			(uuid "c84eab5b-1d5d-587c-894e-564ca4ffa9c1")
+		)
+		(pin "5"
+			(uuid "4df17c86-7f3e-56bf-a437-6dd58675707d")
+		)
+		(pin "6"
+			(uuid "45867e97-e9e6-5887-a46e-a1350741f1de")
+		)
+		(pin "7"
+			(uuid "b134f2b2-69d8-5d06-a471-780a76ece341")
+		)
+		(pin "9"
+			(uuid "16453d50-5441-5f14-af73-dbc3eb7a64d4")
+		)
+		(pin "10"
+			(uuid "da0d2932-ee3d-5ee1-bd76-76f98c2b760b")
+		)
+		(pin "3"
+			(uuid "4f2bcf83-ceed-5998-94fe-c80f4241ddfc")
+		)
+		(pin "8"
+			(uuid "d1f29666-e063-5d8c-97db-effa73760d62")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 154.94 31.75 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "deee3d18-7e33-52e4-8649-2f88ad34a7b3")
+		(property "Reference" "U19"
+			(at 146.05 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 158.75 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U19"
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 154.94 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "deb631f1-4561-5fd9-af28-2cc03c4281a2")
+		)
+		(pin "2"
+			(uuid "bbd16089-b7d9-5386-bb1c-9ed49e957770")
+		)
+		(pin "4"
+			(uuid "77ba795f-3706-5577-a4ca-ad108e64563a")
+		)
+		(pin "5"
+			(uuid "558ea3a5-75c0-5fb2-b671-1da83282b396")
+		)
+		(pin "6"
+			(uuid "daf1da94-eae9-5cdb-a00e-38e6799e735b")
+		)
+		(pin "7"
+			(uuid "51c5f5ff-ba73-53f2-8322-d72ce4801d80")
+		)
+		(pin "9"
+			(uuid "9e9f8776-477d-5cfb-bb2d-307d53cfc9e2")
+		)
+		(pin "10"
+			(uuid "d2c9d33e-5068-5916-9dcc-2b2db62060cc")
+		)
+		(pin "3"
+			(uuid "1c6f180b-6d4a-5965-b0fb-7a9591cc4eb0")
+		)
+		(pin "8"
+			(uuid "267f561a-64d4-50ed-87fc-c65d989d5c1b")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 205.74 31.75 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "61d9f3d0-9419-56b2-b015-32899e8571f0")
+		(property "Reference" "U20"
+			(at 196.85 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 209.55 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U20"
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 205.74 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a2972286-6ae9-54fd-b5cb-70111a80a284")
+		)
+		(pin "2"
+			(uuid "37836f8f-9450-58d8-bb29-7111f4489337")
+		)
+		(pin "4"
+			(uuid "7f8752d6-4902-5adb-9c2c-1a25a648eace")
+		)
+		(pin "5"
+			(uuid "c4804a0e-3d77-5adc-af0d-d9b8c4b5cc1d")
+		)
+		(pin "6"
+			(uuid "0b96009c-d3c2-5816-a6e3-8c8f63cb966d")
+		)
+		(pin "7"
+			(uuid "b8954a72-d539-50c5-b6a4-2c13438d4791")
+		)
+		(pin "9"
+			(uuid "926db2ff-fbde-5ffa-8f16-f767f4f1b34a")
+		)
+		(pin "10"
+			(uuid "decef1a9-2bbb-5e3c-9623-05c73fc64a7a")
+		)
+		(pin "3"
+			(uuid "47c229ad-f96c-5fd2-b510-2dddd7ceec32")
+		)
+		(pin "8"
+			(uuid "5a2889e7-d1a3-5b30-81c9-9cbf9a805dab")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 256.54 31.75 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "0b68679c-48b7-5a0b-948f-a4fe6db6de73")
+		(property "Reference" "U21"
+			(at 247.65 24.765 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 260.35 40.005 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U21"
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 256.54 31.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "84c4a956-63f8-5115-acdd-813c18c26a39")
+		)
+		(pin "2"
+			(uuid "c4125510-11d9-5abd-aef9-8c37768964f9")
+		)
+		(pin "4"
+			(uuid "a7ef9149-5e21-5bfa-a22d-e97c534ae933")
+		)
+		(pin "5"
+			(uuid "63615a0c-df8d-5278-8767-ef52a39e98df")
+		)
+		(pin "6"
+			(uuid "0e64cd5a-34f6-5adf-80fc-cfed7897b5a9")
+		)
+		(pin "7"
+			(uuid "0954e8f5-7985-5d78-944e-345028f23443")
+		)
+		(pin "9"
+			(uuid "747aadcb-e7c4-552d-9e65-ef3ca4138a32")
+		)
+		(pin "10"
+			(uuid "caefe096-45a9-52a7-a3c7-49d076b9e789")
+		)
+		(pin "3"
+			(uuid "6c10b536-b828-5a55-926b-f84de89e15ec")
+		)
+		(pin "8"
+			(uuid "8ff324d4-fae4-5e57-80d5-ba0d80eb18aa")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 53.34 80.01 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "9b09f48e-3f0c-55c3-a35d-2bc4079783a4")
+		(property "Reference" "U25"
+			(at 44.45 73.025 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 57.15 88.265 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U25"
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 53.34 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "035b0d88-d6cf-568a-a5fd-34d7bc0020e5")
+		)
+		(pin "2"
+			(uuid "8738c510-4540-5eb6-8e17-d7f7dd9ce595")
+		)
+		(pin "4"
+			(uuid "8c309549-a1ec-51fd-ba0a-edb9a58da9ca")
+		)
+		(pin "5"
+			(uuid "c13f7918-eb62-50a7-a15f-f16f8a20c33d")
+		)
+		(pin "6"
+			(uuid "e71367e1-231b-5a04-9da1-cfa7fd6edaef")
+		)
+		(pin "7"
+			(uuid "6ad7cd5b-2393-514b-a65d-238c4b97951e")
+		)
+		(pin "9"
+			(uuid "9e16a7fd-bc8b-5096-b58b-4cefc1a302d6")
+		)
+		(pin "10"
+			(uuid "14e640b8-53b7-570f-9671-cfd4e2883192")
+		)
+		(pin "3"
+			(uuid "b3fd2cdf-338f-5f57-ac4d-327af65bcc48")
+		)
+		(pin "8"
+			(uuid "470e2c16-c726-580e-8dba-7e5fff562905")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 104.14 80.01 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "86a840e5-91cb-5b9a-bab4-296d929b7ba0")
+		(property "Reference" "U22"
+			(at 95.25 73.025 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 107.95 88.265 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U22"
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad. Spare protection channel(s) IO pin 5 left unconnected (a spare TVS channel may float; the connector GND pin needs no clamp to GND)."
+			(at 104.14 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "0ed8318c-3de4-5ca1-9c4d-cf4fb01ff43c")
+		)
+		(pin "2"
+			(uuid "8ed57fc7-51bd-51c7-97b6-5a6545d7203d")
+		)
+		(pin "4"
+			(uuid "5d525326-e1db-5a5c-bfc9-caab2cb5d33e")
+		)
+		(pin "5"
+			(uuid "fac4ddcd-02ef-5c01-81d3-590271c605dc")
+		)
+		(pin "6"
+			(uuid "8c3607fc-9339-5eb3-b0d8-af443bfdebd4")
+		)
+		(pin "7"
+			(uuid "4d880877-c235-599f-80fe-62f6f649d81d")
+		)
+		(pin "9"
+			(uuid "9c13a289-40fc-5830-af24-4b61033a3593")
+		)
+		(pin "10"
+			(uuid "2000faa3-43e2-53da-8e1a-8c31567b8af3")
+		)
+		(pin "3"
+			(uuid "7f6b11a9-7029-5599-98c8-5f25b37cdf5c")
+		)
+		(pin "8"
+			(uuid "7155711c-1204-5bef-86e5-ee102cea4b0c")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 154.94 80.01 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c30b1157-6277-5eb4-9bf8-1558fb587559")
+		(property "Reference" "U23"
+			(at 146.05 73.025 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 158.75 88.265 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U23"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad. Spare protection channel(s) IO pin 5 left unconnected (a spare TVS channel may float; the connector GND pin needs no clamp to GND)."
+			(at 154.94 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "efb19a32-c1f9-59d3-8f9a-02247655f0dd")
+		)
+		(pin "2"
+			(uuid "cb14f639-2614-52e5-b805-db90ffff9fe7")
+		)
+		(pin "4"
+			(uuid "821f1e9e-0f25-5a2e-9006-e4d146efbb10")
+		)
+		(pin "5"
+			(uuid "5284fd4b-b929-5271-a7ed-caa9005ce4fd")
+		)
+		(pin "6"
+			(uuid "d71e122d-25dd-58c8-914d-1b055bec866c")
+		)
+		(pin "7"
+			(uuid "f0b2068a-f4af-505e-bd7c-a2a93a8dd730")
+		)
+		(pin "9"
+			(uuid "1c3433ca-db5e-5c2c-be4c-7d33181f8b35")
+		)
+		(pin "10"
+			(uuid "22376b26-c0c9-5d49-a175-04e9aa1e11b6")
+		)
+		(pin "3"
+			(uuid "4e77a192-8a34-5afe-bbfb-fe93724d95a1")
+		)
+		(pin "8"
+			(uuid "f46bcbc2-0d6f-5b2a-936a-36007ecdd596")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 256.54 80.01 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "888c444a-e056-5907-b07f-eea4c8e87883")
+		(property "Reference" "U24"
+			(at 247.65 73.025 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 260.35 88.265 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U24"
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad. Spare protection channel(s) IO pin 5 left unconnected (a spare TVS channel may float; the connector GND pin needs no clamp to GND)."
+			(at 256.54 80.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e8034262-8e50-5fef-aa60-67688fab043f")
+		)
+		(pin "2"
+			(uuid "bf985941-a01d-50bf-9780-fd9808af1a7c")
+		)
+		(pin "4"
+			(uuid "b593b3f3-ed05-5cb6-86a5-abf50310fbf8")
+		)
+		(pin "5"
+			(uuid "15ca3f96-2751-531c-b6c6-909f8a75fee8")
+		)
+		(pin "6"
+			(uuid "78da7053-5ff3-5550-8b4f-5d53e7e1606f")
+		)
+		(pin "7"
+			(uuid "41b1dfa8-ef38-592c-ac61-73ec6ff6104c")
+		)
+		(pin "9"
+			(uuid "76235760-aecc-5c42-a910-b5d47a224fb9")
+		)
+		(pin "10"
+			(uuid "6e6ef2d8-9312-501e-b616-9d520e115794")
+		)
+		(pin "3"
+			(uuid "409a6751-819b-516f-bc07-b8aee4631615")
+		)
+		(pin "8"
+			(uuid "50c74cab-75ee-546b-bd98-13a51425eb36")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD4E05U06")
+		(at 53.34 128.27 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "79814cac-fdb7-5f12-b035-b2a8fbdfa5d6")
+		(property "Reference" "U26"
+			(at 44.45 121.285 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD4E05U06DQAR"
+			(at 57.15 136.525 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DQA0010A_TPD4E05U06_AB_Compatible_CommonMask"
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD4E05U06DQAR"
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "U26"
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad. Spare protection channel(s) IO pin 4, IO pin 5 left unconnected (a spare TVS channel may float; the connector GND pin needs no clamp to GND)."
+			(at 53.34 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "982f1c75-7ae1-5b68-8a33-5c4cf04d703a")
+		)
+		(pin "2"
+			(uuid "37001c73-56bf-5388-a6ab-06c7be8c681e")
+		)
+		(pin "4"
+			(uuid "cac62aad-6be2-59e3-8ecf-7b15e8d23686")
+		)
+		(pin "5"
+			(uuid "355c3c93-0e37-54c9-82c7-0b2246492592")
+		)
+		(pin "6"
+			(uuid "10d3ac72-8759-5afb-808f-57322c36ec90")
+		)
+		(pin "7"
+			(uuid "e97bbb53-c7f4-55eb-a9c9-8eb471c83a3b")
+		)
+		(pin "9"
+			(uuid "43839a08-342a-5767-be4a-943e22ed3579")
+		)
+		(pin "10"
+			(uuid "b73ceb1d-5fb8-5b2d-a9fb-59d343177865")
+		)
+		(pin "3"
+			(uuid "991d0189-2a4c-5600-8386-63198af75418")
+		)
+		(pin "8"
+			(uuid "79371c84-01f9-5491-924b-642d0265a067")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "U26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD1E05U06")
+		(at 104.14 133.35 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "dd995df2-2934-5727-adcc-6c448afba32c")
+		(property "Reference" "D8"
+			(at 107.95 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD1E05U06DYAR"
+			(at 107.95 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DYA0002A_TPD1E05U06_SOD523"
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD1E05U06DYAR"
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "D8"
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 104.14 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "778e60bd-63e9-5ab3-9a11-f02685759937")
+		)
+		(pin "2"
+			(uuid "1681858b-6d23-52df-b8f3-e72d6b0ff5fa")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "D8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD1E05U06")
+		(at 154.94 133.35 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c3c79e24-d10a-5da3-a302-fc0124b33da0")
+		(property "Reference" "D9"
+			(at 158.75 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD1E05U06DYAR"
+			(at 158.75 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DYA0002A_TPD1E05U06_SOD523"
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD1E05U06DYAR"
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "D9"
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 154.94 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9ad82f28-101d-5c6a-8ae0-9d402e383ec1")
+		)
+		(pin "2"
+			(uuid "bbaadd0b-fdd0-5214-9840-a516f21bcf94")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "D9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD1E05U06")
+		(at 205.74 133.35 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c8d6e76b-e322-58ca-92e5-4a262b0a2c81")
+		(property "Reference" "D10"
+			(at 209.55 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD1E05U06DYAR"
+			(at 209.55 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DYA0002A_TPD1E05U06_SOD523"
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD1E05U06DYAR"
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "D10"
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 205.74 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "b974645c-7113-5769-80f1-06a374f125c1")
+		)
+		(pin "2"
+			(uuid "2b2295d0-e7fd-528b-a10f-4b86ab5379d8")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "D10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:TPD1E05U06")
+		(at 256.54 133.35 0)
+		(unit 1)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "8ecb1327-9ad9-55f4-a988-b8a622e55590")
+		(property "Reference" "D11"
+			(at 260.35 132.08 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "TPD1E05U06DYAR"
+			(at 260.35 134.62 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Keel:TI_DYA0002A_TPD1E05U06_SOD523"
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tpd4e05u06.pdf"
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MPN" "TPD1E05U06DYAR"
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Manufacturer" "Texas Instruments"
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Selected_rating" ""
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "SourceReference" "D11"
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Source" "Selected manufacturer datasheets"
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Design_note" "Connector-local ground-referenced transient suppression. Sustained faults rely on the downstream current/voltage disconnects. Not a sustained miswire clamp. Verified TI land/paste pattern; common mask artwork and interpad copper exclusion for DQA A/B-compatible assembly. No via-in-pad."
+			(at 256.54 133.35 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8a33acd7-a2d9-565e-bc9d-8715c1bb4df5")
+		)
+		(pin "2"
+			(uuid "1f6572bf-85ae-5e32-98b7-b986047a59d6")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "D11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 35.56 29.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c3bc7467-328a-5843-8ca8-bcf0400f93c3")
+		(property "Reference" "#PWR0901"
+			(at 35.56 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 35.56 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 35.56 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 35.56 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 35.56 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 35.56 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "228297b5-15b4-5eb3-bc82-146493faea05")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0901")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 53.34 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "34b1a3c4-d819-5d59-85c2-f32c930d634d")
+		(property "Reference" "#PWR0902"
+			(at 53.34 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 53.34 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 53.34 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 53.34 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 53.34 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 53.34 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d9b7750a-806f-5784-85b4-3d52e38efb10")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0902")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 86.36 29.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "43b167d1-f06a-5120-bbc0-1f715758ecce")
+		(property "Reference" "#PWR0903"
+			(at 86.36 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 86.36 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 86.36 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 86.36 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 86.36 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 86.36 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2edfbc20-73d0-568d-871f-55d71ccc2222")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0903")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 104.14 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c50a90d2-a6eb-5708-bfd0-16169e72a345")
+		(property "Reference" "#PWR0904"
+			(at 104.14 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 104.14 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 104.14 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 104.14 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 104.14 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 104.14 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "99c34b78-703f-5fe0-8ccb-6f9e28c955a6")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0904")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 137.16 29.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "07cd0db3-6b1f-5376-88b3-629df8f91cc0")
+		(property "Reference" "#PWR0905"
+			(at 137.16 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 137.16 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 137.16 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 137.16 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 137.16 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 137.16 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a77a6198-40a9-5770-a0e4-0b487a132b14")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0905")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 154.94 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "905c375b-5f5f-5fac-8d25-0d8e07e5a4e0")
+		(property "Reference" "#PWR0906"
+			(at 154.94 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 154.94 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 154.94 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 154.94 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 154.94 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 154.94 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "fb3ab56f-e980-50ba-ae18-6ee1cf26f8e1")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0906")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 187.96 29.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2c92e710-9671-578e-8df0-cf9fae466e1e")
+		(property "Reference" "#PWR0907"
+			(at 187.96 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 187.96 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 187.96 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 187.96 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 187.96 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 187.96 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "45cba92b-e9e4-530b-9b85-c5624d04f7a8")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0907")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 205.74 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "62ce14f3-8db0-5af5-9d94-c4f42e58abaa")
+		(property "Reference" "#PWR0908"
+			(at 205.74 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 205.74 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 205.74 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 205.74 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 205.74 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 205.74 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "2652e0d7-57e3-544e-99f8-9a0d82d1eaba")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0908")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 238.76 29.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "38f0dce3-007e-5e43-aad8-59f00702d998")
+		(property "Reference" "#PWR0909"
+			(at 238.76 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 238.76 25.4 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 238.76 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 238.76 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 238.76 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 238.76 29.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "e6d51fcb-4de1-56ba-ae04-23f85ebf9279")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0909")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 256.54 44.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1eb68d40-b44a-5498-a817-a43e76fd6e00")
+		(property "Reference" "#PWR0910"
+			(at 256.54 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 256.54 48.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 256.54 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 256.54 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 256.54 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 256.54 44.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "395c0a4b-f008-561b-9707-8ffec3ad973f")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0910")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 35.56 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d1808fe5-a7df-5c58-8ec6-df4d5ca81e6d")
+		(property "Reference" "#PWR0911"
+			(at 35.56 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 35.56 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 35.56 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 35.56 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 35.56 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 35.56 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1be23267-0d23-53ae-88bf-4ae936cc18ab")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0911")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 53.34 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "7c030f55-ae74-5132-be32-07f4f5ae4b3b")
+		(property "Reference" "#PWR0912"
+			(at 53.34 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 53.34 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 53.34 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 53.34 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 53.34 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 53.34 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1329a4c1-b484-588b-9861-7410c9dc5571")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0912")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 86.36 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c1e506db-181d-551a-9506-34f9e9277322")
+		(property "Reference" "#PWR0913"
+			(at 86.36 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 86.36 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 86.36 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 86.36 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 86.36 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 86.36 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4df46114-7c85-54e0-b8ae-480673e16278")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0913")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 104.14 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "c21185b9-d9b1-5e62-907e-783a2f9afdf8")
+		(property "Reference" "#PWR0914"
+			(at 104.14 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 104.14 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 104.14 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 104.14 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 104.14 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 104.14 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "8690e90b-3646-54c1-a693-b139aa8af705")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0914")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:EXP_3V3")
+		(at 137.16 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "83ba2397-11c8-53f2-abb0-3caa57852433")
+		(property "Reference" "#PWR0915"
+			(at 137.16 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "EXP_3V3"
+			(at 137.16 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 137.16 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 137.16 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"EXP_3V3\""
+			(at 137.16 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 137.16 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1c235c8f-4954-571c-80dd-4197225a05ad")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0915")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 154.94 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "5f38a113-4c56-55b9-b8fc-fcc5d6656e26")
+		(property "Reference" "#PWR0916"
+			(at 154.94 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 154.94 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 154.94 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 154.94 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 154.94 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 154.94 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "17c495b7-f234-585d-ab6f-50d6087e503a")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0916")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:SENSOR_5V")
+		(at 238.76 77.47 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "11711753-dedb-5e2b-b3cb-9e05b9f5fdc0")
+		(property "Reference" "#PWR0917"
+			(at 238.76 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "SENSOR_5V"
+			(at 238.76 73.66 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 238.76 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 238.76 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"SENSOR_5V\""
+			(at 238.76 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 238.76 77.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "472ea3e5-6827-5765-88bd-f4b76499c6e6")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0917")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 256.54 92.71 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "66b63bcc-c769-5867-9c76-474e11b691d2")
+		(property "Reference" "#PWR0918"
+			(at 256.54 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 256.54 96.52 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 256.54 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 256.54 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 256.54 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 256.54 92.71 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "50e6801b-5818-5fa3-85f1-ed41f42771db")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0918")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:SERVO_5V")
+		(at 35.56 125.73 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "159afc8e-0143-538c-be03-d60ff1183fcd")
+		(property "Reference" "#PWR0919"
+			(at 35.56 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "SERVO_5V"
+			(at 35.56 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 35.56 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 35.56 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"SERVO_5V\""
+			(at 35.56 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 35.56 125.73 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "82aca613-53dd-5bc5-9c02-3f4caf109e8e")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0919")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 53.34 140.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d5beeefc-aa22-56a0-8318-575e3a34f868")
+		(property "Reference" "#PWR0920"
+			(at 53.34 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 53.34 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 53.34 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 53.34 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 53.34 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 53.34 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "99142b39-9f82-5435-b1b7-a4274441d001")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0920")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 104.14 140.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2e9ed3a0-344f-554f-8286-7814af771ad1")
+		(property "Reference" "#PWR0921"
+			(at 104.14 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 104.14 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 104.14 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 104.14 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 104.14 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 104.14 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "d0ad2652-7d3b-5703-acf5-d21dcb1dfa08")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0921")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 154.94 140.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "b6d2818a-14d7-595f-92a3-ad89fc5ca61b")
+		(property "Reference" "#PWR0922"
+			(at 154.94 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 154.94 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 154.94 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 154.94 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 154.94 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 154.94 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ee6dde68-d2b6-5bf1-8044-aeb381520177")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0922")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 205.74 140.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "79ed7028-817a-5bf4-a6f2-c4d33b8002dc")
+		(property "Reference" "#PWR0923"
+			(at 205.74 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 205.74 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 205.74 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 205.74 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 205.74 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 205.74 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "c5d61541-8d7a-5de3-87e4-c5a90addb422")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0923")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Keel:GND")
+		(at 256.54 140.97 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "1cdbc6bb-836a-5a22-990e-5d5556b5b11c")
+		(property "Reference" "#PWR0924"
+			(at 256.54 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 256.54 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 256.54 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 256.54 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\""
+			(at 256.54 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "ki_keywords" "global power"
+			(at 256.54 140.97 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "61b86b49-4571-5117-842c-b43e08f8e813")
+		)
+		(instances
+			(project "Keel"
+				(path "/4031b5a1-57a8-5430-b92f-84554754dc50/ad59cc24-abe7-5a7c-9c36-778753d5e3f2"
+					(reference "#PWR0924")
+					(unit 1)
+				)
+			)
+		)
+	)
+)

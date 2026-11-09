@@ -1,0 +1,983 @@
+{
+  "units": "metres",
+  "coordinates": "X right, Y up, -Z front",
+  "source": "chassis/renders/Keel_R3_studio.blend",
+  "groups": {
+    "Baseboard": {
+      "kind": "board",
+      "index": null,
+      "center": [
+        0.0,
+        0.0293,
+        -0.0
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: pcb"
+      ]
+    },
+    "BoardElectronics": {
+      "kind": "board",
+      "index": null,
+      "center": [
+        0.0013776,
+        0.03275,
+        -0.00771
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: C1",
+        "Keel R3 board: C10",
+        "Keel R3 board: C12",
+        "Keel R3 board: C13",
+        "Keel R3 board: C14",
+        "Keel R3 board: C15",
+        "Keel R3 board: C16",
+        "Keel R3 board: C17",
+        "Keel R3 board: C18",
+        "Keel R3 board: C19",
+        "Keel R3 board: C21",
+        "Keel R3 board: C22",
+        "Keel R3 board: C23",
+        "Keel R3 board: C24",
+        "Keel R3 board: C25",
+        "Keel R3 board: C26",
+        "Keel R3 board: C27",
+        "Keel R3 board: C28",
+        "Keel R3 board: C29",
+        "Keel R3 board: C30",
+        "Keel R3 board: C31",
+        "Keel R3 board: C32",
+        "Keel R3 board: C33",
+        "Keel R3 board: C34",
+        "Keel R3 board: C35",
+        "Keel R3 board: C36",
+        "Keel R3 board: C37",
+        "Keel R3 board: C4",
+        "Keel R3 board: C5",
+        "Keel R3 board: C6",
+        "Keel R3 board: C7",
+        "Keel R3 board: C8",
+        "Keel R3 board: C9",
+        "Keel R3 board: D10",
+        "Keel R3 board: D11",
+        "Keel R3 board: D12",
+        "Keel R3 board: D5",
+        "Keel R3 board: D6",
+        "Keel R3 board: D7",
+        "Keel R3 board: D8",
+        "Keel R3 board: D9",
+        "Keel R3 board: J1",
+        "Keel R3 board: J2 (1)",
+        "Keel R3 board: J2 (2)",
+        "Keel R3 board: J2 (3)",
+        "Keel R3 board: J2 (4)",
+        "Keel R3 board: J2 (5)",
+        "Keel R3 board: J2 (6)",
+        "Keel R3 board: J3 (1)",
+        "Keel R3 board: J3 (2)",
+        "Keel R3 board: J3 (3)",
+        "Keel R3 board: J3 (4)",
+        "Keel R3 board: J3 (5)",
+        "Keel R3 board: J3 (6)",
+        "Keel R3 board: PI1",
+        "Keel R3 board: Q1",
+        "Keel R3 board: R10",
+        "Keel R3 board: R11",
+        "Keel R3 board: R12",
+        "Keel R3 board: R17",
+        "Keel R3 board: R19",
+        "Keel R3 board: R20",
+        "Keel R3 board: R21",
+        "Keel R3 board: R22",
+        "Keel R3 board: R23",
+        "Keel R3 board: R24",
+        "Keel R3 board: R25",
+        "Keel R3 board: R26",
+        "Keel R3 board: R27",
+        "Keel R3 board: R28",
+        "Keel R3 board: R29",
+        "Keel R3 board: R30",
+        "Keel R3 board: R31",
+        "Keel R3 board: R32",
+        "Keel R3 board: R33",
+        "Keel R3 board: R34",
+        "Keel R3 board: R35",
+        "Keel R3 board: R36",
+        "Keel R3 board: R37",
+        "Keel R3 board: R38",
+        "Keel R3 board: R39",
+        "Keel R3 board: R40",
+        "Keel R3 board: R41",
+        "Keel R3 board: R42",
+        "Keel R3 board: R43",
+        "Keel R3 board: R44",
+        "Keel R3 board: R45",
+        "Keel R3 board: R46",
+        "Keel R3 board: R47",
+        "Keel R3 board: R48",
+        "Keel R3 board: R49",
+        "Keel R3 board: R5",
+        "Keel R3 board: R6",
+        "Keel R3 board: R7",
+        "Keel R3 board: R8",
+        "Keel R3 board: R9",
+        "Keel R3 board: RN1",
+        "Keel R3 board: RN10",
+        "Keel R3 board: RN11",
+        "Keel R3 board: RN2",
+        "Keel R3 board: RN3",
+        "Keel R3 board: RN6",
+        "Keel R3 board: RN8",
+        "Keel R3 board: RN9",
+        "Keel R3 board: SW5",
+        "Keel R3 board: U1",
+        "Keel R3 board: U10",
+        "Keel R3 board: U11",
+        "Keel R3 board: U12",
+        "Keel R3 board: U13",
+        "Keel R3 board: U14",
+        "Keel R3 board: U15",
+        "Keel R3 board: U16",
+        "Keel R3 board: U17",
+        "Keel R3 board: U18",
+        "Keel R3 board: U19",
+        "Keel R3 board: U2 (1)",
+        "Keel R3 board: U2 (2)",
+        "Keel R3 board: U20",
+        "Keel R3 board: U21",
+        "Keel R3 board: U22",
+        "Keel R3 board: U23",
+        "Keel R3 board: U24",
+        "Keel R3 board: U25",
+        "Keel R3 board: U26",
+        "Keel R3 board: U27",
+        "Keel R3 board: U28",
+        "Keel R3 board: U29",
+        "Keel R3 board: U3",
+        "Keel R3 board: U30",
+        "Keel R3 board: U4",
+        "Keel R3 board: U6",
+        "Keel R3 board: U7",
+        "Keel R3 board: U8",
+        "Keel R3 board: U9",
+        "Keel R3 board: X1",
+        "Keel R3 board: X3"
+      ]
+    },
+    "ButtonLED1": {
+      "kind": "buttonLed",
+      "index": 0,
+      "center": [
+        -0.0312,
+        0.030325,
+        0.041
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: D1 (1)",
+        "Keel R3 board: D1 (2)",
+        "Keel R3 board: D1 (3)",
+        "Keel R3 board: D1 (4)"
+      ]
+    },
+    "ButtonLED2": {
+      "kind": "buttonLed",
+      "index": 1,
+      "center": [
+        -0.0312,
+        0.030325,
+        0.057
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: D2 (1)",
+        "Keel R3 board: D2 (2)",
+        "Keel R3 board: D2 (3)",
+        "Keel R3 board: D2 (4)"
+      ]
+    },
+    "ButtonLED3": {
+      "kind": "buttonLed",
+      "index": 2,
+      "center": [
+        0.0312,
+        0.030325,
+        0.041
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: D3 (1)",
+        "Keel R3 board: D3 (2)",
+        "Keel R3 board: D3 (3)",
+        "Keel R3 board: D3 (4)"
+      ]
+    },
+    "ButtonLED4": {
+      "kind": "buttonLed",
+      "index": 3,
+      "center": [
+        0.0312,
+        0.030325,
+        0.057
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: D4 (1)",
+        "Keel R3 board: D4 (2)",
+        "Keel R3 board: D4 (3)",
+        "Keel R3 board: D4 (4)"
+      ]
+    },
+    "RGB1": {
+      "kind": "rgb",
+      "index": 0,
+      "center": [
+        0.0175,
+        0.02775,
+        -0.05875
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: RGB1 (1)",
+        "Keel R3 board: RGB1 (2)",
+        "Keel R3 board: RGB1 (3)",
+        "Keel R3 board: RGB1 (4)",
+        "Keel R3 board: RGB1 (5)",
+        "Keel R3 board: RGB1 (6)",
+        "Keel R3 board: RGB1 (7)",
+        "Keel R3 board: RGB1 (8)"
+      ]
+    },
+    "RGB2": {
+      "kind": "rgb",
+      "index": 1,
+      "center": [
+        -0.0175,
+        0.02775,
+        -0.05875
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: RGB2 (1)",
+        "Keel R3 board: RGB2 (2)",
+        "Keel R3 board: RGB2 (3)",
+        "Keel R3 board: RGB2 (4)",
+        "Keel R3 board: RGB2 (5)",
+        "Keel R3 board: RGB2 (6)",
+        "Keel R3 board: RGB2 (7)",
+        "Keel R3 board: RGB2 (8)"
+      ]
+    },
+    "RGB3": {
+      "kind": "rgb",
+      "index": 2,
+      "center": [
+        -0.033,
+        0.02775,
+        -0.011
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: RGB3 (1)",
+        "Keel R3 board: RGB3 (2)",
+        "Keel R3 board: RGB3 (3)",
+        "Keel R3 board: RGB3 (4)",
+        "Keel R3 board: RGB3 (5)",
+        "Keel R3 board: RGB3 (6)",
+        "Keel R3 board: RGB3 (7)",
+        "Keel R3 board: RGB3 (8)"
+      ]
+    },
+    "RGB4": {
+      "kind": "rgb",
+      "index": 3,
+      "center": [
+        -0.028,
+        0.02775,
+        0.04925
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: RGB4 (1)",
+        "Keel R3 board: RGB4 (2)",
+        "Keel R3 board: RGB4 (3)",
+        "Keel R3 board: RGB4 (4)",
+        "Keel R3 board: RGB4 (5)",
+        "Keel R3 board: RGB4 (6)",
+        "Keel R3 board: RGB4 (7)",
+        "Keel R3 board: RGB4 (8)"
+      ]
+    },
+    "RGB5": {
+      "kind": "rgb",
+      "index": 4,
+      "center": [
+        0.028,
+        0.02775,
+        0.04925
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: RGB5 (1)",
+        "Keel R3 board: RGB5 (2)",
+        "Keel R3 board: RGB5 (3)",
+        "Keel R3 board: RGB5 (4)",
+        "Keel R3 board: RGB5 (5)",
+        "Keel R3 board: RGB5 (6)",
+        "Keel R3 board: RGB5 (7)",
+        "Keel R3 board: RGB5 (8)"
+      ]
+    },
+    "RGB6": {
+      "kind": "rgb",
+      "index": 5,
+      "center": [
+        0.033,
+        0.02775,
+        -0.011
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: RGB6 (1)",
+        "Keel R3 board: RGB6 (2)",
+        "Keel R3 board: RGB6 (3)",
+        "Keel R3 board: RGB6 (4)",
+        "Keel R3 board: RGB6 (5)",
+        "Keel R3 board: RGB6 (6)",
+        "Keel R3 board: RGB6 (7)",
+        "Keel R3 board: RGB6 (8)"
+      ]
+    },
+    "SW1": {
+      "kind": "button",
+      "index": 0,
+      "center": [
+        -0.036,
+        0.03225,
+        0.041
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: SW1"
+      ]
+    },
+    "SW2": {
+      "kind": "button",
+      "index": 1,
+      "center": [
+        -0.036,
+        0.03225,
+        0.057
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: SW2"
+      ]
+    },
+    "SW3": {
+      "kind": "button",
+      "index": 2,
+      "center": [
+        0.036,
+        0.03225,
+        0.041
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: SW3"
+      ]
+    },
+    "SW4": {
+      "kind": "button",
+      "index": 3,
+      "center": [
+        0.036,
+        0.03225,
+        0.057
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Keel R3 board: SW4"
+      ]
+    },
+    "RaspberryPi": {
+      "kind": "computer",
+      "index": null,
+      "center": [
+        0.0012495,
+        0.043305,
+        0.022248
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Raspberry Pi 4: pcb",
+        "Raspberry Pi 4: header insulator",
+        "Raspberry Pi 4: header pins (1)",
+        "Raspberry Pi 4: header pins (2)",
+        "Raspberry Pi 4: header 2x2",
+        "Raspberry Pi 4: rj45",
+        "Raspberry Pi 4: usb a stack 1",
+        "Raspberry Pi 4: usb a stack 2",
+        "Raspberry Pi 4: usb c power",
+        "Raspberry Pi 4: micro hdmi 0",
+        "Raspberry Pi 4: micro hdmi 1",
+        "Raspberry Pi 4: camera ffc connector",
+        "Raspberry Pi 4: av jack",
+        "Raspberry Pi 4: display ffc connector",
+        "Raspberry Pi 4: soc",
+        "Raspberry Pi 4: ram",
+        "Raspberry Pi 4: radio can",
+        "Raspberry Pi 4: microsd",
+        "Raspberry Pi 4: header tails",
+        "Raspberry Pi 4: poe tails",
+        "Raspberry Pi 4: port tails (1)",
+        "Raspberry Pi 4: port tails (2)",
+        "Raspberry Pi 4: port tails (3)",
+        "2x20 riser header: body",
+        "2x20 riser header: tails (1)",
+        "2x20 riser header: tails (2)"
+      ]
+    },
+    "DriveMotors": {
+      "kind": "motor",
+      "index": null,
+      "center": [
+        0.0,
+        0.0258,
+        -0.028002
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Gearmotor, left: body",
+        "Gearmotor, left: shaft",
+        "Gearmotor, left: terminals (1)",
+        "Gearmotor, left: terminals (2)",
+        "Gearmotor, left: shim",
+        "Gearmotor, left: connector",
+        "Gearmotor, right: body",
+        "Gearmotor, right: shaft",
+        "Gearmotor, right: terminals (1)",
+        "Gearmotor, right: terminals (2)",
+        "Gearmotor, right: shim",
+        "Gearmotor, right: connector"
+      ]
+    },
+    "WheelLeft": {
+      "kind": "motor",
+      "index": 0,
+      "center": [
+        -0.061,
+        0.0235,
+        -0.028002
+      ],
+      "pivot": [
+        -0.061,
+        0.0235,
+        -0.028002
+      ],
+      "sourceParts": [
+        "Wheel, left: tyre",
+        "Wheel, left: rim"
+      ]
+    },
+    "WheelRight": {
+      "kind": "motor",
+      "index": 1,
+      "center": [
+        0.061,
+        0.0235,
+        -0.028002
+      ],
+      "pivot": [
+        0.061,
+        0.0235,
+        -0.028002
+      ],
+      "sourceParts": [
+        "Wheel, right: tyre",
+        "Wheel, right: rim"
+      ]
+    },
+    "Fasteners": {
+      "kind": "hardware",
+      "index": null,
+      "center": [
+        0.0,
+        0.04475,
+        0.0158358
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Ball caster: housing",
+        "Ball caster: ball",
+        "M2.5 lock nut",
+        "M2.5x8 socket head screw",
+        "M2.5 lock nut",
+        "M2.5x8 socket head screw",
+        "M2 thin nut",
+        "M2x8 socket head screw",
+        "M2 washer",
+        "M2 thin nut",
+        "M2x8 socket head screw",
+        "M2 washer",
+        "M2 thin nut",
+        "M2x8 socket head screw",
+        "M2 washer",
+        "M2 thin nut",
+        "M2x8 socket head screw",
+        "M2 washer",
+        "M2.5 hex nut",
+        "M2.5x12 socket head screw",
+        "M2.5 washer",
+        "M2.5 hex nut",
+        "M2.5x12 socket head screw",
+        "M2.5 washer",
+        "M2.5 lock nut",
+        "M2.5x16 socket head screw",
+        "M2.5 washer",
+        "M2.5 lock nut",
+        "M2.5x16 socket head screw",
+        "M2.5 washer",
+        "M2 hex nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 hex nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 hex nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 hex nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2.5 lock nut",
+        "M2.5x10 socket head screw",
+        "3 x 6 x 0.1 steel shim washer",
+        "M2.5 washer",
+        "M2.5 lock nut",
+        "M2.5x10 socket head screw",
+        "3 x 6 x 0.1 steel shim washer",
+        "M2.5 washer",
+        "M2.5 lock nut",
+        "M2.5x10 socket head screw",
+        "M2.5 washer",
+        "M2.5 lock nut",
+        "M2.5x10 socket head screw",
+        "M2.5 washer",
+        "M2 lock nut",
+        "M2x8 socket head screw",
+        "M2 lock nut",
+        "M2x8 socket head screw",
+        "M2 lock nut",
+        "M2x8 socket head screw",
+        "M2 lock nut",
+        "M2x8 socket head screw",
+        "M2 lock nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 lock nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 lock nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 lock nut",
+        "M2x10 socket head screw",
+        "M2 washer",
+        "M2 hex nut",
+        "M2x6 socket head screw",
+        "M2 hex nut",
+        "M2x6 socket head screw",
+        "M2 thin nut",
+        "M2x8 socket head screw",
+        "M2 washer",
+        "M2 thin nut",
+        "M2x8 socket head screw",
+        "M2 washer",
+        "M2.5x6 socket head screw",
+        "M2.5 washer",
+        "M2.5x6 socket head screw",
+        "M2.5 washer",
+        "M2.5x6 socket head screw",
+        "M2.5 washer",
+        "M2.5x6 socket head screw",
+        "M2.5 washer",
+        "M2.5x10 socket head screw",
+        "M2.5 washer",
+        "M2.5x10 socket head screw",
+        "M2.5 washer",
+        "M2.5x10 socket head screw",
+        "M2.5 washer",
+        "M2.5x10 socket head screw",
+        "M2.5 washer",
+        "M2.5 thin nut",
+        "M2.5x12 M-F hex standoff (1)",
+        "M2.5x12 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x12 M-F hex standoff (1)",
+        "M2.5x12 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x12 M-F hex standoff (1)",
+        "M2.5x12 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x12 M-F hex standoff (1)",
+        "M2.5x12 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x12 M-F hex standoff (1)",
+        "M2.5x12 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x12 M-F hex standoff (1)",
+        "M2.5x12 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x18 M-F hex standoff (1)",
+        "M2.5x18 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x18 M-F hex standoff (1)",
+        "M2.5x18 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x18 M-F hex standoff (1)",
+        "M2.5x18 M-F hex standoff (2)",
+        "M2.5 thin nut",
+        "M2.5x18 M-F hex standoff (1)",
+        "M2.5x18 M-F hex standoff (2)",
+        "M2.5x6 socket head screw",
+        "M2.5x20 F-F hex standoff",
+        "M2.5x8 M-F hex standoff (1)",
+        "M2.5x8 M-F hex standoff (2)",
+        "M2.5x6 socket head screw",
+        "M2.5x20 F-F hex standoff",
+        "M2.5x8 M-F hex standoff (1)",
+        "M2.5x8 M-F hex standoff (2)",
+        "M2.5x6 socket head screw",
+        "M2.5x20 F-F hex standoff",
+        "M2.5x8 M-F hex standoff (1)",
+        "M2.5x8 M-F hex standoff (2)",
+        "M2.5 hex nut",
+        "M2.5x8 M-F hex standoff (1)",
+        "M2.5x8 M-F hex standoff (2)"
+      ]
+    },
+    "RangeSensor": {
+      "kind": "range",
+      "index": null,
+      "center": [
+        0.0,
+        0.04575,
+        -0.05659
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "HC-SR04 ultrasonic sensor: pcb",
+        "HC-SR04 ultrasonic sensor: back parts",
+        "HC-SR04 ultrasonic sensor: header body",
+        "HC-SR04 ultrasonic sensor: pins (1)",
+        "HC-SR04 ultrasonic sensor: pins (2)",
+        "HC-SR04 ultrasonic sensor: pins (3)",
+        "HC-SR04 ultrasonic sensor: pins (4)",
+        "HC-SR04 ultrasonic sensor: joints",
+        "HC-SR04 1 \u2014 rolled aluminum can",
+        "HC-SR04 1 \u2014 dark inner wall",
+        "HC-SR04 1 \u2014 recessed diaphragm",
+        "HC-SR04 1 \u2014 grille 0 -13",
+        "HC-SR04 1 \u2014 grille 0 -12",
+        "HC-SR04 1 \u2014 grille 0 -11",
+        "HC-SR04 1 \u2014 grille 0 -10",
+        "HC-SR04 1 \u2014 grille 0 -9",
+        "HC-SR04 1 \u2014 grille 0 -8",
+        "HC-SR04 1 \u2014 grille 0 -7",
+        "HC-SR04 1 \u2014 grille 0 -6",
+        "HC-SR04 1 \u2014 grille 0 -5",
+        "HC-SR04 1 \u2014 grille 0 -4",
+        "HC-SR04 1 \u2014 grille 0 -3",
+        "HC-SR04 1 \u2014 grille 0 -2",
+        "HC-SR04 1 \u2014 grille 0 -1",
+        "HC-SR04 1 \u2014 grille 0 0",
+        "HC-SR04 1 \u2014 grille 0 1",
+        "HC-SR04 1 \u2014 grille 0 2",
+        "HC-SR04 1 \u2014 grille 0 3",
+        "HC-SR04 1 \u2014 grille 0 4",
+        "HC-SR04 1 \u2014 grille 0 5",
+        "HC-SR04 1 \u2014 grille 0 6",
+        "HC-SR04 1 \u2014 grille 0 7",
+        "HC-SR04 1 \u2014 grille 0 8",
+        "HC-SR04 1 \u2014 grille 0 9",
+        "HC-SR04 1 \u2014 grille 0 10",
+        "HC-SR04 1 \u2014 grille 0 11",
+        "HC-SR04 1 \u2014 grille 0 12",
+        "HC-SR04 1 \u2014 grille 0 13",
+        "HC-SR04 1 \u2014 grille 1 -13",
+        "HC-SR04 1 \u2014 grille 1 -12",
+        "HC-SR04 1 \u2014 grille 1 -11",
+        "HC-SR04 1 \u2014 grille 1 -10",
+        "HC-SR04 1 \u2014 grille 1 -9",
+        "HC-SR04 1 \u2014 grille 1 -8",
+        "HC-SR04 1 \u2014 grille 1 -7",
+        "HC-SR04 1 \u2014 grille 1 -6",
+        "HC-SR04 1 \u2014 grille 1 -5",
+        "HC-SR04 1 \u2014 grille 1 -4",
+        "HC-SR04 1 \u2014 grille 1 -3",
+        "HC-SR04 1 \u2014 grille 1 -2",
+        "HC-SR04 1 \u2014 grille 1 -1",
+        "HC-SR04 1 \u2014 grille 1 0",
+        "HC-SR04 1 \u2014 grille 1 1",
+        "HC-SR04 1 \u2014 grille 1 2",
+        "HC-SR04 1 \u2014 grille 1 3",
+        "HC-SR04 1 \u2014 grille 1 4",
+        "HC-SR04 1 \u2014 grille 1 5",
+        "HC-SR04 1 \u2014 grille 1 6",
+        "HC-SR04 1 \u2014 grille 1 7",
+        "HC-SR04 1 \u2014 grille 1 8",
+        "HC-SR04 1 \u2014 grille 1 9",
+        "HC-SR04 1 \u2014 grille 1 10",
+        "HC-SR04 1 \u2014 grille 1 11",
+        "HC-SR04 1 \u2014 grille 1 12",
+        "HC-SR04 1 \u2014 grille 1 13",
+        "HC-SR04 1 \u2014 rolled seam",
+        "HC-SR04 2 \u2014 rolled aluminum can",
+        "HC-SR04 2 \u2014 dark inner wall",
+        "HC-SR04 2 \u2014 recessed diaphragm",
+        "HC-SR04 2 \u2014 grille 0 -13",
+        "HC-SR04 2 \u2014 grille 0 -12",
+        "HC-SR04 2 \u2014 grille 0 -11",
+        "HC-SR04 2 \u2014 grille 0 -10",
+        "HC-SR04 2 \u2014 grille 0 -9",
+        "HC-SR04 2 \u2014 grille 0 -8",
+        "HC-SR04 2 \u2014 grille 0 -7",
+        "HC-SR04 2 \u2014 grille 0 -6",
+        "HC-SR04 2 \u2014 grille 0 -5",
+        "HC-SR04 2 \u2014 grille 0 -4",
+        "HC-SR04 2 \u2014 grille 0 -3",
+        "HC-SR04 2 \u2014 grille 0 -2",
+        "HC-SR04 2 \u2014 grille 0 -1",
+        "HC-SR04 2 \u2014 grille 0 0",
+        "HC-SR04 2 \u2014 grille 0 1",
+        "HC-SR04 2 \u2014 grille 0 2",
+        "HC-SR04 2 \u2014 grille 0 3",
+        "HC-SR04 2 \u2014 grille 0 4",
+        "HC-SR04 2 \u2014 grille 0 5",
+        "HC-SR04 2 \u2014 grille 0 6",
+        "HC-SR04 2 \u2014 grille 0 7",
+        "HC-SR04 2 \u2014 grille 0 8",
+        "HC-SR04 2 \u2014 grille 0 9",
+        "HC-SR04 2 \u2014 grille 0 10",
+        "HC-SR04 2 \u2014 grille 0 11",
+        "HC-SR04 2 \u2014 grille 0 12",
+        "HC-SR04 2 \u2014 grille 0 13",
+        "HC-SR04 2 \u2014 grille 1 -13",
+        "HC-SR04 2 \u2014 grille 1 -12",
+        "HC-SR04 2 \u2014 grille 1 -11",
+        "HC-SR04 2 \u2014 grille 1 -10",
+        "HC-SR04 2 \u2014 grille 1 -9",
+        "HC-SR04 2 \u2014 grille 1 -8",
+        "HC-SR04 2 \u2014 grille 1 -7",
+        "HC-SR04 2 \u2014 grille 1 -6",
+        "HC-SR04 2 \u2014 grille 1 -5",
+        "HC-SR04 2 \u2014 grille 1 -4",
+        "HC-SR04 2 \u2014 grille 1 -3",
+        "HC-SR04 2 \u2014 grille 1 -2",
+        "HC-SR04 2 \u2014 grille 1 -1",
+        "HC-SR04 2 \u2014 grille 1 0",
+        "HC-SR04 2 \u2014 grille 1 1",
+        "HC-SR04 2 \u2014 grille 1 2",
+        "HC-SR04 2 \u2014 grille 1 3",
+        "HC-SR04 2 \u2014 grille 1 4",
+        "HC-SR04 2 \u2014 grille 1 5",
+        "HC-SR04 2 \u2014 grille 1 6",
+        "HC-SR04 2 \u2014 grille 1 7",
+        "HC-SR04 2 \u2014 grille 1 8",
+        "HC-SR04 2 \u2014 grille 1 9",
+        "HC-SR04 2 \u2014 grille 1 10",
+        "HC-SR04 2 \u2014 grille 1 11",
+        "HC-SR04 2 \u2014 grille 1 12",
+        "HC-SR04 2 \u2014 grille 1 13",
+        "HC-SR04 2 \u2014 rolled seam",
+        "HC-SR04 \u2014 crystal stamped base flange",
+        "HC-SR04 \u2014 rounded crystal can",
+        "Crystal frequency marking",
+        "HC-SR04 model marking",
+        "HC-SR04 pin Vcc",
+        "HC-SR04 pin Trig",
+        "HC-SR04 pin Echo",
+        "HC-SR04 pin Gnd"
+      ]
+    },
+    "CameraModule": {
+      "kind": "camera",
+      "index": null,
+      "center": [
+        0.0165,
+        0.0607267,
+        -0.01519
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Camera Module 3: pcb",
+        "Camera Module 3: housing",
+        "Camera Module 3: barrel",
+        "Camera Module 3: connector",
+        "Camera Module 3: front flex",
+        "Camera cable, 150 mm: drop",
+        "Camera cable, 150 mm: loop",
+        "Camera cable, 150 mm: front run",
+        "Camera cable, 150 mm: descent",
+        "Camera cable, 150 mm: rear run",
+        "Camera cable, 150 mm: rise",
+        "Camera cable, 150 mm: plug in",
+        "Camera \u2014 recessed lens glass",
+        "Camera \u2014 lens retaining ring"
+      ]
+    },
+    "PowerBank": {
+      "kind": "power",
+      "index": null,
+      "center": [
+        0.0,
+        0.0735,
+        0.028
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "Power bank (reference size 133 x 70 x 14 mm)"
+      ]
+    },
+    "PrintedChassis": {
+      "kind": "chassis",
+      "index": null,
+      "center": [
+        0.0,
+        0.0517,
+        0.0245
+      ],
+      "pivot": [
+        0.0,
+        0.0,
+        -0.0
+      ],
+      "sourceParts": [
+        "P01 front tower",
+        "P02 sensor frame, left",
+        "P02 sensor frame, right",
+        "P04 tower shim 0.2 mm, left",
+        "P04 tower shim 0.2 mm, right",
+        "P05 camera mast",
+        "P06 camera carrier",
+        "P07 motor bracket, left",
+        "P07 motor bracket, right",
+        "P08 motor cap, left",
+        "P08 motor cap, right",
+        "P09 caster spacer",
+        "P10 top plate",
+        "P11 bank bridge, front",
+        "P11 bank bridge, rear"
+      ]
+    }
+  },
+  "emitters": [
+    "ButtonLED1_Emitter",
+    "ButtonLED2_Emitter",
+    "ButtonLED3_Emitter",
+    "ButtonLED4_Emitter",
+    "RGB1_Emitter",
+    "RGB2_Emitter",
+    "RGB3_Emitter",
+    "RGB4_Emitter",
+    "RGB5_Emitter",
+    "RGB6_Emitter"
+  ],
+  "buttonLabels": [
+    "A",
+    "B",
+    "X",
+    "Y"
+  ],
+  "bytes": 3402048
+}
