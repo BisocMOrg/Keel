@@ -268,9 +268,15 @@ jobs:
       - name: Install the packages
         working-directory: software
         run: |
-          DEBIAN_FRONTEND=noninteractive apt-get install -y ./libkeel1_*.deb ./keel-common_*_all.deb \
+          # The minimal Ubuntu image excludes /usr/share/doc at installation time.
+          # Keep these executable examples so this job tests the installed package.
+          DEBIAN_FRONTEND=noninteractive apt-get \
+            -o 'Dpkg::Options::=--path-include=/usr/share/doc/python3-keel/examples/*' \
+            install -y ./libkeel1_*.deb ./keel-common_*_all.deb \
             ./bindings/python3-keel_*_all.deb
-          dpkg -L python3-keel | grep -q '/usr/share/doc/python3-keel/examples/drive.py'
+          for example in bindings/python/examples/*.py; do
+            test -s "/usr/share/doc/python3-keel/examples/${example##*/}"
+          done
       - name: The examples with the system Python and the installed libkeel.so.1
         run: |
           for example in buttons drive leds ranging safety sequential_moves; do
