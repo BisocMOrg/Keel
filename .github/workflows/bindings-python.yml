@@ -229,7 +229,7 @@ jobs:
           # The examples come from the sdist, so its contents are checked as well.
           mkdir "$RUNNER_TEMP/sdist"
           tar -xzf dist/keel_robot-*.tar.gz -C "$RUNNER_TEMP/sdist" --strip-components=1
-          for example in buttons drive leds ranging safety; do
+          for example in buttons drive leds ranging safety sequential_moves; do
             arguments=()
             if [ "$example" = buttons ]; then arguments=(--duration 300); fi
             "$venv/python" -W error "$RUNNER_TEMP/sdist/examples/$example.py" --simulator "${arguments[@]}"
@@ -273,7 +273,7 @@ jobs:
           dpkg -L python3-keel | grep -q '/usr/share/doc/python3-keel/examples/drive.py'
       - name: The examples with the system Python and the installed libkeel.so.1
         run: |
-          for example in buttons drive leds ranging safety; do
+          for example in buttons drive leds ranging safety sequential_moves; do
             arguments=()
             if [ "$example" = buttons ]; then arguments=(--duration 300); fi
             /usr/bin/python3 -W error "/usr/share/doc/python3-keel/examples/$example.py" --simulator "${arguments[@]}"

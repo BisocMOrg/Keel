@@ -2,23 +2,21 @@
 # Copyright (c) 2026 BisocM
 """keel: the Python binding of libkeel, the host library of the Keel robot baseboard.
 
-A minimal program opens the device, starts a control loop and arms:
+A student program is an ordinary sequential task with bounded actions:
 
     import keel
 
-    def step(cycle: keel.Cycle) -> None:
-        if cycle.snapshot.state == keel.State.ARMED:
-            cycle.drive(200, 200)              # permille, sent again every cycle
+    class FirstDrive(keel.KeelTask):
+        def run(self) -> None:
+            self.keel.drive_for(20, 20, 3000)  # percent, percent, milliseconds
 
-    with keel.open() as device:                # the board, or KEEL_BACKEND=simulator
-        loop = keel.ControlLoop(device, step)
-        device.request_arm()                   # before the first tick every thread is the owner
-        loop.run(cycles=300)                   # 3 s on the device clock, on this thread
-        device.disarm()
+    keel.run(FirstDrive())  # automatically arm, drive for 3 s, stop and close
 
 The binding loads the system's libkeel.so.1 (or the absolute path in KEEL_LIBRARY) on first use; importing keel
-never touches the library. libkeel is the only safety logic: every call passes through unchanged, and every status
-other than OK raises the exception of its class (keel.errors).
+never touches the library. The lower-level Device and ControlLoop APIs remain available with their native units
+and ownership rules. Their calls pass through to libkeel, whose non-OK statuses raise exceptions of their class
+(keel.errors). The task facade adds application lifecycle management and finite actions above those APIs; libkeel
+and the controller retain their native hardware safety checks.
 
 The package keeps the entry points and the open options and report at its root: open() and Device (keel.device),
 load() and the library metadata (keel.library), stop_on_signals() (keel.stop_signals), and the constant modules
@@ -31,6 +29,7 @@ keel.abi and keel.limits. The other types are grouped by what they describe, and
 | keel.state | State, AckPhase, SafetyInput, Snapshot, Fault and their flags and causes |
 | keel.peripherals | buttons and their LEDs, the RGB LEDs, ranging and the sensor power |
 | keel.sim | the simulator's stimuli and ground truth |
+| keel.task | sequential KeelTask programs, TaskRobot actions, TaskOptions and TaskError |
 | keel.camera | the Raspberry Pi camera, through its own library libkeel-camera.so.1 (not re-exported here) |
 """
 
@@ -69,6 +68,8 @@ from .library import abi_version, fault_cause_name, load, status_class, status_n
 from .device import Device, open  # noqa: A004  (keel.open, after keel_open)
 from .stop_signals import stop_on_signals
 from . import camera
+from . import task
+from .task import KeelTask, TaskError, TaskOptions, TaskRobot, run
 
 # isort: on
 
@@ -97,6 +98,7 @@ __all__ = [
     "Health",
     "InvalidArgumentError",
     "KeelError",
+    "KeelTask",
     "Led",
     "LibraryError",
     "LoopStats",
@@ -121,6 +123,9 @@ __all__ = [
     "StateError",
     "Status",
     "StatusClass",
+    "TaskError",
+    "TaskOptions",
+    "TaskRobot",
     "TimingClass",
     "UnsupportedError",
     "__version__",
@@ -134,11 +139,13 @@ __all__ = [
     "loop",
     "open",
     "peripherals",
+    "run",
     "sim",
     "state",
     "status_class",
     "status_name",
     "status_string",
     "stop_on_signals",
+    "task",
     "version_string",
 ]

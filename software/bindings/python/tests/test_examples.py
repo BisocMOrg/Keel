@@ -74,6 +74,7 @@ def example(name: str) -> ModuleType:
             ],
         ),
         ("ranging", ["--count", "3"], [r"loop: 500 mm \(echo \d+ us, sequence \d+\)", r"thread: 500 mm"]),
+        ("sequential_moves", [], []),
         (
             "safety",
             [],
@@ -123,12 +124,27 @@ def test_buttons_without_drive_runs_on_a_robot_and_never_arms(
         ("leds", ["--hold", "1"]),
         ("ranging", ["--count", "0"]),
         ("drive", ["--unknown"]),
+        ("sequential_moves", ["--unknown"]),
     ],
 )
 def test_usage_errors_exit_with_status_2(name: str, arguments: list[str]) -> None:
     result = run(name, "--simulator", *arguments)
     assert result.returncode == 2
     assert "usage:" in result.stderr
+
+
+@pytest.mark.portability
+def test_sequential_moves_requires_permission_before_opening_hardware(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    def forbidden(*args: object, **kwargs: object) -> None:
+        pytest.fail("an unapproved example must not start a task or open the board")
+
+    monkeypatch.setattr(keel, "run", forbidden)
+    monkeypatch.setattr(keel, "open", forbidden)
+    status = example("sequential_moves").main([])
+    assert status == 2
+    assert "pass --simulator or --allow-motion" in capsys.readouterr().err
 
 
 @pytest.mark.parametrize(

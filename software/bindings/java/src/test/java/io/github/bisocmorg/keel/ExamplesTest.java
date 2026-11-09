@@ -99,6 +99,20 @@ class ExamplesTest {
                 "state: ARMED; drove 200 cycles at 200 permille, output 200/200", "state: DISARMED");
     }
 
+    /** Exercises the same sequential task example a student runs, on the native simulator. */
+    @Test
+    void sequentialMoves() throws IOException, InterruptedException {
+        assertSucceeds(run("SequentialMoves", "--simulator"));
+    }
+
+    /** Refuses unspecified physical motion before the example can open a real device. */
+    @Test
+    void sequentialMovesRequiresExplicitMotionChoice() throws IOException, InterruptedException {
+        Result result = run("SequentialMoves");
+        assertEquals(2, result.status());
+        assertTrue(result.output().contains("requires --allow-motion"));
+    }
+
     @Test
     void buttons() throws IOException, InterruptedException {
         assertSucceeds(run("Buttons", "--simulator", "--duration", "300"), "buttons: done");

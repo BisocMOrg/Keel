@@ -14,7 +14,13 @@ Both are pure code over the system's `libkeel.so.1`: Python through ctypes, Java
 Memory API. Neither contains native code or bundles the library, so a robot has exactly one copy of the safety code
 and `apt upgrade` updates every language at once. libkeel is the only safety logic: the bindings pass every call
 through, map every status to the exception of its class and add a control-loop helper that implements the loop
-contract of [docs/bindings.md](../libkeel/docs/bindings.md).
+contract of [docs/bindings.md](../libkeel/docs/bindings.md). Both also provide a sequential task runtime:
+students write a `KeelTask` subclass and call bounded motor/image operations, while the runtime handles
+arming, deadlines and cleanup. The native safety policy remains in libkeel and the controller.
+
+Start with the [sequential task guide](docs/tasks.md) for matching Java and Python examples. Movement
+parameters there are signed percentages and milliseconds. Student behaviours such as `approachBox` remain
+application code; the library provides no OpenCV or colour-detection algorithm.
 
 Both also bind the camera library `libkeel-camera.so.1` (`camera.h`), as `keel.camera` and
 `io.github.bisocmorg.keel.camera`: Camera Module 2 and 3, raw frames (numpy arrays in Python, direct buffers and
@@ -63,6 +69,7 @@ export KEEL_CAMERA_LIBRARY="$PWD/build/sim-only/libkeel-camera.so.1"   # needs l
 | Path | Contents |
 |---|---|
 | [CHANGELOG.md](CHANGELOG.md) | what changed in each release |
+| [docs/tasks.md](docs/tasks.md) | sequential student tasks in Java and Python, bounded actions and runtime guarantees |
 | `tools/keelgen.py`, `tools/keelgen_java.py` | the generator of everything that restates `keel.h` and `camera.h` (the Java emitter in its own file), and the drift check CI runs |
 | `python/` | the Python binding: package, tests, examples and the `python3-keel` Debian packaging |
 | `java/` | the Java binding: Maven project, tests and examples |

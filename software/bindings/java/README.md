@@ -70,6 +70,48 @@ names the option to add.
 
 ## Quick start
 
+For sequential programs, subclass `KeelTask`. A movement call automatically waits for arming, runs for its
+bounded duration and removes motor drive before returning. Pauses and image analysis run with motor drive off.
+
+```java
+import io.github.bisocmorg.keel.Keel;
+import io.github.bisocmorg.keel.task.KeelTask;
+
+public final class QuickStart extends KeelTask {
+    /**
+     * Runs sequential actions, each ending with zero motor drive.
+     * @throws Exception if an action fails or the task is interrupted
+     */
+    @Override
+    protected void run() throws Exception {
+        keel.driveFor(20, 20, 1000);  // percent left/right, milliseconds
+        Thread.sleep(500);
+        keel.turnLeftFor(600);
+    }
+
+    /**
+     * Executes this task and closes its hardware resources.
+     * @param args unused command-line arguments
+     * @throws Exception if opening the robot or running the task fails
+     */
+    public static void main(String[] args) throws Exception {
+        Keel.run(new QuickStart());
+    }
+}
+```
+
+Use `keel.takeImage()` for a BGR888 camera frame. Write behaviours such as `approachBox` as your own task
+methods; Keel provides no box detection or OpenCV algorithm. `keel.stop()` cancels the task. See the
+[sequential task guide](../docs/tasks.md) for the Python equivalent, units, timeouts, faults and examples.
+These task APIs are new source functionality: build the updated binding if using an older release jar.
+
+The [SequentialMoves example](examples/SequentialMoves.java) includes an explicit `--allow-motion` hardware
+gate and a `--simulator` option. Task programs use a real-time simulator, not `OpenFlag.VIRTUAL_CLOCK`.
+
+## Cycle-level control
+
+The lower-level API remains available for applications that need to choose a command on every control cycle:
+
 ```java
 import io.github.bisocmorg.keel.Device;
 import io.github.bisocmorg.keel.Keel;
@@ -112,6 +154,7 @@ java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar examples/Buttons.java
 |---|---|
 | `Buttons` | button LEDs mirror the buttons, edges printed, B ends, Ctrl-C is an emergency stop, `--drive LEFT RIGHT MS` |
 | `Drive` | open, arm, drive 200 permille forward for about 2 s, disarm, close |
+| `SequentialMoves` | bounded task actions with automatic arming, a stationary pause and a timed turn |
 | `Leds` | RGB frames and button LEDs; an error colour while FAULTED; a missing LED driver handled |
 | `Ranging` | `rangeStart` and `rangePoll` in the step; statuses, never sentinel distances; `rangeMeasure` from another thread; `--count N` |
 | `Safety` | an emergency stop from a user-interface thread, the fault record, clearing through the loop, the re-arm hold-off, a refused foreign go call |
@@ -126,6 +169,7 @@ java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar examples/Buttons.java
 | `io.github.bisocmorg.keel` | `Keel` (loading, library metadata, `open`), `Device`, `OpenOptions`, `OpenReport` with `OpenFlag`, `OpenWarning` and `OpenResource`, `Backend`, `Capability`, `TimingClass`, `Abi`, `AbiVersion`, `Limits` |
 | `io.github.bisocmorg.keel.errors` | `KeelException` and its subclasses, `LibraryException`, `Status`, `StatusClass` |
 | `io.github.bisocmorg.keel.loop` | `ControlLoop`, `Cycle`, `LoopStats`, `CycleInput`, `CycleCommand`, `CycleFlag`, `Health` |
+| `io.github.bisocmorg.keel.task` | `KeelTask`, `TaskRobot`, `TaskOptions` and `TaskException`: sequential, bounded actions |
 | `io.github.bisocmorg.keel.state` | `State`, `Snapshot`, `SnapshotFlag`, `SafetyInput`, `AckPhase`, `Fault`, `FaultCause`, `FaultFlag` |
 | `io.github.bisocmorg.keel.peripherals` | `Button`, `ButtonState`, `Led`, `RangeMeasurement`, `RangeStatus`, `SensorPower` |
 | `io.github.bisocmorg.keel.sim` | `SimItem`, `SimFlag`, `SimState` |
@@ -142,6 +186,11 @@ java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar examples/Buttons.java
 not export them, and they are not API.
 
 ## The loop and the safety contract
+
+This section describes the low-level `ControlLoop`. The task runtime adds a bounded action supervisor on
+top of it: an explicit movement call owns a finite command interval, and the supervisor checks its deadline
+on the control thread. It never clears faults or retains motion after the action ends. See
+[task execution](../docs/tasks.md#bounds-faults-and-cancellation).
 
 libkeel's heartbeat keeps motor permission alive only while the application's own control loop calls `keel_cycle`
 every 10 ms with honest health. `ControlLoop` is that loop:

@@ -46,6 +46,40 @@ anywhere; the library is loaded on first use or by `keel.load()`.
 
 ## Quick start
 
+For sequential programs, subclass `KeelTask`. The task runner opens the device and automatically waits for
+arming when a movement is requested. Each movement finishes and removes motor drive before returning.
+
+```python
+import time
+
+import keel
+from keel.task import KeelTask
+
+
+class FirstTask(KeelTask):
+    """Drive, pause, then turn using bounded actions."""
+
+    def run(self) -> None:
+        """Execute the student's sequence while the runner manages the hardware."""
+        self.keel.drive_for(20, 20, 1000)  # percent left/right, milliseconds
+        time.sleep(0.5)
+        self.keel.turn_left_for(600)
+
+
+keel.run(FirstTask())
+```
+
+`self.keel.take_image()` returns a BGR888 camera frame; `frame.array()` gives a numpy view when numpy is
+installed. Students implement behaviours such as `approach_box` in their own methods. There is no built-in
+box detection or OpenCV algorithm. `self.keel.stop()` cancels the task. See the
+[sequential task guide](../docs/tasks.md) for the Java equivalent, timeouts, units and failure handling.
+These task APIs are new source functionality: build/install the updated binding if using an older release.
+
+The [sequential_moves example](examples/sequential_moves.py) accepts `--simulator` or the explicit
+`--allow-motion` hardware gate. Task programs use the real-time simulator, not `OpenFlag.VIRTUAL_CLOCK`.
+
+## Cycle-level control
+
 Open the board, arm it, drive forward at 20% for about three seconds, stop:
 
 ```python
@@ -72,9 +106,10 @@ reach a board open the simulator explicitly:
 device = keel.open(backend=keel.Backend.SIMULATOR, flags=keel.OpenFlag.VIRTUAL_CLOCK)
 ```
 
-The `examples` directory has five complete programs, each runnable with `--simulator`: `buttons` (buttons mirrored
+The `examples` directory has five cycle-level programs, each runnable with `--simulator`: `buttons` (buttons mirrored
 on their LEDs; `--drive LEFT RIGHT MS`), `drive`, `leds`, `ranging` and `safety`. They arm only on the simulator or
-with `--allow-motion` (`buttons`: `--drive`). Three more use the camera and need no board: `camera_frames` (frames
+with `--allow-motion` (`buttons`: `--drive`). The `sequential_moves` example demonstrates the task API with the same
+explicit hardware gate. Three more use the camera and need no board: `camera_frames` (frames
 into vision code), `camera_stream` (video to the network or a file) and `camera_still` (a JPEG photo).
 
 ## Package layout
@@ -87,6 +122,7 @@ imported on its own:
 | `keel` | `open()`, `Device`, `load()` and the library metadata, `stop_on_signals()`, the open options and report (`Backend`, `OpenFlag`, `OpenReport`, `OpenResource`, `OpenWarning`, `Capability`, `TimingClass`), and every name below |
 | `keel.errors` | the exception hierarchy, `Status` and `StatusClass` |
 | `keel.loop` | `ControlLoop`, `Cycle`, `LoopStats`, `CycleCommand`, `CycleFlag` and `Health` |
+| `keel.task` | `KeelTask`, `TaskRobot`, `TaskOptions` and task errors: sequential, bounded actions |
 | `keel.state` | `State`, `AckPhase`, `SafetyInput`, `Snapshot`, `SnapshotFlag`, `Fault`, `FaultCause` and `FaultFlag` |
 | `keel.peripherals` | `Button`, `ButtonState`, `Led`, `RangeMeasurement`, `RangeStatus` and `SensorPower` |
 | `keel.sim` | `SimItem`, `SimFlag` and `SimState` |
@@ -96,6 +132,11 @@ imported on its own:
 `keel._internal` holds the library loaders and the generated structs and calls; it is not API.
 
 ## The loop and the safety contract
+
+The rules below describe low-level `ControlLoop` use. The task runtime places a bounded action supervisor
+on that loop: it permits only the duration explicitly requested by an action, checks deadlines on the
+control thread and commands zero drive between actions. It never clears faults automatically. See
+[task execution](../docs/tasks.md#bounds-faults-and-cancellation).
 
 libkeel is the only safety logic; the binding passes every call through unchanged. The contract in brief (the full
 story is in [safety.md](https://github.com/BisocMOrg/Keel/blob/main/software/libkeel/docs/safety.md)):

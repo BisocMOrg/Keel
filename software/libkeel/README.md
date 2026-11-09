@@ -172,6 +172,11 @@ Both are pure code over `keel.h` with nothing to compile: on the robot they load
 gives the rules every binding follows and the pitfalls of each runtime, including C#, for which no binding is
 built. `tests/consumers/keel_ctypes.py` is the minimal reference binding that libkeel's own tests use.
 
+For sequential student programs, the [task API](../bindings/docs/tasks.md) provides matching Java and
+Python task classes. Bounded movement and camera methods hide loop ownership and arming checks while
+leaving behaviours such as target detection and approach logic in student code. The lower-level C and
+binding APIs remain available.
+
 ## Documentation
 
 | Document | For |
@@ -179,6 +184,7 @@ built. `tests/consumers/keel_ctypes.py` is the minimal reference binding that li
 | [docs/safety.md](docs/safety.md) | application developers: states, the loop contract, stops, statuses, the fault catalogue and the request-versus-state table |
 | [docs/bindings.md](docs/bindings.md) | binding authors: loading, structs, strings, errors, the loop thread, per-language pitfalls |
 | [../bindings](../bindings/README.md) | Python and Java developers: the official bindings |
+| [../bindings/docs/tasks.md](../bindings/docs/tasks.md) | students: sequential Java/Python tasks, bounded actions, camera images and custom behaviours |
 | [docs/deploy.md](docs/deploy.md) | putting it on a robot: builds per target, packages, permissions, services |
 | [docs/camera.md](docs/camera.md) | the camera: `keel-camera` recipes (viewers, recording, stills, frames for a model), the C API and the Python and Java camera APIs |
 | [docs/architecture.md](docs/architecture.md) | maintainers and porters: layers, locks, backends, tests |

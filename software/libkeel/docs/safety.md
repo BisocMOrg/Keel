@@ -15,8 +15,8 @@ generated from the header and from the table the test suite replays, and a test 
 2. **The safety MCU.** It grants motor permission only after an arming handshake and only while it sees a
    heartbeat from the Pi: a falling edge on BCM18 every 20-80 ms. Without a heartbeat it removes motor, servo and
    sensor power on its own. It reports its health on READY (BCM20).
-3. **libkeel.** It emits the heartbeat only from your control loop, never from a background thread, so the
-   heartbeat certifies that your loop is alive. It checks READY and ARMED before every motion command and on
+3. **libkeel.** It emits the heartbeat only when your control loop calls it; it creates no autonomous heartbeat
+   thread. The heartbeat certifies that the control loop is alive. It checks READY and ARMED before every motion command and on
    every tick, enforces command timeouts, and performs a Category-0 stop (enable off, motors coasting) on any
    inconsistency.
 
@@ -33,8 +33,15 @@ about 86 ms after the last heartbeat; on the robot, ARMED fell 51-71 ms after th
 | `SERVO` | on (servo permit, motors locked out) | running | coast | ends by itself at the lease end; `keel_servo_end` |
 | `FAULTED` | off | stopped | coast | `keel_clear_fault` (unless the cause is sticky) |
 
-A device starts `DISARMED`. Nothing ever arms automatically: arming is an explicit operator or application
-decision, and so is clearing a fault.
+A device starts `DISARMED`. Arming is an explicit operator or application decision, and so is clearing a
+fault. The low-level loop never arms on its own. In the Java/Python
+[sequential task API](../../bindings/docs/tasks.md), calling a bounded movement method is that explicit
+application decision: the supervisor requests arming and waits for confirmation. It never clears a fault.
+
+Task movements have independently enforced time bounds and stop before returning. The task supervisor
+keeps the hardware loop running while ordinary student code sleeps or analyses an image, with zero motor
+drive outside a bounded movement. Task failure, cancellation or timeout removes motor authority; a late
+result cannot resume an expired action. The native checks and hardware limits in this guide still apply.
 
 ## 3. The control loop contract
 

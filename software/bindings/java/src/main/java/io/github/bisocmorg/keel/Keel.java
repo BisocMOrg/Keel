@@ -9,6 +9,8 @@ import io.github.bisocmorg.keel.internal.HeaderVersion;
 import io.github.bisocmorg.keel.internal.NativeLibrary;
 import io.github.bisocmorg.keel.internal.NativeStringReader;
 import io.github.bisocmorg.keel.state.FaultCause;
+import io.github.bisocmorg.keel.task.KeelTask;
+import io.github.bisocmorg.keel.task.TaskOptions;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Map;
@@ -23,8 +25,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * {@code KEEL_LIBRARY} (an absolute path; empty counts as unset), then the SONAME {@code libkeel.so.1} through the
  * dynamic loader. On anything but Linux, loading fails with a {@link LibraryException} before any library is opened.
  *
- * <p>Every method here is thread-safe and never blocks, except {@link #open(OpenOptions)}, which takes up to about
- * 100 ms on the robot.
+ * <p>Metadata methods are thread-safe and do not block. {@link #open(OpenOptions)} takes up to about 100 ms on the
+ * robot. The {@code run} methods execute a single-use task on the calling platform thread and block until the
+ * student's sequence returns or fails; its hardware and camera resources are scoped to that execution.
  */
 public final class Keel {
     /** The version of this binding: that of the {@code keel.h} it was generated from, for example {@code "1.0.0"}. */
@@ -36,6 +39,31 @@ public final class Keel {
     private static volatile String versionString;
 
     private Keel() {
+    }
+
+    /**
+     * Executes one sequential student task with default resource options and finite time limits.
+     * Hardware is automatically opened and closed; the first nonzero movement performs arming.
+     *
+     * @param task the single-use task to run on this platform thread
+     * @throws NullPointerException if task is null
+     * @throws Exception the original student failure or a task/native failure
+     */
+    public static void run(KeelTask task) throws Exception {
+        run(task, TaskOptions.defaults());
+    }
+
+    /**
+     * Executes one sequential task with explicit options. All task and camera work stays on this platform
+     * thread; the controller independently enforces deadlines and removes drive between bounded actions.
+     *
+     * @param task the single-use task
+     * @param options resource configuration and millisecond limits
+     * @throws NullPointerException if either argument is null
+     * @throws Exception the original student failure or a task/native failure
+     */
+    public static void run(KeelTask task, TaskOptions options) throws Exception {
+        Objects.requireNonNull(task, "task").execute(options);
     }
 
     /**

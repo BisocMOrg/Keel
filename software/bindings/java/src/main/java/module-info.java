@@ -8,7 +8,8 @@
  * <p>The module exports {@link io.github.bisocmorg.keel} and its API packages
  * {@link io.github.bisocmorg.keel.errors}, {@link io.github.bisocmorg.keel.loop},
  * {@link io.github.bisocmorg.keel.peripherals}, {@link io.github.bisocmorg.keel.sim} and
- * {@link io.github.bisocmorg.keel.state}, and the camera API {@link io.github.bisocmorg.keel.camera} with its packages
+ * {@link io.github.bisocmorg.keel.state}, the sequential task API {@link io.github.bisocmorg.keel.task}, and the
+ * camera API {@link io.github.bisocmorg.keel.camera} with its packages
  * {@link io.github.bisocmorg.keel.camera.errors}, {@link io.github.bisocmorg.keel.camera.frames},
  * {@link io.github.bisocmorg.keel.camera.encoding}, {@link io.github.bisocmorg.keel.camera.outputs} and
  * {@link io.github.bisocmorg.keel.camera.stills}. It needs only {@code java.base} and the system's
@@ -27,6 +28,7 @@ module io.github.bisocmorg.keel {
     exports io.github.bisocmorg.keel.peripherals;
     exports io.github.bisocmorg.keel.sim;
     exports io.github.bisocmorg.keel.state;
+    exports io.github.bisocmorg.keel.task;
     exports io.github.bisocmorg.keel.camera;
     exports io.github.bisocmorg.keel.camera.encoding;
     exports io.github.bisocmorg.keel.camera.errors;

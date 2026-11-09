@@ -146,57 +146,69 @@ The board is an engineering safety interlock, not a certified safety device.
 | [Java and Python demonstrators](software/demonstrator/README.md) | Two independent Pi servers with a shared local browser dashboard: interactive 3D robot, LEDs, hold-to-drive motors, ultrasonic ranging, camera streaming/photos and measured timing statistics. |
 | [`firmware/safety-mcu`](firmware/safety-mcu/README.md) | STM32C011 firmware, release image (`release/safety_controller.hex`, SHA-256 `1608d866...`) and the programming tool for the Pi (`programming/flash_safety_mcu.sh`). |
 
-The bindings pass every call through to libkeel and contain no safety logic of their own. Constants and structure
-layouts are generated from `keel.h` and `camera.h` and checked in CI.
+The low-level bindings pass calls through to libkeel. Their sequential task layer schedules bounded actions
+without replacing the native safety policy. Constants and structure layouts are generated from `keel.h` and
+`camera.h` and checked in CI.
 
 Threading rule: the thread that runs the control loop owns the device. Motion calls from any other thread are refused
 (`KEEL_E_CONFLICT`); stop calls (`keel_disarm`, `keel_emergency_stop`, `keel_close`) are accepted from any thread. The
 GPIO lines are requested exclusively, so a second process cannot open the board (`KEEL_E_IN_USE`).
 
-Minimal control loop (Python): arm, drive both motors at 20% for 3 s, disarm.
+Sequential task (Python): drive both motors at 20% for 3 s, pause with motor drive off, then make a timed left turn.
+The task runner handles arming, the hardware loop, bounded movement and cleanup. Students write their own
+behaviours; see the [Java/Python task guide](software/bindings/docs/tasks.md).
 
 ```python
+import time
+
 import keel
+from keel.task import KeelTask
 
 
-def step(cycle: keel.Cycle) -> None:
-    if cycle.snapshot.state == keel.State.ARMED:
-        cycle.drive(200, 200)  # permille; resent every cycle, a command expires after 500 ms
+class FirstTask(KeelTask):
+    """Run a short sequence of bounded robot movements."""
+
+    def run(self) -> None:
+        """Drive, pause with motor drive off, then turn."""
+        self.keel.drive_for(20, 20, 3000)  # percent left/right, milliseconds
+        time.sleep(0.5)
+        self.keel.turn_left_for(600)
 
 
-with keel.open() as device:  # board, or the backend named by KEEL_BACKEND
-    loop = keel.ControlLoop(device, step)
-    device.request_arm()
-    loop.run(cycles=300)  # 10 ms per cycle
-    device.disarm()
+keel.run(FirstTask())
 ```
 
 <details>
 <summary>Java</summary>
 
 ```java
-import io.github.bisocmorg.keel.Device;
 import io.github.bisocmorg.keel.Keel;
-import io.github.bisocmorg.keel.loop.ControlLoop;
-import io.github.bisocmorg.keel.state.State;
+import io.github.bisocmorg.keel.task.KeelTask;
 
-public final class QuickStart {
-    public static void main(String[] args) {
-        try (Device device = Keel.open()) {
-            ControlLoop loop = ControlLoop.builder(device, cycle -> {
-                if (cycle.snapshot().state() == State.ARMED) {
-                    cycle.drive(200, 200);
-                }
-            }).build();
-            device.requestArm();
-            loop.run(300);
-            device.disarm();
-        }
+public final class FirstTask extends KeelTask {
+    /**
+     * Runs sequential actions, each ending with zero motor drive.
+     * @throws Exception if an action fails or the task is interrupted
+     */
+    @Override
+    protected void run() throws Exception {
+        keel.driveFor(20, 20, 3000);
+        Thread.sleep(500);
+        keel.turnLeftFor(600);
+    }
+
+    /**
+     * Executes this task and closes its hardware resources.
+     * @param args unused command-line arguments
+     * @throws Exception if opening the robot or running the task fails
+     */
+    public static void main(String[] args) throws Exception {
+        Keel.run(new FirstTask());
     }
 }
 ```
 
-`java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar QuickStart.java`
+`java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar FirstTask.java`
 
 </details>
 
@@ -470,6 +482,7 @@ printed and assembled robot (its fit relies on the purchased-part dimensions in 
 | libkeel API, safety model, deployment | [`software/libkeel/README.md`](software/libkeel/README.md), [`docs/safety.md`](software/libkeel/docs/safety.md), [`docs/deploy.md`](software/libkeel/docs/deploy.md) |
 | libkeel specification | [`software/libkeel/docs/spec.md`](software/libkeel/docs/spec.md) |
 | Camera: the library, `keel-camera`, Python and Java | [`software/libkeel/docs/camera.md`](software/libkeel/docs/camera.md) |
+| Sequential student tasks: bounded actions, automatic arming, images, custom behaviours | [`software/bindings/docs/tasks.md`](software/bindings/docs/tasks.md) |
 | Bindings: overview, Python, Java | [`software/bindings/README.md`](software/bindings/README.md), [`python/README.md`](software/bindings/python/README.md), [`java/README.md`](software/bindings/java/README.md) |
 | Demonstrators: Java/Python dashboard, deployment and HTTP API | [`software/demonstrator/README.md`](software/demonstrator/README.md), [`API.md`](software/demonstrator/API.md) |
 | Chassis: parts, printing, build guide | [`chassis/README.md`](chassis/README.md), [`chassis/assembly.md`](chassis/assembly.md) |

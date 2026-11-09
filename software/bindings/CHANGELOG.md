@@ -8,6 +8,17 @@ All notable changes to the Keel bindings. The format follows
 `libkeel-vX.Y.Z` tag and share its version; a binding X.Y needs libkeel ABI X.Y (the same major and a minor of at
 least Y). A fix that touches only a binding ships as a libkeel patch release.
 
+## [Unreleased]
+
+- Add matching Java and Python sequential task APIs: a `KeelTask` subclass runs ordinary student code with
+  automatic arming for bounded motor actions, stationary pauses and lazy BGR888 camera images.
+- Add signed-percent `driveFor`/`drive_for`, timed left/right turns and terminal task cancellation. Action
+  and total-task deadlines are enforced independently of the student code; faults are never cleared automatically.
+- Document task execution, units, ownership and failure behaviour in the shared guide, language READMEs,
+  Java Javadoc and typed Python docstrings. Add guarded simulator/hardware examples.
+- Keep the existing device, control-loop and native ABI contracts unchanged; there are no built-in
+  target-tracking or OpenCV behaviours.
+
 ## [1.0.0] - 2026-11-07
 
 The first release of the Python and Java bindings, for libkeel 1.0 (ABI 1.0, SONAME `libkeel.so.1`).

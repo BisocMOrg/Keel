@@ -158,8 +158,9 @@ loop on a dedicated OS thread:
 - Run it on a **dedicated platform thread**: never a virtual thread, a thread pool, a timer or an async task.
   The first tick makes its OS thread the control owner, and a tick from another OS thread is a fault
   (`TICK_THREAD_CHANGED`); a Java virtual thread or an `await` continuation can resume on a different OS thread.
-- Health is `KEEL_HEALTH_ALL` only if `step()` returned normally within its budget. Never offer a keepalive or a
-  background ticker: a heartbeat that runs whatever the application does would hide a hung application.
+- Health is `KEEL_HEALTH_ALL` only if `step()` returned normally within its budget. Never offer an unbounded
+  keepalive that continues arbitrary motion regardless of application progress. The bounded task supervisor
+  described below is an explicit application control step, not a replacement for these checks.
 - Use the device clock (`keel_now_us`, `keel_sleep_until`), never the language's sleep, so the same loop runs on
   the simulator's virtual clock.
 - One call carries the cycle: `keel_cycle` ticks, applies the command and fills the snapshot, including the device
@@ -175,13 +176,36 @@ loop on a dedicated OS thread:
 - Offer a thread-safe `set_command(left, right)` that the next cycle sends: user-interface threads post intent,
   only the loop drives. Stop methods (`disarm`, `emergency_stop`, `close`, `set_motors(0, 0)`, `servo_end`) may
   be called from any thread.
-- Map the stop button and Ctrl-C to `keel_emergency_stop`. Never clear a fault or arm automatically.
+- Map the stop button and Ctrl-C to `keel_emergency_stop`. The low-level loop never clears a fault or arms
+  automatically. A task's explicit bounded movement call may request arming as described below.
 - No libkeel function is async-signal-safe. Never call one from a native signal handler: set a flag there, or
   receive the signal on an ordinary thread (Java's and .NET's signal APIs and Python's handlers already run on
   ordinary threads), and call `keel_emergency_stop` from that thread.
 - Close through try-with-resources, `using` or `with`; finalizers and cleaners are a last resort.
 - Plan for a worst-case stall of 40 ms (`KEEL_STALL_BUDGET_MS`) per cycle while armed: garbage collection,
   JIT, GIL hand-offs and logging all count.
+
+### Sequential task supervision
+
+The Java and Python [task APIs](../../bindings/docs/tasks.md) are a higher-level application executor over
+the existing control loop. A student writes a `KeelTask` with sequential, blocking actions. The task's
+explicit movement request supplies signed percentages and a finite duration; the supervisor requests
+arming on the owner thread, waits for `ARMED`, then enforces that interval on the control thread itself.
+
+The supervisor must command zero drive outside an active action, acknowledge a stop before completing an
+action, and enforce the total task deadline independently of the student's code. Cancellation, faults and
+timeouts invalidate further commands and disarm. No task method automatically clears a fault. A paused
+or hung student thread cannot renew or extend the action deadline. The supervisor stops drive on the first
+control cycle at or after that deadline; if the control thread itself stalls, the native lease and hardware
+heartbeat limits remain the fallback.
+
+Task code and camera access stay on one ordinary calling thread; the hardware control loop remains on its
+own dedicated thread. Task execution uses monotonic wall time and the real-time simulator. It rejects
+virtual-clock simulator flags rather than mixing clocks. The low-level virtual-clock tools are unchanged.
+
+The task facade owns resource cleanup, but cannot safely kill arbitrary Java or Python code. A program
+stuck in student code can remain running after motor authority is revoked. In Python, GIL starvation may
+also prevent the supervisor from running; native motor leases and the MCU heartbeat remain effective.
 
 ## 8. Per-language rules
 
