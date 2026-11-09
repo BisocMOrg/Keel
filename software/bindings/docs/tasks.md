@@ -241,6 +241,67 @@ does not hand the raw device or control loop to student code.
 - [Java SequentialMoves](../java/examples/SequentialMoves.java)
 - [Python sequential_moves](../python/examples/sequential_moves.py)
 
+The existing `Drive`/`drive` examples also use sequential tasks. The button, LED,
+ranging and safety examples use the task-layer operations or managed sessions
+appropriate to their interactive/diagnostic behaviour. They no longer construct a
+hardware `ControlLoop`. Camera-only examples use the high-level `Camera` API and
+retain their ability to run without the board library.
+
 Both examples require explicit `--allow-motion` for hardware or `--simulator` for the real-time simulator.
 The public classes, methods, parameters, units and failure modes are documented in Java Javadoc and typed
 Python docstrings, so students can read the contract in their editor without leaving the task code.
+
+## Peripherals in a task
+
+Task programs can read `snapshot()` and `capabilities()`, set one or all RGB LEDs,
+set the button indicator LEDs, and request a bounded distance measurement. Java
+uses names such as `setRgbAll`, `setButtonLeds` and `measureDistance`; Python uses
+`set_rgb_all`, `set_button_leds` and `measure_distance`.
+
+These calls do not expose the native device or hardware loop. Distance results
+retain their validity/status: a missing echo or unavailable sensor is not a
+measurement of an empty path. The camera remains lazy, and peripheral access does
+not implicitly start motor movement.
+
+## Interactive sessions
+
+`RobotSession` is the task-layer interface for dashboards and diagnostic programs
+that need an explicitly armed, reusable connection. It owns the hardware loop and
+can be used from application/request threads. Ordinary student sequences should
+continue to use `KeelTask` and its blocking, bounded movement methods.
+
+| Java | Python | Behaviour |
+|---|---|---|
+| `RobotSession.open()` | `RobotSession()` | Open an initially disarmed connection; close it with try-with-resources or `with` |
+| `arm()` | `arm()` | Explicitly request arming and wait for the actual armed state |
+| `requestArm()` | `request_arm()` | Return a future for request acceptance; the handshake continues afterwards |
+| `refreshDrive(left, right, ms)` | `refresh_drive(left, right, ms)` | Replace a finite motor lease, in percent and milliseconds; requires prior arming |
+| `refreshDriveUntil(left, right, deadline)` | `refresh_drive_until(left, right, deadline)` | Use the original monotonic nanosecond expiry of a received command |
+| `disarm()` | `disarm()` | Revoke motion and older queued work; keep the connection open |
+| `emergencyStop()` | `emergency_stop()` | Latch a hardware emergency stop |
+| `clearFault()` | `clear_fault()` | Explicitly attempt fault recovery, without arming or restoring a drive command |
+| `snapshot()`, `stats()` | `snapshot()`, `stats()` | Read state and timing information without maintaining the control loop |
+
+For button-driven applications, `buttonsPressed()` / `buttons_pressed()` and
+`buttonsReleased()` / `buttons_released()` consume accumulated edge masks. A
+short press is retained between application polls; the snapshot also reports
+the buttons currently held.
+
+The connection lasts until it is closed. `TaskOptions.taskTimeoutMs` /
+`task_timeout_ms` is a sequential-task lifetime limit and does not limit this
+explicitly long-lived connection. Each motor lease is still finite and capped by
+the configured maximum motion duration. Expiry disarms; a later drive packet cannot
+rearm the robot. Valid refreshes replace a lease without inserting artificial
+stop/start gaps. A zero-duty command clears the drive lease while retaining the
+explicitly requested armed state.
+
+Network applications must retain their own authentication, controller ownership
+and command ordering. The demonstrators pass original receipt-time deadlines and
+validate queued operations against current ownership and stop generation. A
+heartbeat or unrelated request never extends a drive command. Session methods
+that accept a permission check run it immediately before native execution, then
+check the session's stop generation before acting.
+
+Session recovery is intentionally explicit. It does not change `KeelTask`'s
+terminal fault/cancellation contract: catching an error in a student task still
+does not restore its hardware authority.

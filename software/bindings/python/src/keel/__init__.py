@@ -69,7 +69,7 @@ from .device import Device, open  # noqa: A004  (keel.open, after keel_open)
 from .stop_signals import stop_on_signals
 from . import camera
 from . import task
-from .task import KeelTask, TaskError, TaskOptions, TaskRobot, run
+from .task import KeelTask, RobotSession, TaskError, TaskOptions, TaskRobot, run
 
 # isort: on
 
@@ -110,6 +110,7 @@ __all__ = [
     "RangeMeasurement",
     "RangeStatus",
     "RejectedError",
+    "RobotSession",
     "SafetyFaultError",
     "SafetyInput",
     "SensorPower",

@@ -3,7 +3,14 @@
 package io.github.bisocmorg.keel.task;
 
 import io.github.bisocmorg.keel.camera.frames.Frame;
+import io.github.bisocmorg.keel.Capability;
+import io.github.bisocmorg.keel.OpenReport;
+import io.github.bisocmorg.keel.loop.LoopStats;
+import io.github.bisocmorg.keel.peripherals.RangeMeasurement;
+import io.github.bisocmorg.keel.state.Snapshot;
+import io.github.bisocmorg.keel.sim.SimItem;
 import io.github.bisocmorg.keel.state.State;
+import java.util.Set;
 import java.util.function.Consumer;
 
 /** The hardware boundary used by the task coordinator and deterministic tests. */
@@ -22,6 +29,27 @@ interface TaskHardware extends AutoCloseable {
 
     /** Opens the camera lazily and reads one frame on the calling task thread. */
     Frame image(long timeoutMs);
+
+    /** Returns the latest immutable board observation. */
+    default Snapshot snapshot() { throw new UnsupportedOperationException(); }
+    /** Returns board capabilities. */
+    default Set<Capability> capabilities() { throw new UnsupportedOperationException(); }
+    /** Returns the opening report. */
+    default OpenReport report() { throw new UnsupportedOperationException(); }
+    /** Returns control timing counters. */
+    default LoopStats stats() { throw new UnsupportedOperationException(); }
+    /** Changes one RGB LED. */
+    default void setRgb(int index, int color) { throw new UnsupportedOperationException(); }
+    /** Changes the complete RGB frame. */
+    default void setRgbFrame(int[] colors) { throw new UnsupportedOperationException(); }
+    /** Changes all RGB LEDs. */
+    default void setRgbAll(int color) { throw new UnsupportedOperationException(); }
+    /** Changes button indicators. */
+    default void setButtonLeds(int mask, int values) { throw new UnsupportedOperationException(); }
+    /** Takes a bounded range measurement off the control thread. */
+    default RangeMeasurement measureDistance() { throw new UnsupportedOperationException(); }
+    /** Changes a simulator input without exposing the native device. */
+    default void simSet(SimItem item, int value) { throw new UnsupportedOperationException(); }
 
     /** Closes camera, controller and device, retaining any failure. */
     @Override

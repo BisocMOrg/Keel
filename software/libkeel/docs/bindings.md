@@ -203,6 +203,12 @@ Task code and camera access stay on one ordinary calling thread; the hardware co
 own dedicated thread. Task execution uses monotonic wall time and the real-time simulator. It rejects
 virtual-clock simulator flags rather than mixing clocks. The low-level virtual-clock tools are unchanged.
 
+Interactive applications use the task layer's `RobotSession`. Its connection can remain open until the
+application closes it, but each motor command has a finite lease and requires explicit arming. Refreshes
+must preserve the original expiry of queued network intent. Expiry disarms and invalidates older queued
+operations, so an expired command cannot be revived by a late refresh. Explicit session fault recovery
+does not weaken the terminal-fault semantics of a sequential `KeelTask`.
+
 The task facade owns resource cleanup, but cannot safely kill arbitrary Java or Python code. A program
 stuck in student code can remain running after motor authority is revoked. In Python, GIL starvation may
 also prevent the supervisor from running; native motor leases and the MCU heartbeat remain effective.

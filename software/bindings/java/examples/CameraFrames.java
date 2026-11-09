@@ -27,6 +27,7 @@ import java.time.Duration;
  * (default 640x480), {@code --framerate FPS} (default 30). Exit status: 0 success, 1 failure, 2 usage.
  */
 public final class CameraFrames {
+    /** Camera-only entry point; no board connection or hardware control loop is needed. */
     private CameraFrames() {
     }
 
@@ -39,6 +40,7 @@ public final class CameraFrames {
         System.exit(run(args));
     }
 
+    /** Runs the high-level camera operations inside their owner-thread resource scope. */
     private static int run(String[] args) {
         CameraOptions.Builder options = CameraOptions.builder();
         int frames = 60;

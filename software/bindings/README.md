@@ -22,6 +22,11 @@ Start with the [sequential task guide](docs/tasks.md) for matching Java and Pyth
 parameters there are signed percentages and milliseconds. Student behaviours such as `approachBox` remain
 application code; the library provides no OpenCV or colour-detection algorithm.
 
+Interactive and diagnostic applications use the same task layer's `RobotSession`,
+which owns the hardware loop while exposing explicit arming, finite renewable
+drive leases, status and peripherals. The board examples and browser
+demonstrators use this managed interface rather than owning a `ControlLoop`.
+
 Both also bind the camera library `libkeel-camera.so.1` (`camera.h`), as `keel.camera` and
 `io.github.bisocmorg.keel.camera`: Camera Module 2 and 3, raw frames (numpy arrays in Python, direct buffers and
 `BufferedImage` in Java), the hardware H.264 and MJPEG encoders, files and network streams the library writes

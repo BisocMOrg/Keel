@@ -23,10 +23,11 @@ class SequentialMoves(keel.KeelTask):
 
     def run(self) -> None:
         """Execute the sequence; each movement returns with zero motor drive."""
-        self.keel.drive_for(20, 20, 500)
-        time.sleep(0.5)
-        self.keel.turn_left_for(300)
-        self.keel.drive_for(15, 15, 300)
+        with keel.stop_on_signals(self.keel):
+            self.keel.drive_for(20, 20, 500)
+            time.sleep(0.5)
+            self.keel.turn_left_for(300)
+            self.keel.drive_for(15, 15, 300)
 
 
 def main(argv: list[str] | None = None) -> int:

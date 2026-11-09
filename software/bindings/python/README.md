@@ -106,11 +106,16 @@ reach a board open the simulator explicitly:
 device = keel.open(backend=keel.Backend.SIMULATOR, flags=keel.OpenFlag.VIRTUAL_CLOCK)
 ```
 
-The `examples` directory has five cycle-level programs, each runnable with `--simulator`: `buttons` (buttons mirrored
+The `examples` directory has five managed board programs, each runnable with `--simulator`: `buttons` (buttons mirrored
 on their LEDs; `--drive LEFT RIGHT MS`), `drive`, `leds`, `ranging` and `safety`. They arm only on the simulator or
 with `--allow-motion` (`buttons`: `--drive`). The `sequential_moves` example demonstrates the task API with the same
 explicit hardware gate. Three more use the camera and need no board: `camera_frames` (frames
 into vision code), `camera_stream` (video to the network or a file) and `camera_still` (a JPEG photo).
+
+The board examples use `KeelTask` or `RobotSession` rather than creating a
+`ControlLoop`. Sessions preserve the interactive button/LED and explicit fault
+recovery behaviours; camera-only examples retain their high-level camera API and
+do not open a board.
 
 ## Package layout
 
@@ -122,7 +127,7 @@ imported on its own:
 | `keel` | `open()`, `Device`, `load()` and the library metadata, `stop_on_signals()`, the open options and report (`Backend`, `OpenFlag`, `OpenReport`, `OpenResource`, `OpenWarning`, `Capability`, `TimingClass`), and every name below |
 | `keel.errors` | the exception hierarchy, `Status` and `StatusClass` |
 | `keel.loop` | `ControlLoop`, `Cycle`, `LoopStats`, `CycleCommand`, `CycleFlag` and `Health` |
-| `keel.task` | `KeelTask`, `TaskRobot`, `TaskOptions` and task errors: sequential, bounded actions |
+| `keel.task` | `KeelTask`, `TaskRobot`, `TaskOptions`, task errors and interactive `RobotSession` |
 | `keel.state` | `State`, `AckPhase`, `SafetyInput`, `Snapshot`, `SnapshotFlag`, `Fault`, `FaultCause` and `FaultFlag` |
 | `keel.peripherals` | `Button`, `ButtonState`, `Led`, `RangeMeasurement`, `RangeStatus` and `SensorPower` |
 | `keel.sim` | `SimItem`, `SimFlag` and `SimState` |

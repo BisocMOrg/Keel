@@ -153,11 +153,11 @@ java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar examples/Buttons.java
 | Example | Shows |
 |---|---|
 | `Buttons` | button LEDs mirror the buttons, edges printed, B ends, Ctrl-C is an emergency stop, `--drive LEFT RIGHT MS` |
-| `Drive` | open, arm, drive 200 permille forward for about 2 s, disarm, close |
+| `Drive` | a bounded sequential task that drives at 20% duty, then stops and closes |
 | `SequentialMoves` | bounded task actions with automatic arming, a stationary pause and a timed turn |
 | `Leds` | RGB frames and button LEDs; an error colour while FAULTED; a missing LED driver handled |
-| `Ranging` | `rangeStart` and `rangePoll` in the step; statuses, never sentinel distances; `rangeMeasure` from another thread; `--count N` |
-| `Safety` | an emergency stop from a user-interface thread, the fault record, clearing through the loop, the re-arm hold-off, a refused foreign go call |
+| `Ranging` | managed distance measurements with validity/status, without an application control loop; `--count N` |
+| `Safety` | explicit session arming, an emergency stop, fault inspection and deliberate recovery |
 | `CameraFrames` | camera frames into vision code: brightness and motion per frame from the Y plane, with no copy (no board needed) |
 | `CameraStream` | the camera to the network or a file, the receivers reported once a second; `tcp://:5000?listen` by default |
 | `CameraStill` | one JPEG photo, by default at the sensor's full resolution |
@@ -169,7 +169,7 @@ java --enable-native-access=ALL-UNNAMED -cp keel-1.0.0.jar examples/Buttons.java
 | `io.github.bisocmorg.keel` | `Keel` (loading, library metadata, `open`), `Device`, `OpenOptions`, `OpenReport` with `OpenFlag`, `OpenWarning` and `OpenResource`, `Backend`, `Capability`, `TimingClass`, `Abi`, `AbiVersion`, `Limits` |
 | `io.github.bisocmorg.keel.errors` | `KeelException` and its subclasses, `LibraryException`, `Status`, `StatusClass` |
 | `io.github.bisocmorg.keel.loop` | `ControlLoop`, `Cycle`, `LoopStats`, `CycleInput`, `CycleCommand`, `CycleFlag`, `Health` |
-| `io.github.bisocmorg.keel.task` | `KeelTask`, `TaskRobot`, `TaskOptions` and `TaskException`: sequential, bounded actions |
+| `io.github.bisocmorg.keel.task` | `KeelTask`, `TaskRobot`, `TaskOptions`, `TaskException` and interactive `RobotSession` |
 | `io.github.bisocmorg.keel.state` | `State`, `Snapshot`, `SnapshotFlag`, `SafetyInput`, `AckPhase`, `Fault`, `FaultCause`, `FaultFlag` |
 | `io.github.bisocmorg.keel.peripherals` | `Button`, `ButtonState`, `Led`, `RangeMeasurement`, `RangeStatus`, `SensorPower` |
 | `io.github.bisocmorg.keel.sim` | `SimItem`, `SimFlag`, `SimState` |

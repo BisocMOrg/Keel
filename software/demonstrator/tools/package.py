@@ -17,13 +17,17 @@ paths=set()
 for rel in ('software/demonstrator/python','software/demonstrator/java/src','software/demonstrator/web/src',
             'software/demonstrator/images',
             'software/demonstrator/web/tests','software/demonstrator/web/dist','software/demonstrator/tools',
-            'software/bindings/python/src','software/bindings/java/src/main/java'):
+            'software/bindings/python/src','software/bindings/java/src/main/java',
+            'software/bindings/python/examples','software/bindings/java/examples'):
     paths.update(p for p in (ROOT/rel).rglob('*') if p.is_file() and '__pycache__' not in p.parts and p.suffix!='.pyc')
 for rel in ('LICENSE','LICENSE-HARDWARE','THIRD_PARTY_NOTICES.md','software/demonstrator/README.md',
             'software/demonstrator/API.md','software/demonstrator/manage.py','software/demonstrator/java/build.py',
             'software/demonstrator/java/README.md','software/demonstrator/java/build/keel-demo.jar',
             'software/demonstrator/web/package.json','software/demonstrator/web/package-lock.json',
-            'software/demonstrator/web/vite.config.js','software/demonstrator/web/index.html'):
+            'software/demonstrator/web/vite.config.js','software/demonstrator/web/index.html',
+            'software/bindings/README.md','software/bindings/CHANGELOG.md',
+            'software/bindings/docs/tasks.md','software/bindings/python/README.md',
+            'software/bindings/java/README.md'):
     p=ROOT/rel
     if p.is_file():paths.add(p)
 # Public build assets are also included as source assets so the copied UI can be rebuilt.

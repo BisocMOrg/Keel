@@ -9,7 +9,8 @@ Application behaviours such as approaching a coloured box belong in the task.
 """
 
 from .keel_task import KeelTask, run
+from .robot_session import RobotSession
 from .task_options import TaskOptions
 from .task_robot import TaskError, TaskRobot
 
-__all__ = ["KeelTask", "TaskError", "TaskOptions", "TaskRobot", "run"]
+__all__ = ["KeelTask", "RobotSession", "TaskError", "TaskOptions", "TaskRobot", "run"]

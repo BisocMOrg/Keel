@@ -3,8 +3,15 @@
 package io.github.bisocmorg.keel.task;
 
 import io.github.bisocmorg.keel.camera.frames.Frame;
+import io.github.bisocmorg.keel.Capability;
+import io.github.bisocmorg.keel.OpenReport;
+import io.github.bisocmorg.keel.loop.LoopStats;
+import io.github.bisocmorg.keel.peripherals.RangeMeasurement;
+import io.github.bisocmorg.keel.state.Snapshot;
+import io.github.bisocmorg.keel.sim.SimItem;
 import io.github.bisocmorg.keel.state.State;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -147,6 +154,63 @@ public final class TaskRobot implements AutoCloseable {
         }
         return image;
     }
+
+    /** Reads the latest immutable observation without managing a control loop.
+     * @return latest state, button and motor observation
+     * @throws TaskException if the task is no longer active
+     */
+    public Snapshot snapshot() { checkOwner(); return hardware.snapshot(); }
+
+    /** Reads supported board features.
+     * @return immutable capability set
+     */
+    public Set<Capability> capabilities() { checkOwner(); return hardware.capabilities(); }
+
+    /** Reads the board's opening report.
+     * @return immutable report including degraded features
+     */
+    public OpenReport report() { checkOwner(); return hardware.report(); }
+
+    /** Reads timing counters without exposing the controller.
+     * @return immutable counters
+     */
+    public LoopStats stats() { checkOwner(); return hardware.stats(); }
+
+    /** Sets one RGB light, without changing motor permission.
+     * @param index light index 0..5
+     * @param color packed 0xRRGGBB value
+     */
+    public void setRgb(int index, int color) { checkOwner(); hardware.setRgb(index, color); checkOwner(); }
+
+    /** Sets all RGB lights to the same colour.
+     * @param color packed 0xRRGGBB value
+     */
+    public void setRgbAll(int color) { checkOwner(); hardware.setRgbAll(color); checkOwner(); }
+
+    /** Replaces the complete frame of RGB lights.
+     * @param colors exactly six packed 0xRRGGBB values
+     */
+    public void setRgbFrame(int... colors) { checkOwner(); hardware.setRgbFrame(colors.clone()); checkOwner(); }
+
+    /** Sets selected button indicator lights.
+     * @param mask bit mask of indicators to change
+     * @param values selected indicators to turn on
+     */
+    public void setButtonLeds(int mask, int values) { checkOwner(); hardware.setButtonLeds(mask, values); checkOwner(); }
+
+    /** Takes an ultrasonic measurement without blocking the hardware controller.
+     * @return result; use its valid flag before reading millimetres
+     */
+    public RangeMeasurement measureDistance() { checkOwner(); var result = hardware.measureDistance(); checkOwner(); return result; }
+
+    /** Sets a diagnostic simulator input; the native library refuses this on a physical board.
+     * @param item simulator input identifier
+     * @param value the input's native integer value
+     */
+    public void simSet(SimItem item, int value) { checkOwner(); hardware.simSet(item, value); checkOwner(); }
+
+    /** Validates task scope and thread affinity before peripheral access. */
+    private void checkOwner() { synchronized (gate) { requireOwner(); checkLocked(); } }
 
     /**
      * Cancels this task permanently and disarms immediately. Safe from any thread. An active operation fails

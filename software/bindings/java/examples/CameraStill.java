@@ -24,6 +24,7 @@ import java.nio.file.Path;
  * resolution), {@code --quality Q} (1..100, default 85). Exit status: 0 success, 1 failure, 2 usage.
  */
 public final class CameraStill {
+    /** Camera-only entry point; no board connection or hardware control loop is needed. */
     private CameraStill() {
     }
 
@@ -36,6 +37,7 @@ public final class CameraStill {
         System.exit(run(args));
     }
 
+    /** Runs the high-level camera operations inside their owner-thread resource scope. */
     private static int run(String[] args) {
         Path output = Path.of("photo.jpg");
         int index = 0;

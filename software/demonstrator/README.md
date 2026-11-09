@@ -36,8 +36,8 @@ python -m unittest discover -s software/demonstrator/python/tests -v
 python software/demonstrator/tools/package.py
 ```
 
-The archive includes both implementations, binding sources, the runnable Java jar,
-and the built offline dashboard. The model is already exported. To regenerate it
+The archive includes both implementations, matching binding sources and examples,
+the runnable Java jar, task documentation and the built offline dashboard. The model is already exported. To regenerate it
 after editing the studio scene, run `tools/export_model.py` in Blender; see that
 script's instructions. Model geometry remains in metres, with named wheel pivots
 and LED emitters for interaction.
@@ -47,8 +47,9 @@ and LED emitters for interaction.
 The Pi needs `libkeel1`, `libkeel-camera1`, Python 3.11+ and JDK 25. Its account needs
 the `keel` and `video` groups and the real-time limits from
 [the host-library deployment guide](../libkeel/docs/deploy.md). `keel-doctor` and
-`keel-camera list` check this. The included Python binding source is a fallback;
-an installed compatible binding takes priority.
+`keel-camera list` check this. The packaged Python binding is selected ahead of a system-installed copy,
+so the app and its task/session
+API always come from the same deployment.
 
 ```sh
 scp software/demonstrator/build/keel-demonstrator.tar.gz bisocm@192.168.4.160:~/
@@ -79,6 +80,17 @@ configure startup at boot. The selected hardware server permits explicit browser
 arming but never arms itself. First driving tests should use a stand with the
 wheels clear. To serve real sensors/LEDs with arming entirely disabled, start an
 individual server without `--allow-motion` as below.
+
+The archive also includes the migrated command-line examples. To run a Python
+example against the bundled binding rather than an older system package, from
+the extracted archive root use:
+
+```sh
+PYTHONPATH=software/bindings/python/src python3 software/bindings/python/examples/sequential_moves.py --simulator
+```
+
+Stop the hardware web server before running a command-line example on the real
+board; the two programs must not compete for the same device.
 
 Logs, owned process IDs and the access token are under
 `software/demonstrator/.run/` on the Pi. The token is generated there with mode
@@ -112,7 +124,8 @@ ssh -L 8787:127.0.0.1:8787 bisocm@192.168.4.160
 
 ## Timing and safety behaviour
 
-A dedicated board control loop runs independently of HTTP and camera work. Motor
+The binding's managed `RobotSession` owns the board control loop, independently of HTTP and camera work.
+The application handles browser ownership and commands without ticking the board itself. Motor
 intent expires after **350 ms**, even if other requests or heartbeats continue.
 The controller lease expires after **1500 ms** without its heartbeat. Expiry,
 browser focus loss, shutdown or an explicit stop clears motion and disarms. The

@@ -96,7 +96,7 @@ class ExamplesTest {
     @Test
     void drive() throws IOException, InterruptedException {
         assertSucceeds(run("Drive", "--simulator"), "opened SIMULATOR", "arming",
-                "state: ARMED; drove 200 cycles at 200 permille, output 200/200", "state: DISARMED");
+                "drove 2000 ms at 20 percent; output 0/0", "task complete; robot disarmed and closed");
     }
 
     /** Exercises the same sequential task example a student runs, on the native simulator. */
@@ -116,8 +116,7 @@ class ExamplesTest {
     @Test
     void buttons() throws IOException, InterruptedException {
         assertSucceeds(run("Buttons", "--simulator", "--duration", "300"), "buttons: done");
-        assertSucceeds(run("Buttons", "--simulator", "--drive", "300", "-300", "500"), "state: ARMING",
-                "state: ARMED", "state: DISARMED");
+        assertSucceeds(run("Buttons", "--simulator", "--drive", "300", "-300", "500"), "bounded drive started", "drive stopped; robot disarmed");
     }
 
     @Test
@@ -135,9 +134,8 @@ class ExamplesTest {
 
     @Test
     void safety() throws IOException, InterruptedException {
-        assertSucceeds(run("Safety", "--simulator"), "heartbeat running on the loop thread",
-                "foreign go call refused: KEEL_E_CONFLICT", "emergency stop: E_FAULTED, cause USER_STOP",
-                "fault cleared through the loop: DISARMED", "re-arm refused during the hold-off: KEEL_E_STATE");
+        assertSucceeds(run("Safety", "--simulator"), "managed session armed; motors remain at zero",
+                "emergency stop: E_FAULTED, cause USER_STOP", "explicit fault recovery completed");
     }
 
     @Test

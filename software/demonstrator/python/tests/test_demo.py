@@ -10,9 +10,10 @@ import threading
 import time
 import unittest
 from concurrent.futures import Future
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from keel_demo import ApiError, Controller, DemoServer, Handler, clock_ms
+from keel_demo import ApiError, Controller, DemoServer, Handler, NativeBoard, clock_ms
 
 
 class ControlTests(unittest.TestCase):
@@ -62,6 +63,84 @@ class ControlTests(unittest.TestCase):
         with self.assertRaises(ApiError):
             pending.result(timeout=.5)
         self.assertEqual(self.app.state()['robot']['state'], 'DISARMED')
+
+    def test_expired_queued_command_is_rejected_without_a_new_stop(self):
+        with self.app.lock:
+            pending = Future()
+            pending.intent_deadline = clock_ms() - 1
+            self.app.pending.append(({'type': 'arm'}, self.app.generation, 'test-client', pending))
+        with self.assertRaisesRegex(ApiError, 'expired'):
+            pending.result(timeout=.5)
+        self.assertEqual(self.app.state()['robot']['state'], 'DISARMED')
+
+    def test_native_deadline_race_is_a_resync_not_dispatcher_failure(self):
+        class TaskFailure(RuntimeError):
+            def __init__(self, reason):
+                self.reason = reason
+
+        stopped = []
+        def expired(*args):
+            raise TaskFailure('CANCELLED')
+
+        board = object.__new__(NativeBoard)
+        board.last_intent = None
+        board.keel = SimpleNamespace(TaskError=TaskFailure)
+        board.session = SimpleNamespace(refresh_drive_until=expired, disarm=lambda: stopped.append(True))
+        self.assertFalse(board.advance(200, 200, deadline=clock_ms()+100))
+        self.assertEqual([True], stopped)
+
+        def failed(*args):
+            raise TaskFailure('LOOP_FAILED')
+        board.session.refresh_drive_until = failed
+        with self.assertRaises(TaskFailure):
+            board.advance(200, 200, deadline=clock_ms()+200)
+
+    def test_timed_out_native_arm_cannot_execute_after_heartbeats(self):
+        base = self.app.board
+        entered = threading.Event()
+
+        class DeferredBoard(NativeBoard):
+            def __init__(self):
+                self.guard = None
+
+            def apply(self, command, guard=None):
+                self.guard = guard
+                entered.set()
+                return Future()
+
+            def snapshot(self):
+                return base.snapshot()
+
+            def advance(self, *args, **kwargs):
+                pass
+
+            def stop(self, emergency=False):
+                base.stop(emergency)
+
+            def close(self):
+                pass
+
+        board = DeferredBoard()
+        with self.app.lock:
+            self.app.board = board
+        errors = []
+
+        def request_arm():
+            try:
+                self.send('arm')
+            except ApiError as error:
+                errors.append(error)
+
+        request = threading.Thread(target=request_arm)
+        request.start()
+        self.assertTrue(entered.wait(.5))
+        while request.is_alive():
+            self.send('heartbeat')
+            request.join(.1)
+        self.assertEqual(504, errors[0].status)
+        with self.assertRaises(ApiError):
+            board.guard()
+        self.assertEqual('DISARMED', base.state)
 
     def test_sequence_rejects_reordered_drive_after_stop(self):
         self.arm()

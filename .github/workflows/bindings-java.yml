@@ -19,6 +19,7 @@ on:
     branches: [main]
     paths:
       - "software/bindings/**"
+      - "software/demonstrator/java/**"
       - "software/libkeel/include/**"
       - "software/libkeel/src/**"
       - "software/libkeel/cmake/**"
@@ -32,6 +33,7 @@ on:
   pull_request:
     paths:
       - "software/bindings/**"
+      - "software/demonstrator/java/**"
       - "software/libkeel/include/**"
       - "software/libkeel/src/**"
       - "software/libkeel/cmake/**"
@@ -128,6 +130,8 @@ jobs:
       - name: mvn verify
         working-directory: software/bindings/java
         run: mvn -B -ntp verify
+      - name: Java demonstrator protocol and safety tests
+        run: python3 software/demonstrator/java/build.py --test
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: failure()
         with:

@@ -12,6 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import io.github.bisocmorg.keel.Backend;
 import io.github.bisocmorg.keel.Keel;
 import io.github.bisocmorg.keel.OpenOptions;
+import io.github.bisocmorg.keel.Capability;
+import io.github.bisocmorg.keel.sim.SimItem;
 import io.github.bisocmorg.keel.camera.frames.Frame;
 import io.github.bisocmorg.keel.camera.frames.PixelFormat;
 import io.github.bisocmorg.keel.support.CallRecorder;
@@ -22,6 +24,27 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 /** The task facade through real native simulator calls and the synthetic camera backend. */
 class KeelTaskIntegrationTest {
+    /** Exercises the student peripheral methods without ever requesting arming. */
+    @Test void peripheralTasksDoNotNeedAControllerOrArming() throws Exception {
+        KeelTask task = new KeelTask() {
+            @Override protected void run() throws Exception {
+                assertTrue(keel.capabilities().contains(Capability.SIMULATED));
+                assertNotNull(keel.report());
+                keel.setRgb(0, 0x120000);
+                keel.setRgbAll(0x001200);
+                keel.setRgbFrame(1, 2, 3, 4, 5, 6);
+                keel.setButtonLeds(15, 5);
+                keel.simSet(SimItem.RANGE_MM, 500);
+                assertEquals(500, keel.measureDistance().distanceMm());
+                assertNotNull(keel.snapshot());
+                assertTrue(keel.stats().cycles() > 0);
+            }
+        };
+        try (CallRecorder recorder = new CallRecorder()) {
+            Keel.run(task, simulator());
+            assertEquals(0, recorder.calls.stream().filter("keel_request_arm"::equals).count());
+        }
+    }
     /** Uses the simulator's real-time clock, keeping hardware physically inaccessible to these tests. */
     private static TaskOptions simulator() {
         return TaskOptions.defaults().withOpenOptions(OpenOptions.builder().backend(Backend.SIMULATOR).build());

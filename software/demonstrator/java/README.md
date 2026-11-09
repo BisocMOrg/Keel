@@ -2,7 +2,9 @@
 
 This is a separate Java implementation of the shared [demonstrator HTTP API](../API.md).
 It uses JDK 25's HTTP server and Keel's Java FFM binding, with no third-party Java runtime dependencies.
-The camera and robot have separate owner threads. Mock mode is explicit and works without Linux/native libraries.
+The camera and robot have separate owner threads. The binding's managed `RobotSession` owns the robot's
+hardware loop; the application has no `ControlLoop` or board tick logic. Mock mode is explicit and works
+without Linux/native libraries.
 
 From the repository root:
 
@@ -26,6 +28,10 @@ Add `--allow-motion` when ready to allow explicit motor arming. The server never
 Without it, LEDs, ranging and camera work, and motor arming is refused. Only one server can own the board/camera
 at a time. `--mode simulator` uses libkeel's simulator, not the physical board; native camera availability
 depends on the installed camera backend. Use mock for a guaranteed hardware-free demonstration.
+
+Drive requests carry their original absolute expiry into `RobotSession`, so dispatch delay never grants
+an old request a fresh lease. The session requires explicit arming and invalidates queued commands after
+a stop. Browser ownership and command sequence checks remain application responsibilities.
 
 The token file contains a random access token of at least 16 characters. `KEEL_DEMO_TOKEN` is another option.
 If neither is configured, startup prints a newly generated token. Paste it into the dashboard; tokens never go in URLs.

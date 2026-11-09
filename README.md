@@ -261,6 +261,10 @@ Further examples are in [`software/bindings/python/examples`](software/bindings/
 [`software/bindings/java/examples`](software/bindings/java/examples): buttons, LEDs, ranging, fault handling and
 driving, and for the camera frames, streaming and stills.
 
+The board examples use sequential tasks or managed `RobotSession` connections instead of constructing
+hardware control loops. The browser demonstrators use managed sessions with explicit arming and finite
+drive-command leases. Camera-only examples keep the high-level camera API and need no board connection.
+
 ## Demonstrators
 
 The [Java and Python demonstrators](software/demonstrator/README.md) run on the Raspberry Pi and serve a browser

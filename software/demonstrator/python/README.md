@@ -16,10 +16,16 @@ root is `../web/dist`; build the shared frontend first. The token is printed onl
 when the server generates it; configured secrets are not logged. Both versions
 can run simultaneously in mock mode, but only one may own the real robot/camera.
 
-The board control thread enforces a 350 ms drive-command deadline and 1500 ms
-controller lease. HTTP traffic, camera encoding and photo capture do not execute
-on that thread. Arm requests are revalidated against lease/generation when the
-owner thread executes them, so a queued request cannot undo a newer stop.
+The binding's `RobotSession` owns the hardware loop and enforces each finite drive
+lease. The application retains its 350 ms drive-command deadline and 1500 ms
+controller lease, passing the original command expiry to the session. HTTP
+traffic, camera encoding and photo capture do not execute on the hardware
+thread. Arm requests are revalidated against lease/generation when executed,
+so a queued request cannot undo a newer stop. The app creates no `ControlLoop`.
+
+When run from the deployment bundle, its matching Python binding source takes
+priority over an older system-installed package. No system package replacement
+is required to use the deployed session API.
 
 The camera runs on its own owner thread. It keeps a single latest MJPEG frame;
 slow browsers skip old frames. Still capture pauses and resumes streaming. Four

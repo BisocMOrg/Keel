@@ -10,6 +10,12 @@ least Y). A fix that touches only a binding ships as a libkeel patch release.
 
 ## [Unreleased]
 
+- Migrate the Java and Python board examples and both browser demonstrators to the task layer. Add
+  `RobotSession` for interactive applications with explicit arming/recovery, finite renewable motor leases,
+  original command deadlines, and managed peripheral/status access. Camera-only examples remain independent
+  of the board library and use the existing high-level camera API.
+- Add peripheral methods to sequential tasks and run the demonstrators' protocol/safety tests in CI.
+  Deployment bundles include matching bindings and samples; Python selects the bundled binding first.
 - Add matching Java and Python sequential task APIs: a `KeelTask` subclass runs ordinary student code with
   automatic arming for bounded motor actions, stationary pauses and lazy BGR888 camera images.
 - Add signed-percent `driveFor`/`drive_for`, timed left/right turns and terminal task cancellation. Action

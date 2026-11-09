@@ -33,6 +33,7 @@ import io.github.bisocmorg.keel.errors.LibraryException;
  * {@code --height H}. Exit status: 0 success, 1 failure, 2 usage, 130 after Ctrl-C.
  */
 public final class CameraStream {
+    /** Camera-only entry point; no board connection or hardware control loop is needed. */
     private CameraStream() {
     }
 
@@ -46,6 +47,7 @@ public final class CameraStream {
         System.exit(run(args));
     }
 
+    /** Runs the high-level camera operations inside their owner-thread resource scope. */
     private static int run(String[] args) throws InterruptedException {
         CameraOptions.Builder options = CameraOptions.builder();
         String destination = "tcp://:5000?listen";

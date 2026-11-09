@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 BisocM
-"""Drive forward at 20% for about two seconds, then disarm: the quick start of the libkeel README, in Python.
+"""Drive forward with one bounded task action, then close the robot.
 
 Usage: drive.py [--simulator] [--allow-motion]
-
-On a robot, the wheels turn: put the robot on a stand the first time. The robot arms only on the simulator or with
---allow-motion. Ctrl-C or another stop signal makes an emergency stop. Exit status: 0 success, 1 failure, 2 usage
-(including motion refused), 130 after Ctrl-C, 128 + N after another stop signal N (143 after SIGTERM).
+The first physical run should keep the wheels clear. The task owns arming,
+timing and cleanup; no application hardware control loop is needed.
 """
 
 from __future__ import annotations
@@ -17,50 +15,41 @@ import sys
 
 import keel
 
-DUTY = 200  # permille: 20% forward
-DRIVE_CYCLES = 200  # 2 s at 10 ms per cycle
-ARM_CYCLES = 300  # arming normally takes about 0.7 s
-
 
 def motion_allowed(capabilities: keel.Capability, allow_motion: bool) -> bool:
-    """Return True when this program may arm: on the simulator, or when the operator passed --allow-motion."""
+    """Return whether explicit operator permission or a simulator permits motion."""
     return keel.Capability.SIMULATED in capabilities or allow_motion
 
 
-def step(cycle: keel.Cycle) -> None:
-    """Drive while ARMED; the command is sent again every cycle, so it never outlives the loop."""
-    if cycle.snapshot.state == keel.State.ARMED:
-        cycle.drive(DUTY, DUTY)
+class DriveTask(keel.KeelTask):
+    """Drive both motors at 20 percent for two seconds."""
+
+    def run(self) -> None:
+        """Let the bounded action arm, drive and confirm zero output before returning."""
+        with keel.stop_on_signals(self.keel):
+            print("arming automatically; driving forward at 20 percent", flush=True)
+            self.keel.drive_for(20, 20, 2000)
+            print("bounded drive complete; motor output is zero", flush=True)
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Run the program; return the exit status."""
-    parser = argparse.ArgumentParser(description="Drive forward at 20%% for about two seconds, then disarm.")
-    parser.add_argument("--simulator", action="store_true", help="use the simulator instead of the robot")
-    parser.add_argument("--allow-motion", action="store_true", help="arm and drive a real robot")
+    """Parse explicit motion permission and execute the task; return an exit code."""
+    parser = argparse.ArgumentParser(description="Drive forward at 20%% for two seconds.")
+    parser.add_argument("--simulator", action="store_true", help="use the real-time simulator")
+    parser.add_argument("--allow-motion", action="store_true", help="permit movement on a real robot")
     args = parser.parse_args(argv)
+    if not args.simulator and not args.allow_motion:
+        print("drive: motion needs --allow-motion on a real robot", file=sys.stderr)
+        return 2
     backend = keel.Backend.SIMULATOR if args.simulator else keel.Backend.AUTO
     try:
-        with keel.open(backend=backend) as device, keel.stop_on_signals(device):
-            if not motion_allowed(device.capabilities(), args.allow_motion):
-                print("drive: motion needs --allow-motion on a real robot", file=sys.stderr)
-                return 2
-            loop = keel.ControlLoop(device, step)
-            device.request_arm()  # before the first tick every thread is the owner
-            print("arming")
-            snapshot = loop.run(until=lambda s: s.state == keel.State.ARMED, cycles=ARM_CYCLES)
-            if snapshot.state != keel.State.ARMED:
-                print(f"drive: not armed ({snapshot.state.name}); fault: {device.fault()}", file=sys.stderr)
-                return 1
-            print(f"armed; driving forward at {DUTY} permille")
-            loop.run(cycles=DRIVE_CYCLES)
-            device.disarm()
-            print(f"disarmed after {loop.stats().cycles} cycles (state {device.state().name})")
-            return 0
+        keel.run(DriveTask(), keel.TaskOptions(board_kwargs={"backend": backend}))
+        print("task closed; robot disarmed")
+        return 0
     except KeyboardInterrupt:
         print("emergency stop")
         return 130
-    except keel.KeelError as error:
+    except (keel.KeelError, keel.TaskError) as error:
         print(f"drive: {error}", file=sys.stderr)
         return 1
 

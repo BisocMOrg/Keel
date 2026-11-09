@@ -3,13 +3,10 @@ package org.keel.demo;
 
 import io.github.bisocmorg.keel.Backend;
 import io.github.bisocmorg.keel.Capability;
-import io.github.bisocmorg.keel.Device;
-import io.github.bisocmorg.keel.Keel;
 import io.github.bisocmorg.keel.OpenOptions;
 import io.github.bisocmorg.keel.errors.HandleException;
-import io.github.bisocmorg.keel.loop.ControlLoop;
-import io.github.bisocmorg.keel.loop.Cycle;
-import io.github.bisocmorg.keel.peripherals.RangeStatus;
+import io.github.bisocmorg.keel.task.RobotSession;
+import io.github.bisocmorg.keel.task.TaskException;
 import io.github.bisocmorg.keel.state.SafetyInput;
 import io.github.bisocmorg.keel.state.State;
 import java.util.Arrays;
@@ -22,6 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
+import java.util.function.Function;
+import java.util.concurrent.ExecutorService;
 
 /** Single controller and application-level deadman, independent of HTTP and camera work. */
 final class RobotControl implements AutoCloseable {
@@ -30,8 +29,8 @@ final class RobotControl implements AutoCloseable {
     final String mode;
     final boolean motionAllowed;
     private final LongSupplier clock;
-    private final Device device;
-    private final ControlLoop loop;
+    private final RobotSession session;
+    private final ExecutorService rangeWorker=Executors.newSingleThreadExecutor(Thread.ofPlatform().daemon().name("demo-range").factory());
     private final ScheduledExecutorService watchdog;
     private final Set<Capability> capabilities;
     private final Map<String,Long> sequences=new LinkedHashMap<>();
@@ -42,29 +41,31 @@ final class RobotControl implements AutoCloseable {
     private int buttonLeds;
     private String mockState="DISARMED",fault;
     private Long distance;
-    private boolean rangePending,closed;
+    private boolean closed;
     private long cycles,lastTick,maxGap,overruns;
     private int pendingNative;
 
+    /** Opens the chosen backend and its application ownership watchdog. */
     RobotControl(String mode,boolean allowMotion) {
         this(mode,allowMotion,System::nanoTime,true);
     }
+    /** Constructs an optionally manual-clock mock for protocol tests, or a managed native session. */
     RobotControl(String mode,boolean allowMotion,LongSupplier clock,boolean startMockTimer) {
         this.mode=mode; this.clock=clock;
         motionAllowed=!mode.equals("hardware")||allowMotion;
         if(mode.equals("mock")) {
-            device=null; loop=null;
+            session=null;
             capabilities=Set.of(Capability.MOTORS,Capability.RGB,Capability.BUTTONS,Capability.BUTTON_LEDS,Capability.RANGE,Capability.SIMULATED);
             watchdog=startMockTimer?Executors.newSingleThreadScheduledExecutor(Thread.ofPlatform().daemon().name("demo-deadman").factory()):null;
             if(watchdog!=null) watchdog.scheduleAtFixedRate(this::tick,0,10,TimeUnit.MILLISECONDS);
         } else {
-            device=Keel.open(OpenOptions.builder().backend(mode.equals("simulator")?Backend.SIMULATOR:Backend.R3).build());
-            capabilities=device.capabilities();
-            loop=ControlLoop.builder(device,this::nativeStep).build();
-            watchdog=null;
-            loop.start();
+            session=RobotSession.open(OpenOptions.builder().backend(mode.equals("simulator")?Backend.SIMULATOR:Backend.R3).build());
+            capabilities=session.capabilities();
+            watchdog=Executors.newSingleThreadScheduledExecutor(Thread.ofPlatform().daemon().name("demo-deadman").factory());
+            watchdog.scheduleAtFixedRate(this::tick,0,10,TimeUnit.MILLISECONDS);
         }
     }
+    /** Expires browser ownership and input leases; the session owns all hardware ticking. */
     synchronized void tick() {
         if(closed) return;
         long now=clock.getAsLong();
@@ -72,17 +73,7 @@ final class RobotControl implements AutoCloseable {
         lastTick=now; cycles++;
         expire(now);
     }
-    private synchronized void nativeStep(Cycle cycle) {
-        if(closed) { cycle.coast(); return; }
-        expire(clock.getAsLong());
-        if(cycle.snapshot().state()==State.FAULTED) { left=right=0; driveUntil=0; }
-        if(cycle.snapshot().state()==State.ARMED && driveUntil>clock.getAsLong()) cycle.drive(left,right);
-        else if(cycle.snapshot().state()==State.ARMED) cycle.coast();
-        if(rangePending) {
-            var r=device.rangePoll();
-            if(r.status()!=RangeStatus.PENDING) { distance=r.valid()?r.distanceMm():null; rangePending=false; }
-        }
-    }
+    /** Invalidates stale browser authority without renewing any received drive deadline. */
     private void expire(long now) {
         boolean ownerExpired=owner!=null && now>=ownerUntil;
         if(ownerExpired || (driveUntil!=0 && now>=driveUntil)) {
@@ -90,43 +81,55 @@ final class RobotControl implements AutoCloseable {
             if(ownerExpired) { owner=null; ownerUntil=0; }
         }
     }
+    /** Revokes queued commands before applying a stop to the selected backend. */
     private void halt(boolean emergency) {
         left=right=0; driveUntil=0; generation++;
-        if(device!=null) {
-            // libkeel also installs a JVM shutdown hook. It may have closed the handle first.
-            if(!device.isClosed()) {
-                try { if(emergency) device.emergencyStop(); else device.disarm(); }
-                catch(HandleException e) { if(!device.isClosed()) throw e; }
-            }
+        if(session!=null) {
+            try { if(emergency) session.emergencyStop(); else session.disarm(); }
+            catch(HandleException e) { if(!closed) throw e; }
         }
         else if(emergency) { mockState="FAULTED"; fault="Emergency stop"; }
         else if(!mockState.equals("FAULTED")) mockState="DISARMED";
     }
+    /** Rejects a caller without the current unexpired browser-control lease. */
     private void requireOwner(String id,long now) {
         if(!id.equals(owner)||now>=ownerUntil) throw new ApiError(409,"Claim control first; controller lease expired or belongs to another browser");
     }
+    /** Rejects an operation unsupported by the selected board. */
     private void requireCapability(Capability cap) {
         if(!capabilities.contains(cap)) throw new ApiError(409,"This board does not provide "+cap);
     }
-    private CompletableFuture<Map<String,Object>> nativeAction(String id,long ticket,Runnable action) {
-        if(loop==null) { action.run(); return CompletableFuture.completedFuture(Json.map("ok",true)); }
-        if(!loop.isRunning()) throw new ApiError(503,"Board control loop is not running");
+    /** Revalidates owner, original request expiry and generation before native execution. */
+    private CompletableFuture<Map<String,Object>> nativeAction(String id,long ticket,
+            Function<Runnable,CompletableFuture<Void>> operation,Runnable after) {
+        if(session==null) { after.run(); return done(); }
+        if(!session.running()) throw new ApiError(503,"Board session is not running");
         if(pendingNative>=4) throw new ApiError(429,"Board command queue is busy");
-        CompletableFuture<Map<String,Object>> result=new CompletableFuture<>();
         pendingNative++;
+        long requestExpires=clock.getAsLong()+15_000_000_000L;
+        CompletableFuture<Map<String,Object>> result=new CompletableFuture<>();
+        Runnable guard=()->{ synchronized(this) {
+            long now=clock.getAsLong(); expire(now); requireOwner(id,now);
+            if(result.isCancelled() || now>=requestExpires || ticket!=generation)
+                throw new ApiError(409,"Command cancelled or expired before execution");
+        }};
         try {
-            loop.submit(d->{ synchronized(this) {
-                if(result.isCancelled()) throw new ApiError(409,"Command was cancelled");
-                long now=clock.getAsLong(); expire(now); requireOwner(id,now);
-                if(ticket!=generation) throw new ApiError(409,"Command cancelled by a newer stop");
-                action.run(); return Json.map("ok",true);
-            }}).whenComplete((value,error)->{
-                synchronized(this) { pendingNative--; }
-                if(error!=null) result.completeExceptionally(error);else result.complete(value);
+            CompletableFuture<Void> nativeResult=operation.apply(guard);
+            result.whenComplete((value,error)->{
+                if(result.isCancelled()) {
+                    nativeResult.cancel(false);
+                    synchronized(this) { halt(false); }
+                }
             });
-        } catch(RuntimeException e) { pendingNative--;throw e; }
-        return result;
+            nativeResult.whenComplete((value,error)->{
+                synchronized(this) { pendingNative--; }
+                if(error!=null) result.completeExceptionally(error);
+                else { synchronized(this) { after.run(); } result.complete(Json.map("ok",true)); }
+            });
+            return result;
+        } catch(RuntimeException failure) { pendingNative--; throw failure; }
     }
+    /** Validates one browser request and dispatches a bounded managed operation. */
     CompletableFuture<Map<String,Object>> command(Map<String,Object> request,CameraWorker camera) {
         String type=Json.text(request,"type"),id=Json.text(request,"clientId");
         if(!id.matches("[A-Za-z0-9_.:-]{1,96}")) throw new IllegalArgumentException("Invalid clientId");
@@ -165,38 +168,49 @@ final class RobotControl implements AutoCloseable {
                 case "arm" -> {
                     requireCapability(Capability.MOTORS);
                     if(!motionAllowed) throw new ApiError(403,"Real motor arming requires server --allow-motion");
-                    return nativeAction(id,ticket,()->{ if(device!=null) device.requestArm(); else {
-                        if(mockState.equals("FAULTED")) throw new ApiError(409,"Clear the fault before arming");
-                        mockState="ARMED";
-                    }});
+                    return nativeAction(id,ticket,guard->session.requestArm(guard),()->{
+                        if(session==null) {
+                            if(mockState.equals("FAULTED")) throw new ApiError(409,"Clear the fault before arming");
+                            mockState="ARMED";
+                        }
+                    });
                 }
                 case "clearFault" -> { halt(false);
-                    return nativeAction(id,generation,()->{ if(device!=null) device.clearFault(); else { mockState="DISARMED"; fault=null; }}); }
+                    return nativeAction(id,generation,guard->session.clearFaultAsync(guard),()->{ if(session==null) { mockState="DISARMED"; fault=null; }}); }
                 case "drive" -> {
                     int l=(int)Json.integer(request,"left",-MAX_DUTY,MAX_DUTY);
                     int r=(int)Json.integer(request,"right",-MAX_DUTY,MAX_DUTY);
                     requireCapability(Capability.MOTORS);
                     if(!motionAllowed) throw new ApiError(403,"Real motion requires --allow-motion");
-                    if(!stateName().equals("ARMED")) throw new ApiError(409,"Robot is not armed");
+                    if(session==null && !mockState.equals("ARMED")) throw new ApiError(409,"Robot is not armed");
+                    if(session!=null) {
+                        try { session.refreshDriveUntil(l/10.0,r/10.0,now+DRIVE_NS); }
+                        catch(TaskException refused) {
+                            int status=refused.reason()==TaskException.Reason.CANCELLED || refused.reason()==TaskException.Reason.FAULT?409:503;
+                            throw new ApiError(status,refused.getMessage());
+                        }
+                    }
                     left=l;right=r;driveUntil=(l==0&&r==0)?0:now+DRIVE_NS;
                     return done();
                 }
                 case "rgb" -> {
                     requireCapability(Capability.RGB);
                     int index=(int)Json.integer(request,"index",-1,5),color=(int)Json.integer(request,"color",0,0xFFFFFF);
-                    return nativeAction(id,ticket,()->{
-                        if(device!=null) { if(index<0) device.setRgbAll(color); else device.setRgb(index,color); }
+                    return nativeAction(id,ticket,guard->session.setRgbAsync(index,color,guard),()->{
                         if(index<0) Arrays.fill(rgb,color); else rgb[index]=color;
                     });
                 }
                 case "buttonLeds" -> {
                     requireCapability(Capability.BUTTON_LEDS);
                     int mask=(int)Json.integer(request,"mask",0,15);
-                    return nativeAction(id,ticket,()->{ if(device!=null) device.setButtonLeds(15,mask); buttonLeds=mask; });
+                    return nativeAction(id,ticket,guard->session.setButtonLedsAsync(15,mask,guard),()->buttonLeds=mask);
                 }
                 case "range" -> {
                     requireCapability(Capability.RANGE);
-                    return nativeAction(id,ticket,()->{ if(device!=null) { device.rangeStart();rangePending=true;distance=null; } else distance=420L; });
+                    return nativeAction(id,ticket,guard->CompletableFuture.runAsync(()->{
+                        guard.run(); var result=session.measureDistance(); guard.run();
+                        synchronized(this) { distance=result.valid()?result.distanceMm():null; }
+                    },rangeWorker),()->{ if(session==null) distance=420L; });
                 }
                 case "cameraStart","cameraStop","photo","autofocus" -> { /* owner-thread camera dispatch below */ }
                 default -> throw new IllegalArgumentException("Unknown command: "+type);
@@ -207,21 +221,21 @@ final class RobotControl implements AutoCloseable {
                 if(ticket!=generation) throw new ApiError(409,"Camera request cancelled by stop"); }
         });
     }
+    /** Creates an already-completed protocol acknowledgement. */
     private static CompletableFuture<Map<String,Object>> done() { return CompletableFuture.completedFuture(Json.map("ok",true)); }
-    private String stateName() { return device==null?mockState:loop.snapshot().state().name(); }
+    /** Returns browser ownership metadata without exposing its access token. */
     synchronized Map<String,Object> controller() {
         return Json.map("clientId",owner,"expiresInMs",owner==null?0:Math.max(0,(ownerUntil-clock.getAsLong())/1_000_000));
     }
+    /** Projects real sensor/output state, or explicitly synthetic mock state, for the dashboard. */
     synchronized Map<String,Object> robotState() {
         int appliedLeft=left,appliedRight=right,buttons=0,lit=buttonLeds;
         String state=mockState,currentFault=fault;
         boolean enabled=state.equals("ARMED");
-        if(device!=null) {
-            var s=loop.snapshot(); state=s.state().name();appliedLeft=s.outputLeft(); appliedRight=s.outputRight();
+        if(session!=null) {
+            var s=session.snapshot(); state=s.state().name();appliedLeft=s.outputLeft(); appliedRight=s.outputRight();
             buttons=s.buttonsHeldValue();lit=s.buttonLedsValue();
-            currentFault=loop.fault().map(f->f.cause().name()+": "+f.status().name()).orElse(null);
-            if(!state.equals("FAULTED")) currentFault=null;
-            if(loop.error().isPresent()) currentFault=loop.error().get().getMessage();
+            currentFault=state.equals("FAULTED")?session.fault().cause().name()+": "+session.fault().status().name():null;
             enabled=s.inputs().contains(SafetyInput.ARMED);
         }
         if(!enabled) appliedLeft=appliedRight=0;
@@ -229,14 +243,27 @@ final class RobotControl implements AutoCloseable {
                 "rgb",rgb.clone(),"buttonLeds",lit,"buttons",buttons,"distanceMm",distance,
                 "fault",currentFault,"capabilities",capabilities.stream().map(Enum::name).sorted().toList());
     }
+    /** Projects managed controller timing statistics for the dashboard. */
     synchronized Map<String,Object> loopState() {
-        if(loop==null) return Json.map("running",!closed,"cycles",cycles,"overruns",overruns,"maxGapMs",maxGap/1e6,"maxStepMs",0);
-        var s=loop.stats();return Json.map("running",loop.isRunning(),"cycles",s.cycles(),"overruns",s.overruns(),
+        if(session==null) return Json.map("running",!closed,"cycles",cycles,"overruns",overruns,"maxGapMs",maxGap/1e6,"maxStepMs",0);
+        var s=session.stats();return Json.map("running",session.running(),"cycles",s.cycles(),"overruns",s.overruns(),
                 "maxGapMs",s.maxGapUs()/1000.0,"maxStepMs",s.maxStepUs()/1000.0);
     }
+    /** Closes every owned resource even when a native stop reports a failure. */
     @Override public void close() {
-        synchronized(this) { if(closed) return;closed=true;halt(false); }
-        if(watchdog!=null) watchdog.shutdownNow();
-        try { if(loop!=null) loop.close(); } finally { if(device!=null) device.close(); }
+        Throwable failure=null;
+        synchronized(this) {
+            if(closed) return;
+            closed=true;
+            try { halt(false); } catch(RuntimeException | Error error) { failure=error; }
+        }
+        try { if(watchdog!=null) watchdog.shutdownNow(); }
+        catch(RuntimeException | Error error) { if(failure==null) failure=error; else failure.addSuppressed(error); }
+        try { rangeWorker.shutdownNow(); }
+        catch(RuntimeException | Error error) { if(failure==null) failure=error; else failure.addSuppressed(error); }
+        try { if(session!=null) session.close(); }
+        catch(RuntimeException | Error error) { if(failure==null) failure=error; else failure.addSuppressed(error); }
+        if(failure instanceof RuntimeException runtime) throw runtime;
+        if(failure instanceof Error error) throw error;
     }
 }

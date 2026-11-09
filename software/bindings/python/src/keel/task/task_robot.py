@@ -15,11 +15,14 @@ from typing import TYPE_CHECKING
 from keel import camera as camera_api
 from keel.camera import Camera, Frame
 from keel.loop import ControlLoop, Cycle
-from keel.state import Fault, State
+from keel.peripherals import Led, RangeMeasurement, SensorPower
+from keel.sim import SimItem
+from keel.state import Fault, Snapshot, State
 
 from .task_options import TaskOptions, _milliseconds
 
 if TYPE_CHECKING:
+    from keel import Capability
     from keel.device import Device
 
 
@@ -317,6 +320,78 @@ class TaskRobot:
             if isinstance(error, Exception):
                 raise aborted from error
             raise
+
+    def snapshot(self) -> Snapshot:
+        """Read the latest immutable board observation from this task's thread."""
+        self._check()
+        return self._loop.snapshot
+
+    def capabilities(self) -> Capability:
+        """Read board capability flags without arming or moving."""
+        self._check()
+        return self._device.capabilities()
+
+    def set_rgb(self, led: Led | int, color: int) -> None:
+        """Set one RGB LED to packed 0xRRGGBB; the task must remain active."""
+        self._check()
+        self._device.set_rgb(led, color)
+
+    def set_rgb_all(self, color: int) -> None:
+        """Set all RGB LEDs to packed 0xRRGGBB, with no motor action."""
+        self._check()
+        self._device.set_rgb_all(color)
+
+    def set_rgb_frame(self, colors: list[int]) -> None:
+        """Set the six RGB LEDs from six packed colour values."""
+        self._check()
+        self._device.set_rgb_frame(colors)
+
+    def set_button_leds(self, mask: int, values: int) -> None:
+        """Update selected button-indicator bits; arguments use Button flags."""
+        self._check()
+        self._device.set_button_leds(mask, values)
+
+    def measure_distance(self, timeout_ms: int = 1000) -> RangeMeasurement:
+        """Wait for sensor readiness and return a typed ultrasonic measurement.
+
+        timeout_ms is a positive millisecond bound for readiness/trigger spacing.
+        Only RangeStatus.VALID supplies a distance. The hardware loop continues
+        independently while this task thread waits, and no motor is armed.
+        """
+        from keel.errors import AgainError
+
+        deadline = time.monotonic() + _milliseconds("timeout_ms", timeout_ms) / 1000
+        while True:
+            self._check()
+            if self._loop.snapshot.sensor_power in (SensorPower.PERMITTED, SensorPower.CONFIRMED):
+                try:
+                    return self._device.range_measure()
+                except AgainError:
+                    pass
+            if time.monotonic() >= deadline:
+                raise TimeoutError("The range sensor was not ready before timeout_ms")
+            time.sleep(0.01)
+
+    def sim_set(self, item: SimItem, value: int) -> None:
+        """Set an explicit simulator stimulus; real hardware refuses this method."""
+        self._check()
+        self._device.sim_set(item, value)
+
+    def emergency_stop(self) -> None:
+        """Latch a native emergency stop and terminally cancel this task from any thread."""
+        failure: BaseException | None = None
+        try:
+            self._device.emergency_stop()
+        except BaseException as error:
+            failure = error
+            raise
+        finally:
+            try:
+                self._abort(TaskError("CANCELLED", "The task was emergency-stopped"))
+            except BaseException as cleanup_error:
+                if failure is None:
+                    raise
+                failure.add_note(f"Task cancellation also failed: {cleanup_error!r}")
 
     def stop(self) -> None:
         """Cancel this task and synchronously disarm, from any thread.

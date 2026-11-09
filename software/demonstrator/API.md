@@ -68,7 +68,10 @@ the photo result below; errors are JSON with meaningful 4xx/5xx status codes.
 
 All other commands require controller ownership. Expired owner or drive deadline
 stops/disarms independently of the HTTP thread and browser; no automatic rearming.
-Use one board ControlLoop and one separate camera owner thread. HTTP handlers
+Use one managed board `RobotSession` and one separate camera owner thread. The
+binding owns its internal control loop; application code does not tick the board.
+Pass the original absolute command expiry into the session instead of extending
+an old request by assigning a new lease when it is dispatched. HTTP handlers
 must not call thread-affine native camera methods. Shutdown stops the hardware.
 Camera failure must not stop the board loop. Report unavailable capabilities.
 

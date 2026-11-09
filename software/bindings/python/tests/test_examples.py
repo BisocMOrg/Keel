@@ -60,7 +60,7 @@ def example(name: str) -> ModuleType:
         (
             "drive",
             [],
-            ["arming", "armed; driving forward at 200 permille", r"disarmed after \d+ cycles \(state DISARMED\)"],
+            ["arming automatically", "bounded drive complete; motor output is zero", "task closed; robot disarmed"],
         ),
         ("buttons", ["--duration", "300"], ["buttons: done"]),
         ("buttons", ["--drive", "200", "-200", "300"], ["state: ARMING", "state: ARMED", "state: DISARMED"]),
@@ -73,15 +73,15 @@ def example(name: str) -> ModuleType:
                 "leds: done",
             ],
         ),
-        ("ranging", ["--count", "3"], [r"loop: 500 mm \(echo \d+ us, sequence \d+\)", r"thread: 500 mm"]),
+        ("ranging", ["--count", "3"], [r"range: 500 mm \(echo \d+ us, sequence \d+\)"]),
         ("sequential_moves", [], []),
         (
             "safety",
             [],
             [
-                "foreign go call refused: KEEL_E_CONFLICT",
+                "session owns the hardware control loop",
                 "fault: E_FAULTED, cause USER_STOP",
-                "fault cleared: state DISARMED",
+                "fault cleared explicitly; robot remains disarmed",
                 "re-arm refused during the 1000 ms hold-off: KEEL_E_STATE",
             ],
         ),

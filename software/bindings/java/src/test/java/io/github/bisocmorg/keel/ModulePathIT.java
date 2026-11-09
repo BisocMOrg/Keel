@@ -70,7 +70,7 @@ class ModulePathIT {
                 "--enable-native-access=io.github.bisocmorg.keel", "--illegal-native-access=deny", DRIVE.toString(),
                 "--simulator");
         assertEquals(0, result.status(), result.output());
-        assertTrue(result.output().contains("state: DISARMED"), result.output());
+        assertTrue(result.output().contains("task complete; robot disarmed and closed"), result.output());
         assertFalse(result.output().contains("WARNING"), result.output());
     }
 

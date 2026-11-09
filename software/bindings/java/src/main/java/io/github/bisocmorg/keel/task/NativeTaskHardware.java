@@ -3,14 +3,23 @@
 package io.github.bisocmorg.keel.task;
 
 import io.github.bisocmorg.keel.Device;
+import io.github.bisocmorg.keel.Capability;
+import io.github.bisocmorg.keel.OpenReport;
 import io.github.bisocmorg.keel.Keel;
 import io.github.bisocmorg.keel.camera.Camera;
 import io.github.bisocmorg.keel.camera.frames.Frame;
 import io.github.bisocmorg.keel.loop.ControlLoop;
 import io.github.bisocmorg.keel.loop.Cycle;
+import io.github.bisocmorg.keel.loop.LoopStats;
+import io.github.bisocmorg.keel.peripherals.RangeMeasurement;
+import io.github.bisocmorg.keel.state.Snapshot;
+import io.github.bisocmorg.keel.peripherals.SensorPower;
+import io.github.bisocmorg.keel.sim.SimItem;
+import io.github.bisocmorg.keel.errors.AgainException;
 import io.github.bisocmorg.keel.state.State;
 import java.time.Duration;
 import java.util.function.Consumer;
+import java.util.Set;
 
 /** Adapts the existing native board, camera and control loop to a scoped task. */
 final class NativeTaskHardware implements TaskHardware {
@@ -60,6 +69,42 @@ final class NativeTaskHardware implements TaskHardware {
         }
         return camera.readFrame(Duration.ofMillis(timeoutMs));
     }
+
+    /** Returns the latest board snapshot. */
+    @Override public Snapshot snapshot() { return loop.snapshot(); }
+    /** Returns board capabilities. */
+    @Override public Set<Capability> capabilities() { return device.capabilities(); }
+    /** Returns the opening report. */
+    @Override public OpenReport report() { return device.report(); }
+    /** Returns control timing counters. */
+    @Override public LoopStats stats() { return loop.stats(); }
+    /** Changes one RGB LED from the task thread. */
+    @Override public void setRgb(int index, int color) { device.setRgb(index, color); }
+    /** Changes all RGB LEDs from the task thread. */
+    @Override public void setRgbAll(int color) { device.setRgbAll(color); }
+    /** Changes a complete RGB frame from the task thread. */
+    @Override public void setRgbFrame(int[] colors) { device.setRgbFrame(colors); }
+    /** Changes button indicators from the task thread. */
+    @Override public void setButtonLeds(int mask, int values) { device.setButtonLeds(mask, values); }
+    /** Measures range outside the hardware control thread. */
+    @Override public RangeMeasurement measureDistance() {
+        long deadline = System.nanoTime() + 1_000_000_000L;
+        while (loop.snapshot().sensorPower() != SensorPower.PERMITTED && loop.snapshot().sensorPower() != SensorPower.CONFIRMED
+                && loop.snapshot().state() != State.FAULTED && System.nanoTime() - deadline < 0) {
+            try { Thread.sleep(5); }
+            catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); throw new TaskException(TaskException.Reason.CANCELLED, "Range wait interrupted", interrupted); }
+        }
+        while (true) {
+            try { return device.rangeMeasure(); }
+            catch (AgainException pending) {
+                if (System.nanoTime() - deadline >= 0) throw pending;
+                try { Thread.sleep(5); }
+                catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); throw new TaskException(TaskException.Reason.CANCELLED, "Range wait interrupted", interrupted); }
+            }
+        }
+    }
+    /** Changes a diagnostic simulator input. */
+    @Override public void simSet(SimItem item, int value) { device.simSet(item, value); }
 
     /** Closes all resources, even if one closer throws. */
     @Override

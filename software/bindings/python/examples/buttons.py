@@ -1,128 +1,83 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2026 BisocM
-"""Mirror the buttons on their indicator LEDs and print button edges; optionally arm and drive.
+"""Mirror buttons on their LEDs using an interactive RobotSession.
 
 Usage: buttons.py [--drive LEFT RIGHT MS] [--duration MS] [--simulator]
-
-Button B ends the program normally; Ctrl-C ends it with an emergency stop, as stop buttons in applications
-should. Without --drive the robot never moves. With --drive LEFT RIGHT MS the program arms, drives at LEFT/RIGHT
-permille for MS milliseconds once ARMED, then disarms and ends; --drive is itself the operator's decision to move
-the robot.
-Exit status: 0 success, 1 failure, 2 usage, 130 after Ctrl-C, 128 + N after another stop signal N (143 after
-SIGTERM).
+The application polls UI state; RobotSession alone owns the hardware loop.
+LEFT and RIGHT retain the example's legacy permille CLI units. Button B or a
+stop signal ends the example. Without --drive this program never arms.
 """
 
 from __future__ import annotations
 
 import argparse
 import sys
-from collections.abc import Callable
-from dataclasses import dataclass
+import time
 
 import keel
 
-IDLE_BLUE = 0x000008  # dim blue: the program is running
-ARM_LIMIT_US = 5_000_000  # arming normally takes about 0.7 s
-
-
-@dataclass
-class Plan:
-    """What the program was asked to do, and how far it got."""
-
-    drive: tuple[int, int, int] | None
-    duration_ms: int | None
-    started_us: int | None = None
-    driving_since_us: int | None = None
-    last_state: keel.State = keel.State.DISARMED
-    outcome: int | None = None
-
-
-def make_step(plan: Plan, loop_stop: list[keel.ControlLoop]) -> Callable[[keel.Cycle], None]:
-    """Return the loop's step for plan; loop_stop holds the loop once it exists."""
-
-    def finish(outcome: int) -> None:
-        plan.outcome = outcome
-        loop_stop[0].stop()
-
-    def step(cycle: keel.Cycle) -> None:
-        snapshot = cycle.snapshot
-        if plan.started_us is None:
-            plan.started_us = cycle.now_us
-        if snapshot.state != plan.last_state:
-            print(f"state: {snapshot.state.name}", flush=True)
-            plan.last_state = snapshot.state
-        if snapshot.buttons_pressed or snapshot.buttons_released:
-            print(
-                f"buttons: held={snapshot.buttons_held:x} pressed={snapshot.buttons_pressed:x} "
-                f"released={snapshot.buttons_released:x}",
-                flush=True,
-            )
-        if keel.Button.B in snapshot.buttons_held:
-            finish(0)
-            return
-        if snapshot.button_leds != snapshot.buttons_held:
-            cycle.device.set_button_leds(keel.Button.ALL, snapshot.buttons_held)
-        if plan.drive is not None:
-            left, right, milliseconds = plan.drive
-            if snapshot.state == keel.State.ARMED:
-                if plan.driving_since_us is None:
-                    plan.driving_since_us = cycle.now_us
-                if cycle.now_us - plan.driving_since_us >= milliseconds * 1000:
-                    finish(0)
-                    return
-                cycle.drive(left, right)
-            elif plan.driving_since_us is None and cycle.now_us - plan.started_us > ARM_LIMIT_US:
-                print("buttons: arming did not complete within 5 s", file=sys.stderr)
-                finish(1)
-                return
-        if plan.duration_ms is not None and cycle.now_us - plan.started_us >= plan.duration_ms * 1000:
-            finish(0)
-
-    return step
+IDLE_BLUE = 0x000008
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Run the example; return the exit status."""
+    """Run button mirroring and an optional bounded drive; return an exit status."""
     parser = argparse.ArgumentParser(description="Mirror the buttons on their LEDs; button B ends the program.")
     parser.add_argument(
         "--drive",
         nargs=3,
         type=int,
         metavar=("LEFT", "RIGHT", "MS"),
-        help="arm, drive at LEFT/RIGHT permille (-1000..1000) for MS ms (1..2000), then disarm and end",
+        help="explicitly arm and drive at -1000..1000 permille for 1..2000 ms",
     )
-    parser.add_argument("--duration", type=int, metavar="MS", help="end after MS ms (1..3600000)")
-    parser.add_argument("--simulator", action="store_true", help="use the simulator instead of the robot")
+    parser.add_argument("--duration", type=int, metavar="MS", help="end after 1..3600000 milliseconds")
+    parser.add_argument("--simulator", action="store_true", help="use the real-time simulator")
     args = parser.parse_args(argv)
     if args.drive is not None:
-        left, right, milliseconds = args.drive
-        limit = keel.limits.DUTY_MAX
-        if not (-limit <= left <= limit and -limit <= right <= limit and 1 <= milliseconds <= 2000):
+        left, right, duration = args.drive
+        if not (-1000 <= left <= 1000 and -1000 <= right <= 1000 and 1 <= duration <= 2000):
             parser.error("--drive needs LEFT and RIGHT in -1000..1000 and MS in 1..2000")
     if args.duration is not None and not 1 <= args.duration <= 3_600_000:
         parser.error("--duration needs MS in 1..3600000")
-
     backend = keel.Backend.SIMULATOR if args.simulator else keel.Backend.AUTO
-    plan = Plan(drive=tuple(args.drive) if args.drive else None, duration_ms=args.duration)
     try:
-        with keel.open(backend=backend) as device, keel.stop_on_signals(device):
+        with (
+            keel.RobotSession(keel.TaskOptions(board_kwargs={"backend": backend})) as robot,
+            keel.stop_on_signals(robot),
+        ):
             try:
-                device.set_rgb_all(IDLE_BLUE)
+                robot.set_rgb_all(IDLE_BLUE)
             except (keel.UnsupportedError, keel.PeripheralError):
                 print("RGB LEDs unavailable; continuing without them")
-            holder: list[keel.ControlLoop] = []
-            loop = keel.ControlLoop(device, make_step(plan, holder))
-            holder.append(loop)
-            if plan.drive is not None:
-                device.request_arm()  # only with --drive, the operator's decision to move
-            loop.run()
-            print("state: DISARMED" if plan.last_state in (keel.State.ARMING, keel.State.ARMED) else "buttons: done")
-            return plan.outcome or 0
+            started = time.monotonic()
+            end = started + args.duration / 1000 if args.duration else float("inf")
+            if args.drive:
+                print("state: ARMING", flush=True)
+                robot.arm()
+                print("state: ARMED", flush=True)
+                left, right, duration = args.drive
+                robot.refresh_drive(left / 10, right / 10, duration)
+                end = min(end, time.monotonic() + duration / 1000)
+            while time.monotonic() < end:
+                snapshot = robot.snapshot()
+                pressed, released = robot.buttons_pressed(), robot.buttons_released()
+                if pressed or released:
+                    print(
+                        f"buttons: held={snapshot.buttons_held:x} pressed={pressed:x} released={released:x}",
+                        flush=True,
+                    )
+                if keel.Button.B in (snapshot.buttons_held | pressed):
+                    break
+                if snapshot.button_leds != snapshot.buttons_held:
+                    robot.set_button_leds(keel.Button.ALL, snapshot.buttons_held)
+                time.sleep(0.02)
+            robot.disarm()
+            print("state: DISARMED" if args.drive else "buttons: done")
+            return 0
     except KeyboardInterrupt:
         print("emergency stop (signal 2)")
         return 130
-    except keel.KeelError as error:
+    except (keel.KeelError, keel.TaskError) as error:
         print(f"buttons: {error}", file=sys.stderr)
         return 1
 

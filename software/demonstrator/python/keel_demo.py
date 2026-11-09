@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import argparse
 from collections import OrderedDict, deque
-from concurrent.futures import Future, TimeoutError as FutureTimeout
+from concurrent.futures import Future, ThreadPoolExecutor, TimeoutError as FutureTimeout
 from dataclasses import dataclass
 import hmac
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -108,58 +108,90 @@ class MockBoard:
 
 
 class NativeBoard:
+    """Adapt the task layer's RobotSession to the dashboard protocol."""
     def __init__(self, mode):
-        # Source checkout use is supported, but an installed package takes priority.
-        try:
-            import keel
-        except ImportError:
-            sys.path.insert(0, str(ROOT.parents[1] / 'bindings/python/src'))
-            import keel
+        """Open the explicitly selected native backend with the bundled binding."""
+        # A packaged demonstrator must use its matching binding, not an older system package.
+        bundled = ROOT.parents[1] / 'bindings/python/src'
+        if bundled.is_dir():
+            sys.path.insert(0, str(bundled))
+        import keel
         self.keel = keel
-        self.device = keel.open(backend=keel.Backend.SIMULATOR if mode == 'simulator' else keel.Backend.AUTO)
-        self.capabilities = [flag.name for flag in keel.Capability if flag in self.device.capabilities()]
-        self.loop = None
+        options = keel.TaskOptions(board_kwargs={'backend': keel.Backend.SIMULATOR if mode == 'simulator' else keel.Backend.R3})
+        self.session = keel.RobotSession(options)
+        self.capabilities = [flag.name for flag in keel.Capability if flag in self.session.capabilities()]
+        self.executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix='keel-session-commands')
+        self.slots = threading.BoundedSemaphore(16)
         self.distance = None
-        self.range_pending = False
         self.rgb = [0] * 6
+        self.last_intent = None
 
-    def start(self, callback):
-        self.loop = self.keel.ControlLoop(self.device, callback)
-        self.loop.start()
-
-    def apply(self, command):
-        d, kind = self.device, command['type']
-        if kind == 'arm':
-            d.request_arm()
-        elif kind == 'clearFault':
-            d.clear_fault()
-        elif kind == 'rgb':
-            if command['index'] == -1:
-                d.set_rgb_all(command['color'])
-                self.rgb = [command['color']] * 6
-            else:
-                d.set_rgb(command['index'], command['color'])
-                self.rgb[command['index']] = command['color']
-        elif kind == 'buttonLeds':
-            d.set_button_leds(15, command['mask'])
-        elif kind == 'range':
-            d.range_start()
-            self.range_pending = True
+    def apply(self, command, guard=None):
+        """Queue ancillary work, rechecking ownership immediately before execution."""
+        if not self.slots.acquire(blocking=False):
+            raise ApiError(429, 'Session command queue is full')
+        def execute():
+            """Apply one authorized operation on the bounded application worker."""
+            if guard:
+                guard()
+            d, kind = self.session, command['type']
+            if kind == 'arm':
+                d.request_arm(guard).result(timeout=3)
+            elif kind == 'clearFault':
+                d.clear_fault(guard)
+            elif kind == 'rgb':
+                if command['index'] == -1:
+                    d.set_rgb_all(command['color'], guard)
+                    self.rgb = [command['color']] * 6
+                else:
+                    d.set_rgb(command['index'], command['color'], guard)
+                    self.rgb[command['index']] = command['color']
+            elif kind == 'buttonLeds':
+                d.set_button_leds(15, command['mask'], guard)
+            elif kind == 'range':
+                result = d.measure_distance(guard=guard)
+                if guard:
+                    guard()
+                self.distance = result.distance_mm if result.valid else None
+        try:
+            future = self.executor.submit(execute)
+        except BaseException:
+            self.slots.release()
+            raise
+        future.add_done_callback(lambda _future: self.slots.release())
+        return future
 
     def stop(self, emergency=False):
-        (self.device.emergency_stop if emergency else self.device.disarm)()
+        """Stop synchronously; queued old arming requests cannot revive permission."""
+        self.last_intent = None
+        (self.session.emergency_stop if emergency else self.session.disarm)()
 
-    def advance(self, left, right, cycle=None):
-        if cycle.snapshot.state == self.keel.State.ARMED:
-            cycle.drive(left, right)
-        if self.range_pending:
-            result = self.device.range_poll()
-            if result.status != self.keel.RangeStatus.PENDING:
-                self.distance = result.distance_mm if result.valid else None
-                self.range_pending = False
+    def advance(self, left, right, cycle=None, deadline=0):
+        """Forward only changed browser intent, preserving its original absolute expiry."""
+        intent = (left, right, deadline)
+        if intent == self.last_intent:
+            return True
+        self.last_intent = intent
+        if left or right:
+            if deadline <= clock_ms():
+                self.session.disarm()
+            else:
+                try:
+                    self.session.refresh_drive_until(left / 10, right / 10, int(deadline * 1_000_000))
+                except self.keel.TaskError as error:
+                    if error.reason not in ('FAULT', 'CANCELLED'):
+                        raise
+                    # A cached UI snapshot can lag a just-expired native lease.
+                    # Resynchronise intent; this expected refusal is not a dead dispatcher.
+                    self.session.disarm()
+                    return False
+        else:
+            self.session.coast()
+        return True
 
     def snapshot(self):
-        s = self.loop.snapshot if self.loop else self.device.snapshot()
+        """Project the session's immutable board state for the web UI."""
+        s = self.session.snapshot()
         return dict(state=s.state.name, left=s.output_left, right=s.output_right,
                     motorEnabled=bool(s.inputs & self.keel.SafetyInput.ARMED),
                     rgb=list(self.rgb), buttonLeds=int(s.button_leds), buttons=int(s.buttons_held),
@@ -167,11 +199,17 @@ class NativeBoard:
                     capabilities=self.capabilities)
 
     def close(self):
-        self.device.disarm()
-        if self.loop:
-            self.loop.stop()
-            self.loop.join(timeout=2)
-        self.device.close()
+        """Cancel pending work and close the owned session."""
+        failures = []
+        for operation in (self.session.disarm, lambda: self.executor.shutdown(wait=True, cancel_futures=True), self.session.close):
+            try:
+                operation()
+            except BaseException as error:
+                failures.append(error)
+        if failures:
+            for failure in failures[1:]:
+                failures[0].add_note(f'Additional board cleanup failure: {failure!r}')
+            raise failures[0]
 
 
 @dataclass(frozen=True)
@@ -417,18 +455,17 @@ class Controller:
         self.last_tick = clock_ms()
         self.board = MockBoard() if mode == 'mock' else NativeBoard(mode)
         self.camera = CameraWorker(mode, self.authorize)
-        if isinstance(self.board, NativeBoard):
-            self.board.start(self.tick)
-            self.thread = None
-        else:
-            self.thread = threading.Thread(target=self.run, name='keel-control-owner', daemon=True)
-            self.thread.start()
+        self.thread = threading.Thread(target=self.run, name='keel-application-dispatch', daemon=True)
+        self.thread.start()
 
-    def authorize(self, generation, client):
+    def authorize(self, generation, client, deadline=None):
+        """Reject stale ownership, stop generations and expired queued commands."""
         with self.lock:
             self.expire(clock_ms())
             if self.closed.is_set() or generation != self.generation or client != self.client:
                 raise ApiError(409, 'Controller lease changed or expired; acquire control again')
+            if deadline is not None and clock_ms() >= deadline:
+                raise ApiError(409, 'Queued command expired before execution')
 
     def _stop(self, emergency=False):
         self.left = self.right = self.drive_deadline = 0
@@ -466,6 +503,7 @@ class Controller:
             integer(data.get('mask'), 'mask', 0, 15)
         camera_request = None
         future = None
+        future_generation = None
         with self.lock:
             now = clock_ms()
             self.expire(now)
@@ -522,6 +560,8 @@ class Controller:
                         self.left = self.right = self.drive_deadline = 0
                         self.generation += 1
                     future = Future()
+                    future.intent_deadline = now + 1000
+                    future_generation = self.generation
                     self.pending.append((dict(data), self.generation, client, future))
         if camera_request:
             return self.camera.request(*camera_request)
@@ -530,10 +570,14 @@ class Controller:
                 return future.result(timeout=1)
             except FutureTimeout:
                 future.cancel()
+                with self.lock:
+                    if self.client == client and self.generation == future_generation:
+                        self._stop()
                 raise ApiError(504, 'Board control operation timed out') from None
         return {'ok': True}
 
     def tick(self, cycle=None):
+        """Dispatch application commands; the binding owns native timing and motor leases."""
         start = clock_ms()
         with self.lock:
             self.max_gap = max(self.max_gap, start - self.last_tick)
@@ -549,12 +593,30 @@ class Controller:
                 command, generation, client, future = self.pending.popleft()
                 if future.set_running_or_notify_cancel():
                     try:
-                        self.authorize(generation, client)
-                        self.board.apply(command)
-                        future.set_result({'ok': True})
+                        deadline = getattr(future, 'intent_deadline', None)
+                        self.authorize(generation, client, deadline)
+                        if isinstance(self.board, NativeBoard):
+                            operation = self.board.apply(command, lambda g=generation, c=client, d=deadline: self.authorize(g, c, d))
+                            def complete(result, target=future):
+                                """Forward a guarded worker result without reviving a cancelled request."""
+                                if target.done():
+                                    return
+                                try:
+                                    result.result()
+                                    target.set_result({'ok': True})
+                                except Exception as error:
+                                    target.set_exception(error if isinstance(error, ApiError) else ApiError(409, str(error)))
+                            operation.add_done_callback(complete)
+                        else:
+                            self.board.apply(command)
+                            future.set_result({'ok': True})
                     except Exception as error:
                         future.set_exception(error if isinstance(error, ApiError) else ApiError(409, str(error)))
-            self.board.advance(self.left, self.right, cycle)
+            if isinstance(self.board, NativeBoard):
+                if self.board.advance(self.left, self.right, deadline=self.drive_deadline) is False:
+                    self._stop()
+            else:
+                self.board.advance(self.left, self.right, cycle)
             self.cycles += 1
             elapsed = clock_ms() - start
             self.max_step = max(self.max_step, elapsed)
@@ -580,11 +642,9 @@ class Controller:
             loop = dict(running=not self.closed.is_set() and self.loop_error is None,
                         cycles=self.cycles, overruns=self.overruns, maxGapMs=self.max_gap, maxStepMs=self.max_step)
             if isinstance(self.board, NativeBoard):
-                stats = self.board.loop.stats()
-                loop.update(running=self.board.loop.running, cycles=stats.cycles, overruns=stats.overruns,
+                stats = self.board.session.stats()
+                loop.update(cycles=stats.cycles, overruns=stats.overruns,
                             maxGapMs=stats.max_gap_us / 1000, maxStepMs=stats.max_step_us / 1000)
-                if self.board.loop.error:
-                    loop['error'] = str(self.board.loop.error)
             owner = dict(clientId=self.client, expiresInMs=max(0, self.lease_deadline - now) if self.client else 0)
         temperature = None
         try:
@@ -596,17 +656,29 @@ class Controller:
                     loop=loop, camera=self.camera.snapshot(), system=dict(uptimeS=(now-self.started)/1000, cpuTempC=temperature))
 
     def close(self):
+        """Revoke control and attempt every worker, board and camera cleanup."""
+        failures = []
         with self.lock:
             self.closed.set()
-            self._stop()
+            try:
+                self._stop()
+            except BaseException as error:
+                failures.append(error)
             while self.pending:
                 *_, future = self.pending.popleft()
                 if not future.done():
                     future.set_exception(ApiError(503, 'Server shutting down'))
         if self.thread:
             self.thread.join(timeout=2)
-        self.board.close()
-        self.camera.close()
+        for operation in (self.board.close, self.camera.close):
+            try:
+                operation()
+            except BaseException as error:
+                failures.append(error)
+        if failures:
+            for failure in failures[1:]:
+                failures[0].add_note(f'Additional controller cleanup failure: {failure!r}')
+            raise failures[0]
 
 
 class DemoServer(ThreadingHTTPServer):

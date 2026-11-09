@@ -18,11 +18,14 @@ import signal
 from collections.abc import Callable, Iterator, Sequence
 from contextlib import contextmanager
 from types import FrameType
-from typing import Any, NoReturn
+from typing import TYPE_CHECKING, Any, NoReturn
 
 from .device import Device
 from .errors import HandleError, KeelError
 from .loop import ControlLoop
+
+if TYPE_CHECKING:
+    from .task import RobotSession, TaskRobot
 
 __all__ = ["stop_on_signals"]
 
@@ -36,13 +39,14 @@ _DEFAULT_SIGNALS: tuple[signal.Signals, ...] = tuple(
 
 @contextmanager
 def stop_on_signals(
-    *targets: Device | ControlLoop, signals: Sequence[signal.Signals] = _DEFAULT_SIGNALS
+    *targets: Device | ControlLoop | RobotSession | TaskRobot, signals: Sequence[signal.Signals] = _DEFAULT_SIGNALS
 ) -> Iterator[None]:
     """Install handlers that emergency-stop every target, and restore the previous handlers on exit.
 
     The default signals are SIGINT, SIGTERM, SIGHUP and SIGQUIT; pass signals to choose others. Enter it on the main
-    thread (signal.signal raises ValueError elsewhere). Each handler calls emergency_stop() on every target, a Device
-    or a ControlLoop's device, each inside its own try: a failure is logged and the handler goes on to the next
+    thread (signal.signal raises ValueError elsewhere). Each handler calls emergency_stop() on every target: a Device,
+    a ControlLoop's device, a TaskRobot, or an interactive RobotSession. Each call is inside its own try: a failure is
+    logged and the handler goes on to the next
     target, and a HandleError means the target was already closed (its close stopped it). The handler then raises
     KeyboardInterrupt for SIGINT, or SystemExit(128 + signal number) for any other signal, so the program unwinds
     through its with blocks and closes every device. By then every target is already latched FAULTED with cause
@@ -55,9 +59,14 @@ def stop_on_signals(
             ...
     """
     devices = [target.device if isinstance(target, ControlLoop) else target for target in targets]
+    from .task import RobotSession, TaskRobot
+
     for device in devices:
-        if not isinstance(device, Device):
-            raise TypeError(f"stop_on_signals targets must be Device or ControlLoop, not {type(device).__name__}")
+        if not isinstance(device, (Device, RobotSession, TaskRobot)):
+            raise TypeError(
+                f"stop_on_signals targets must be Device or ControlLoop, TaskRobot or RobotSession, "
+                f"not {type(device).__name__}"
+            )
 
     def handler(signum: int, frame: FrameType | None) -> NoReturn:
         for device in devices:
