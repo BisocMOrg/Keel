@@ -224,15 +224,18 @@ def test_stalled_student_code_loses_authority_at_total_deadline(hardware):
     observed = []
 
     def action(robot):
+        # The budget must cover startup, arming and this first drive even on a slow CI scheduler;
+        # the deadline has to expire during the stall below, not here.
         robot.drive_for(20, 20, 10)
-        time.sleep(0.09)
+        # Stall past the deadline without touching the robot, leaving the control thread time to tick.
+        time.sleep(max(0, robot._deadline_ns - time.monotonic_ns()) / 1e9 + 0.2)
         observed.append(hardware.state)
         with pytest.raises(keel.TaskError) as later:
             robot.drive_for(20, 20, 10)
         assert later.value.reason == "TASK_TIMEOUT"
 
     with pytest.raises(keel.TaskError) as result:
-        keel.run(ActionTask(action), keel.TaskOptions(task_timeout_ms=50))
+        keel.run(ActionTask(action), keel.TaskOptions(task_timeout_ms=500))
     assert result.value.reason == "TASK_TIMEOUT"
     assert observed == [keel.State.DISARMED]
     assert hardware.arm_calls == 1
